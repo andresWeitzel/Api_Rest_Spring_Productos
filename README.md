@@ -218,7 +218,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
   <artifactId>hibernate-core</artifactId>
   <version>5.4.27.Final</version>
 </dependency>
-``
+```
 * ...
 
   * --> La segunda será JPA para Hibernate, la más importante, ya que nos desacoplamos de depender de Hibernate en un futuro, y nos centramos en trabajar con JPA, la dependencia es JPA-Hibernate 2.1 (https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final).
