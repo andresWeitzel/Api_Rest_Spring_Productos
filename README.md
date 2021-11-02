@@ -278,7 +278,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
-### Paso 5) Archivo de Propiedades(application.properties)
+### Paso 5) Archivo de Propiedades (application.properties)
 #### (El uso de Spring Boot properties es muy habitual cuando trabajamos con una aplicación de Spring Boot. A diferencia de otras aplicaciones clásicas de Spring Framework , Spring Boot hace uso del principio de convención sobre configuración y define un fichero por defecto de propiedades . Este fichero se encuentra en la carpeta resources (src/main/resources/application.properties) de nuestro proyecto.)
 
 </br>
@@ -290,7 +290,6 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 ```xml
 server.port = 8090
 server.error.whitelabel.enabled=true
-
 ```
 
 #### 5.2) Configuraciones de la Conexión a la Base de Datos
@@ -301,7 +300,32 @@ server.error.whitelabel.enabled=true
 
 ```xml
 spring.datasource.url = jdbc:mysql://localhost:3306/
+spring.datasource.username = root
+spring.datasource.password = 
 ```
+
+#### 5.3) Configuraciones del Uso de JPA-Hibernate
+* No es requerimiento saber hibernate pero si lo recomiendo para entender como se produce la persistencia de los datos en la db, la simplificación de tiempo y codificación que demanda jdbc puro en relación a este Framework, etc.
+* Vamos a declarar las siguientes propiedades.
+* jpa.show-sql es para que se muestren las sentencias por consola
+* jpa.hibernate.ddl-auto es para la la actualización o creación de la db en cada actualización del proyecto. Si lo declaramos update actualiza o create crea.
+* jpa.hibernate.naming.strategy es la estrategia de nomenclatura que usa Hibernate
+* jpa.properties.hibernate.dialect es la asignación del tipo de Base de Datos que vamos a utilizar 
+
+```xml
+spring.jpa.show-sql = true
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.naming.strategy = org.hibernate.cfg.ImprovedNamingStrategy
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+```
+
+* ...
+   * --> Ctrl + s Guardas 
+   * --> Click Der sobre el proyecto
+   * --> Maven y update Maven o Alt + F5
+   * --> Fijarse dentro de Maven Dependencies si Maven descargo la misma
+
+
 
 
 
