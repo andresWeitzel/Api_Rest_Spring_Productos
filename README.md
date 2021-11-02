@@ -21,12 +21,14 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | **Dependencia Maven**  | **Versión** | **Finalidad** |               
 | ------------- | ------------- | ------------- |
 | mysql-connector | 8.0.21 |  Conexión e Implementación de Queries a la db con Mysql |
+| Javax Annotation API 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
 | jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
 
 
 
 * Repositorio dependencia mysql : https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21
+* Repositorio dependencia Javax Annotation API: https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2
 * Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
 
@@ -185,10 +187,11 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 ### Paso 3) Dependencias del Proyecto
 #### (Las siguientes dependencias del Proyecto se deberán agregar al pom.xml para el correcto funcionamiento del Proyecto).
 
+</br>
 
 * Dependencia para el conector de Mysql.
    * --> Buscamos Mysql Connector (https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21)
-   * --> Copias la dependencia y la incluis en el pom del proyecto
+   * --> Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
 
 ```xml
 <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -203,10 +206,29 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
+* Dependencia para las Anotaciones de JPA-Hibernate
+   * --> Buscamos javax annotation la versión 1.3.2 	(https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2)
+   * --> Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
+
+
+```xml
+<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+<dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.3.2</version>
+</dependency>
+
+
+```
+
+
+</br>
+
 
 * Dependencia para convertir Objetos Java en Objetos XML.
   * --> Buscamos javax.xml.bin, la versión 2.3.1, (https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api/2.3.1)
-  * --> Copias la dependencia desde Maven o de acá, luego lo incluís en el pom.xml
+  * --> Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
 
 ```xml
 <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
