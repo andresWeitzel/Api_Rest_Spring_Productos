@@ -21,6 +21,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | **Dependencia Maven**  | **Versión** | **Finalidad** |               
 | ------------- | ------------- | ------------- |
 | mysql-connector | 8.0.21 |  Conexión e Implementación de Queries a la db con Mysql |
+| Hibernate-Core 5.4.27| El Core de Hibernate |
+| JPA-Hibernate 2.1 |  Persistencia de datos a la db |
 | Javax Annotation API 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
 | jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
@@ -29,6 +31,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 * Repositorio dependencia mysql : https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21
 * Repositorio dependencia Javax Annotation API: https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2
+* Repositorio dependencia Hibernate-Core: https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar
+* Repositorio dependencia JPA-Hibernate: https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final
 * Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
 
@@ -203,13 +207,32 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ```
 
-
 </br>
 
-* Dependencia para las Anotaciones de JPA-Hibernate
-   * --> Buscamos javax annotation la versión 1.3.2 	(https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2)
-   * --> Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
+* Dependencia para JPA-HIBRNATE (Persistenca de Datos en la db, de esto se encarga Spring).
+   * --> La Primera será el core de Hibernate, hibernate-core la 5.4... Final (https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar).
 
+```xml
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-core</artifactId>
+  <version>5.4.27.Final</version>
+</dependency>
+``
+
+  * --> La segunda será JPA para Hibernate, la más importante, ya que nos desacoplamos de depender de Hibernate en un futuro, y nos centramos en trabajar con JPA, la dependencia es JPA-Hibernate 2.1 (https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final).
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+<dependency>
+    <groupId>org.hibernate.javax.persistence</groupId>
+    <artifactId>hibernate-jpa-2.1-api</artifactId>
+    <version>1.0.2.Final</version>
+</dependency>
+
+```
+* ...
+  * --> La Tercera dependencia será para las Lecturas de las Anotaciones para JPA-Hibernate, Javax Annotation API (https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2)
 
 ```xml
 <!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
@@ -218,9 +241,12 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
     <artifactId>javax.annotation-api</artifactId>
     <version>1.3.2</version>
 </dependency>
-
-
 ```
+* ...
+
+  * --> Una vez incluidas, Ctrl+s guardamos,  F5 actualizamos y Alt+F5 para que Maven Actualice.
+  * --> Asegurate que Maven haya descargado las 3 dependencias mencionadas y colocadas en el pom.
+
 
 
 </br>
@@ -515,7 +541,7 @@ public class Producto {
 * Vamos a hacer uso de las Anotaciones para que Spring use JPA-Hibernate para mapear y persistir los datos en la db.
 * Con la anotación `@Table(name="nombreDeLaClaseOpcional")` le indicamos que la Clase hace Referencia a la tabla de la db.
 * Con la anotación `@Entity` declarada en cada Clase indicándole a Spring que es una Entidad.
-* Con la anotación `@GeneratedValue` en el campo id se indica el auto_increment
+* Con la anotación `@GeneratedValue(strategy = GenerationType.IDENTITY)` en el campo id se indica el auto_increment
 * Con la anotación `@Id` le indicamos que es el campo id de la db.
 * Con la anotación `@Column(name="nombreDelCampoDeLaClase")` le indicamos que es un campo de la Clase.
 * 
