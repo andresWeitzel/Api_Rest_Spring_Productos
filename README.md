@@ -137,7 +137,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-### 2.1) Actualización de Java-1.7 a 1.8 (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
+#### 2.1) Actualización de Java-1.7 a 1.8 (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
 
 * Vamos al pom.xml (el archivo al final de todo)
 
@@ -152,7 +152,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-### 2.2) Paquetes Maven (Java Resources). (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
+#### 2.2) Paquetes Maven (Java Resources). (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
 
 * Por Defecto Viene deshabilitada la opción de paquetes Maven, en donde vamos a guardar nuestros paquetes y clases
 	* --> Para habilitar las mismas, click Der sobre el Proyecto.
