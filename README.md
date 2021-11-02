@@ -76,6 +76,10 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 5) Archivo de Propiedades(application.properties)](#paso-5-archivo-de-propiedades-application.properties)
 
 
+#### Sección 4) Creación y Configuración de las Clases Entidades y Clases Modelos
+  
+   - [Paso 6) Creación y Configuración de la Clase-Entidad Producto](#paso-6-creación-y-configuración-de-la-clase-entidad-producto)
+
 
 
 
@@ -299,12 +303,12 @@ server.error.whitelabel.enabled=true
 * Lo mismo para el Usuario y Contraseña, por defecto siempre el user root y contraseña vacío (Pruebas Locales, no Producción).
 
 ```xml
-spring.datasource.url = jdbc:mysql://localhost:3306/
+spring.datasource.url = jdbc:mysql://localhost:3306/db_api_productos?serverTimezone=UTC
 spring.datasource.username = root
 spring.datasource.password = 
 ```
 
-#### 5.3) Configuraciones del Uso de JPA-Hibernate
+#### 5.3) Configuraciones de JPA-Hibernate
 * No es requerimiento saber hibernate pero si lo recomiendo para entender como se produce la persistencia de los datos en la db, la simplificación de tiempo y codificación que demanda jdbc puro en relación a este Framework, etc.
 * Vamos a declarar las siguientes propiedades.
 * jpa.show-sql es para que se muestren las sentencias por consola
@@ -329,13 +333,171 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 
 
 
+</br>
+
+## Sección 4) Creación y Configuración de las Clases Entidades y Clases Modelos
+
+</br>
 
 
 
 
 
+### Paso 6) Creación y Configuración de la Clase-Entidad Producto
+#### ( Existen 2 Conceptualizaciones en este caso. La primera es que a una Clase se le llame Entidad-Modelo y la otra que exista la misma Clase definida como Modelo y Entidad (osea 2 clases casi identicas). Varios prefieren usar la primera o la segunda dependiendo cúal sea la finalidad (ahorrar tiempo de código, modularizar el código o lo que sea). Yo opté por la segunda ya que si bien es verdad que se tiene que generar más código, cuando el mismo crezca los problemas van a tener un alcance más controlado).
+#### ( Las Entidades se trabajan en los Repositorios y los Modelos en los Controladores o Service )
+
+</br>
+
+#### 6.1) Creación de la Clase Entidad Producto
+
+* Creamos un paquete llamado mypackages.entities dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.entities (com.api.productos.mypackages.entities)
+	* --> Finish
+
+* Creamos la Clase-Entidad Producto
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Class
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos Producto
+ 	* --> Finish
+
+```java
+
+package com.api.productos.mypackages.entities;
+
+public class Producto {
+
+}
+ 
+```
+
+</br>
+
+#### 6.1) Configuración de la Clase Entidad Producto
+
+* Creamos los atributos - campos de la db 
+
+```java
+
+package com.api.productos.mypackages.entities;
+
+public class Producto {
+	
+	private int id;
+	
+	private String codigo;
+	
+	private String nombre;
+	
+	private String precio;
+	
+}
+
+ 
+```
+
+* Creamos los getters, setters, toString y contructores(sin/con parametros)
 
 
+```java
+
+package com.api.productos.mypackages.entities;
+
+public class Producto {
+	
+
+
+	private int id;
+
+	private String codigo;
+	
+	private String nombre;
+	
+	private String precio;
+	
+	
+	public Producto() {
+	}
+	
+
+	public Producto(String codigo, String nombre, String precio) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.precio = precio;
+	}
+	
+
+	public Producto(int id, String codigo, String nombre, String precio) {
+		super();
+		this.id = id;
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.precio = precio;
+	}
+
+
+
+
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(String precio) {
+		this.precio = precio;
+	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
+	
+
+}
+
+
+```
+
+* Vamos a hacer uso de las Anotaciones para que Spring use JPA-Hibernate para mapear y persistir los datos en la db.
+* Con la anotación `@Table(name="nombreDeLaClaseOpcional")` le indicamos que la Clase hace Referencia a la tabla de la db.
+* Con la anotación `@Entity` declarada en cada Clase indicándole a Spring que es una Entidad.
+* Con la anotación `@GeneratedValue` en el campo id se indica el auto_increment
+* Con la anotación `@Id` le indicamos que es el campo id de la db.
+* Con la anotación `@Column(name="nombreDelCampoDeLaClase")` le indicamos que es un campo de la Clase.
+* 
+ 
 
 
 
@@ -418,7 +580,5 @@ larioMavenJSP/FormularioMaven (master)
 
 
 </br>
-
-
 
 
