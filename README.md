@@ -13,7 +13,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Spring Boot |   2.5.4  | Framework |
 | XAMPP | 3.2.2  | Paquete de Servidores |
 | Maven |  4.0.0 | Gestor de Proyectos |
-| Cygwin | 3.1.6-1  | Colección de Herramientas / Terminal en Windows integrada al IDE Eclipse |
+| Cygwin | 3.1.6  | Colección de Herramientas / Terminal en Windows integrada al IDE |
 | Git | 2.29.1  | Control de Versiones |
 
 </br>
