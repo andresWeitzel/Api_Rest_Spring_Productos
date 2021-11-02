@@ -21,9 +21,9 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | **Dependencia Maven**  | **Versión** | **Finalidad** |               
 | ------------- | ------------- | ------------- |
 | mysql-connector | 8.0.21 |  Conexión e Implementación de Queries a la db con Mysql |
-| Hibernate-Core 5.4.27| El Core de Hibernate |
-| JPA-Hibernate 2.1 |  Persistencia de datos a la db |
-| Javax Annotation API 1.3.2 | Api para la lectura de Annotation |
+| Hibernate-Core | 5.4.27 | El Core de Hibernate |
+| JPA-Hibernate | 2.1 | Persistencia de datos a la db |
+| Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
 | jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
 
