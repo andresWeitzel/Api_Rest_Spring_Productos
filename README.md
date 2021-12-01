@@ -88,6 +88,12 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 6) Creación y Configuración de la Clase-Entidad Producto](#paso-6-creación-y-configuración-de-la-clase-entidad-producto)
    
    - [Paso 7) Creación y Configuración de la Clase-Modelo Producto](#paso-7-creación-y-configuración-de-la-clase-modelo-producto)
+  
+  
+#### Sección 5) Creación y Configuración de las Interfaces y Clases Repositories 
+
+   - [Paso 8) Creación y Configuración de la Clase-Repository Producto](#paso-8-creación-y-configuración-de-la-clase-repository-producto)
+
 
 
 
@@ -450,13 +456,32 @@ public class Producto {
 
 #### 6.1) Configuración de la Clase Entidad Producto
 
+* Primeramente vamos a implementar la Clase Serializable dentro de la Clase Producto Creada, el proceso de serialización es la conversión de los objetos java en flujos de bytes(código binario para la correcta transferencia de datos).
+
+```java
+
+
+package com.api.productos.mypackages.entities;
+
+import java.io.Serializable;
+
+public class Producto implments Serializable{
+
+}
+
+```
+
+
 * Creamos los atributos - campos de la db 
 
 ```java
 
 package com.api.productos.mypackages.entities;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implments Serializable{
+
 	
 	private int id;
 	
@@ -478,9 +503,10 @@ public class Producto {
 
 package com.api.productos.mypackages.entities;
 
-public class Producto {
-	
+import java.io.Serializable;
 
+public class Producto implments Serializable{
+	
 
 	private int id;
 
@@ -573,6 +599,8 @@ public class Producto {
 ```java 
 package com.api.productos.mypackages.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -582,7 +610,7 @@ import javax.persistence.Table;
 
 @Table(name="Producto")
 @Entity
-public class Producto {
+public class Producto implements Serializable{
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -669,6 +697,7 @@ public class Producto {
 	
 
 }
+
 
 
 ```
@@ -834,11 +863,57 @@ public class ModeloProducto {
 
 	}
 
+```
+
+</br>
+
+## Sección 5) Creación y Configuración de las Interfaces y Clases Repositories 
+
+
+</br>
 
 
 
+
+  ## Paso 8) Creación y Configuración de la Clase-Repository Producto
+  #### (Vamos a trabajar con el Patrón de Diseño DAO para la peristencia de los datos en la db. Al fin y al cabo la arquitectura dao nos suministra las interfaces para poder usar los métodos CRUD sin necesidad de duplicar código. )
+  
+</br>
+
+#### 8.1) Creación de la Clase ProductoRepository
+* Primeramente vamos a crear el paquete que alojará las clases repositories a implementar.
+* Creamos un paquete llamado mypackages.repositories.jpa dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.repositories.jpa (com.api.productos.mypackages.repositories.jpa)
+	* --> Finish
+
+* Creamos la Clase-Repository Producto
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Class
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ProductoRepository
+ 	* --> Finish
+
+```java
+
+package com.api.productos.mypackages.repositories.jpa;
+
+public class ProductoRepository {
+
+}
 
 ```
+</br>
+
+#### 8.1) Configuración de la Clase ProductoRepository
+
+
+
+
+
+
+
 
 
 
