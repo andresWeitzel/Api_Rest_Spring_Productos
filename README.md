@@ -107,20 +107,20 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 * Una vez abierto Spring Tool Suite 4
-   * --> Seleccionas la Pestaña File 
-   * --> New 
-   * --> Spring Starter Proyect(Si no aparece buscar en Other).
+  	* --> Seleccionas la Pestaña File 
+   	* --> New 
+   	* --> Spring Starter Proyect(Si no aparece buscar en Other).
 
 * Se abrirá una Interfaz Gráfica, por defecto dejar marcado lo siguiente con los siguientes valores por defecto
-   * --> Service Url : https://start.spring.io
-   * --> Use default location por defecto(es la ruta absoluta de tu workspace)
-   * --> Type : Maven
-   * --> Java Version : 8
-   * --> Packaging : Jar
-   * --> Language : Java
-   * --> Artifact : Por Defecto como está (cambia automáticamente cuando escribimos el Name del Proyect)
-   * --> Version  : Por Defecto como está
-   * --> Working Sets Desmarcado.
+   	* --> Service Url : https://start.spring.io
+   	* --> Use default location por defecto(es la ruta absoluta de tu workspace)
+   	 * --> Type : Maven
+	 * --> Java Version : 8
+	 * --> Packaging : Jar
+	 * --> Language : Java
+	 * --> Artifact : Por Defecto como está (cambia automáticamente cuando escribimos el Name del Proyect)
+	  * --> Version  : Por Defecto como está
+	  * --> Working Sets Desmarcado.
 
 * Configuramos lo restante
    * --> Name : Api_Rest_Spring_Productos (Nombre del proyecto, en mi caso este). Debe cambiarse aut. el Artifact
@@ -345,7 +345,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Nos posicionamos sobre el Archivo application.properties (src/main/resources/application.properties) y copias-pegas lo siguiente
 
 ```xml
-server.port = 8090
+server.port = 8092
 server.error.whitelabel.enabled=true
 ```
 
@@ -374,6 +374,25 @@ spring.jpa.show-sql = true
 spring.jpa.hibernate.ddl-auto = update
 spring.jpa.hibernate.naming.strategy = org.hibernate.cfg.ImprovedNamingStrategy
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+```
+
+* Código Completo del application.properties
+
+
+```xml
+server.port = 8092
+server.error.whitelabel.enabled=true
+
+spring.datasource.url = jdbc:mysql://localhost:3306/db_api_productos?serverTimezone=UTC
+spring.datasource.username = root
+spring.datasource.password = 
+
+
+spring.jpa.show-sql = true
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.naming.strategy = org.hibernate.cfg.ImprovedNamingStrategy
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+
 ```
 
 * ...
