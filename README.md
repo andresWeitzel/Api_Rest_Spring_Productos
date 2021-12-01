@@ -1,6 +1,6 @@
 # API REST con Spring Boot, Mysql y Maven.
 
-Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql.
+Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql y JPA-Hibernate.
 
 
 </br>
@@ -11,8 +11,9 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Java |   12.0.2 | JDK |
 | Spring Tool Suite 4 | 4.9.0  | IDE |
 | Spring Boot |   2.5.4  | Framework |
-| XAMPP | 3.2.2  | Paquete de Servidores |
 | Maven |  4.0.0 | Gestor de Proyectos |
+| JPA-Hibernate | 5.4.27 | Framework para el mapeo de objetos y persistenciua en la db |
+| XAMPP | 3.2.2  | Paquete de Servidores |
 | Cygwin | 3.1.6  | Colección de Herramientas / Terminal en Windows integrada al IDE |
 | Git | 2.29.1  | Control de Versiones |
 
@@ -54,7 +55,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 <hr>
 
-# ` Documentación y Guía del Proyecto `
+## ` Documentación y Guía del Proyecto `
 ### (Esta Documentación que Desarrollé es para la Creación y Configuración del Proyecto desde Cero, Manejo de Maven, Spring Tool Suite, Spring Booot, Hibernate-JPA, Mysql, Dependencias con Maven, Servidor de Despliegue y otros Usos de este Proyecto. Recomiendo Leerla y Realizar todo paso a paso como se indica en la misma).
 
 </br>
@@ -347,7 +348,7 @@ server.error.whitelabel.enabled=true
 ```
 
 #### 5.2) Configuraciones de la Conexión a la Base de Datos
-* Primeramente deberías haber creado la db paso a paso explcado en la sección anterior
+* Primeramente deberías haber creado la db paso a paso explicado en la sección anterior.
 * Configuramos la url, el usuario y contraseña
 * El nombre de la URL cambia si creaste otra db. Luego del localhost tendrás que escribir el nombre completo de la db creada
 * Lo mismo para el Usuario y Contraseña, por defecto siempre el user root y contraseña vacío (Pruebas Locales, no Producción).
@@ -362,7 +363,7 @@ spring.datasource.password =
 * No es requerimiento saber hibernate pero si lo recomiendo para entender como se produce la persistencia de los datos en la db, la simplificación de tiempo y codificación que demanda jdbc puro en relación a este Framework, etc.
 * Vamos a declarar las siguientes propiedades.
 * jpa.show-sql es para que se muestren las sentencias por consola
-* jpa.hibernate.ddl-auto es para la la actualización o creación de la db en cada actualización del proyecto. Si lo declaramos update actualiza o create crea.
+* jpa.hibernate.ddl-auto es para la la actualización o creación de la db en cada actualización del proyecto. Si lo declaramos update actualiza la db o create  la crea con todas sus tablas y campos.
 * jpa.hibernate.naming.strategy es la estrategia de nomenclatura que usa Hibernate
 * jpa.properties.hibernate.dialect es la asignación del tipo de Base de Datos que vamos a utilizar 
 
