@@ -549,8 +549,112 @@ public class Producto {
 * Con la anotación `@GeneratedValue(strategy = GenerationType.IDENTITY)` en el campo id se indica el auto_increment
 * Con la anotación `@Id` le indicamos que es el campo id de la db.
 * Con la anotación `@Column(name="nombreDelCampoDeLaClase")` le indicamos que es un campo de la Clase.
+* Código
 
- 
+```java 
+package com.api.productos.mypackages.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table(name="Producto")
+@Entity
+public class Producto {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column(name="id")
+	private int id;
+
+	@Column(name="codigo")
+	private String codigo;
+	
+	@Column(name="nombre")
+	private String nombre;
+	
+	@Column(name="precio")
+	private String precio;
+	
+	
+	
+	
+	
+	public Producto() {
+	}
+	
+
+	public Producto(String codigo, String nombre, String precio) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.precio = precio;
+	} 
+	
+
+	public Producto(int id, String codigo, String nombre, String precio) {
+		super();
+		this.id = id;
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.precio = precio;
+	}
+
+
+
+
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(String precio) {
+		this.precio = precio;
+	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
+	
+
+}
+
+
+```
+
+ </br>
 
 ### Paso 7) Creación y Configuración de la Clase-Modelo Producto
 #### ( Existen 2 Conceptualizaciones en este caso. La primera es que a una Clase se le llame Entidad-Modelo y la otra que exista la misma Clase definida como Modelo y Entidad (osea 2 clases casi identicas). Varios prefieren usar la primera o la segunda dependiendo cúal sea la finalidad (ahorrar tiempo de código, modularizar el código o lo que sea). Yo opté por la segunda ya que si bien es verdad que se tiene que generar más código, cuando el mismo crezca los problemas van a tener un alcance más controlado).
@@ -590,10 +694,33 @@ public class ModeloProducto {
 #### 7.2) Configuración de la Clase Modelo Producto
 
 * Vamos a copiar todo de la clase-entidad Producto ya creada excluyendo las anotaciones 
-* Código
+* La conversión de una entidad a modelo lo podemos hacer instanciando un objeto de la clase entidad a través de la clase modelo
+* Crearemos un constructor dentro de la clase ModeloProducto que instancie dicho objeto de la clase entidad Producto
+* Códido Constructor
+
+```java
+	/*
+		 * @version 1.0
+		 * 
+		 * Instancia de la clase-entidad Producto
+		 * @param producto
+		 * */
+		public ModeloProducto(Producto producto) {
+			this.id = producto.getId();
+			this.nombre = producto.getNombre();
+			this.codigo = producto.getCodigo();
+			this.precio = producto.getPrecio();
+			
+		}
+
+```
+
+* Código Completo
 
 ```java
 package com.api.productos.mypackages.models;
+
+import com.api.productos.mypackages.entities.Producto;
 
 public class ModeloProducto {
 
@@ -626,7 +753,20 @@ public class ModeloProducto {
 			this.nombre = nombre;
 			this.precio = precio;
 		}
-
+		
+		/*
+		 * @version 1.0
+		 * 
+		 * Instancia de la clase-entidad Producto
+		 * @param producto
+		 * */
+		public ModeloProducto(Producto producto) {
+			this.id = producto.getId();
+			this.nombre = producto.getNombre();
+			this.codigo = producto.getCodigo();
+			this.precio = producto.getPrecio();
+			
+		}
 
 
 
