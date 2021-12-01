@@ -86,6 +86,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 #### Sección 4) Creación y Configuración de las Clases Entidades y Clases Modelos
   
    - [Paso 6) Creación y Configuración de la Clase-Entidad Producto](#paso-6-creación-y-configuración-de-la-clase-entidad-producto)
+   
+   - [Paso 7) Creación y Configuración de la Clase-Modelo Producto](#paso-7-creación-y-configuración-de-la-clase-modelo-producto)
 
 
 
@@ -547,9 +549,137 @@ public class Producto {
 * Con la anotación `@GeneratedValue(strategy = GenerationType.IDENTITY)` en el campo id se indica el auto_increment
 * Con la anotación `@Id` le indicamos que es el campo id de la db.
 * Con la anotación `@Column(name="nombreDelCampoDeLaClase")` le indicamos que es un campo de la Clase.
-* 
+
  
 
+### Paso 7) Creación y Configuración de la Clase-Modelo Producto
+#### ( Existen 2 Conceptualizaciones en este caso. La primera es que a una Clase se le llame Entidad-Modelo y la otra que exista la misma Clase definida como Modelo y Entidad (osea 2 clases casi identicas). Varios prefieren usar la primera o la segunda dependiendo cúal sea la finalidad (ahorrar tiempo de código, modularizar el código o lo que sea). Yo opté por la segunda ya que si bien es verdad que se tiene que generar más código, cuando el mismo crezca los problemas van a tener un alcance más controlado).
+#### ( Las Entidades se trabajan en los Repositorios y los Modelos en los Controladores o Service )
+
+
+</br>
+
+#### 7.1) Creación de la Clase Modelo Producto
+
+* Creamos un paquete llamado mypackages.models dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.models (com.api.productos.mypackages.models)
+	* --> Finish
+
+* Creamos la Clase-Modelo Producto
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Class
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ModeloProducto
+ 	* --> Finish
+
+
+```java
+package com.api.productos.mypackages.models;
+
+public class ModeloProducto {
+
+}
+
+```
+
+
+</br>
+
+#### 7.2) Configuración de la Clase Modelo Producto
+
+* Vamos a copiar todo de la clase-entidad Producto ya creada excluyendo las anotaciones 
+* Código
+
+```java
+package com.api.productos.mypackages.models;
+
+public class ModeloProducto {
+
+	
+		private int id;
+
+		private String codigo;
+		
+		private String nombre;
+		
+		private String precio;
+		
+		
+		public ModeloProducto() {
+		}
+		
+
+		public ModeloProducto(String codigo, String nombre, String precio) {
+			super();
+			this.codigo = codigo;
+			this.nombre = nombre;
+			this.precio = precio;
+		} 
+		
+
+		public ModeloProducto(int id, String codigo, String nombre, String precio) {
+			super();
+			this.id = id;
+			this.codigo = codigo;
+			this.nombre = nombre;
+			this.precio = precio;
+		}
+
+
+
+
+
+		
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public String getCodigo() {
+			return codigo;
+		}
+
+		public void setCodigo(String codigo) {
+			this.codigo = codigo;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public String getPrecio() {
+			return precio;
+		}
+
+		public void setPrecio(String precio) {
+			this.precio = precio;
+		}
+		
+		
+		
+
+		@Override
+		public String toString() {
+			return "Producto [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", precio=" + precio + "]";
+		}
+		
+
+	}
+
+
+
+
+
+```
 
 
 
@@ -558,8 +688,13 @@ public class Producto {
 
 
 
+</br>
 
+</br>
 
+</br>
+
+</br>
 
 </br>
 
