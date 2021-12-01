@@ -92,7 +92,10 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
   
 #### Sección 5) Creación y Configuración de las Interfaces y Clases Repositories 
 
-   - [Paso 8) Creación y Configuración de la Clase-Repository Producto](#paso-8-creación-y-configuración-de-la-clase-repository-producto)
+   - [Paso 8) Creación y Configuración de la Interfaz-Repository Producto](#paso-8-creación-y-configuración-de-la-interfaz-repository-producto)
+
+
+   - [Paso 9) Creación y Configuración de la Clase-Repository Producto](#paso-9-creación-y-configuración-de-la-clase-repository-producto)
 
 
 
@@ -872,15 +875,54 @@ public class ModeloProducto {
 
 </br>
 
+  ## Paso 8) Creación y Configuración de la Interfaz-Repository Producto
+  #### (Vamos a trabajar con el Patrón de Diseño DAO para la peristencia de los datos en la db. Al fin y al cabo la arquitectura dao nos suministra las interfaces para poder usar los métodos CRUD sin necesidad de duplicar código. Las interfaces diseñadas van a contener los métodos CRUD para poder implementarlos y definir el cuerpo dentro de la ClaseRepository )
+
+</br>
+
+
+#### 8.1) Creación de la Interfaz I_ProductoRepository
+* Primeramente vamos a crear el paquete que alojarán las interfaces repositories con los métodos CRUD.
+* Creamos un paquete llamado mypackages.repositories.interfaces dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.repositories.interfaces (com.api.productos.mypackages.repositories.interfaces)
+	* --> Finish
+
+* Creamos la Interfaz I_ProductoRepository 
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Interface
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos I_ProductoRepository
+ 	* --> Finish
+
+```java
+
+package com.api.productos.mypackages.interfaces;
+
+public interface I_ProductoRepository {
+
+}
+
+
+```
+</br>
+
+
+#### 8.2) Configuración de la Interfaz I_ProductoRepository
 
 
 
-  ## Paso 8) Creación y Configuración de la Clase-Repository Producto
+
+</br>
+
+
+  ## Paso 9) Creación y Configuración de la Clase-Repository Producto
   #### (Vamos a trabajar con el Patrón de Diseño DAO para la peristencia de los datos en la db. Al fin y al cabo la arquitectura dao nos suministra las interfaces para poder usar los métodos CRUD sin necesidad de duplicar código. )
   
 </br>
 
-#### 8.1) Creación de la Clase ProductoRepository
+#### 9.1) Creación de la Clase ProductoRepository
 * Primeramente vamos a crear el paquete que alojará las clases repositories a implementar.
 * Creamos un paquete llamado mypackages.repositories.jpa dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
 	* --> Click Der sobre la ruta mencionada  
@@ -906,7 +948,7 @@ public class ProductoRepository {
 ```
 </br>
 
-#### 8.1) Configuración de la Clase ProductoRepository
+#### 9.2) Configuración de la Clase ProductoRepository
 
 
 
