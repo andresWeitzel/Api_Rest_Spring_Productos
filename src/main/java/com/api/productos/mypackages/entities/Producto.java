@@ -1,21 +1,32 @@
 package com.api.productos.mypackages.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name="Producto")
 @Entity
 public class Producto {
 	
-
-
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column(name="id")
 	private int id;
 
+	@Column(name="codigo")
 	private String codigo;
 	
+	@Column(name="nombre")
 	private String nombre;
 	
+	@Column(name="precio")
 	private String precio;
+	
+	
+	
 	
 	
 	public Producto() {
