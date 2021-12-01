@@ -1,6 +1,6 @@
 # API REST con Spring Boot, Mysql y Maven.
 
-Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql.
+Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql y JPA-Hibernate.
 
 
 </br>
@@ -11,8 +11,9 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Java |   12.0.2 | JDK |
 | Spring Tool Suite 4 | 4.9.0  | IDE |
 | Spring Boot |   2.5.4  | Framework |
-| XAMPP | 3.2.2  | Paquete de Servidores |
 | Maven |  4.0.0 | Gestor de Proyectos |
+| JPA-Hibernate | 5.4.27 | Framework para el mapeo de objetos y persistenciua en la db |
+| XAMPP | 3.2.2  | Paquete de Servidores |
 | Cygwin | 3.1.6  | Colección de Herramientas / Terminal en Windows integrada al IDE |
 | Git | 2.29.1  | Control de Versiones |
 
@@ -54,8 +55,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 <hr>
 
-# ` Documentación y Guía del Proyecto `
-### (Esta Documentación que Desarrollé es para la Creación y Configuración del Proyecto desde Cero, Manejo de Maven, Spring Tool Suite, Spring Booot, Hibernate-JPA, Mysql, Dependencias con Maven, Servidor de Despliegue y otros Usos de este Proyecto. Recomiendo Leerla y Realizar todo paso a paso como se indica en la misma).
+### ` Documentación y Guía del Proyecto `
+#### (Esta Documentación que Desarrollé es para la Creación y Configuración del Proyecto desde Cero, Manejo de Maven, Spring Tool Suite, Spring Booot, Hibernate-JPA, Mysql, Dependencias con Maven, Servidor de Despliegue y otros Usos de este Proyecto. Recomiendo Leerla y Realizar todo paso a paso como se indica en la misma).
 
 </br>
 
@@ -85,6 +86,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 #### Sección 4) Creación y Configuración de las Clases Entidades y Clases Modelos
   
    - [Paso 6) Creación y Configuración de la Clase-Entidad Producto](#paso-6-creación-y-configuración-de-la-clase-entidad-producto)
+   
+   - [Paso 7) Creación y Configuración de la Clase-Modelo Producto](#paso-7-creación-y-configuración-de-la-clase-modelo-producto)
 
 
 
@@ -104,20 +107,20 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 * Una vez abierto Spring Tool Suite 4
-   * --> Seleccionas la Pestaña File 
-   * --> New 
-   * --> Spring Starter Proyect(Si no aparece buscar en Other).
+  	* --> Seleccionas la Pestaña File 
+   	* --> New 
+   	* --> Spring Starter Proyect(Si no aparece buscar en Other).
 
 * Se abrirá una Interfaz Gráfica, por defecto dejar marcado lo siguiente con los siguientes valores por defecto
-   * --> Service Url : https://start.spring.io
-   * --> Use default location por defecto(es la ruta absoluta de tu workspace)
-   * --> Type : Maven
-   * --> Java Version : 8
-   * --> Packaging : Jar
-   * --> Language : Java
-   * --> Artifact : Por Defecto como está (cambia automáticamente cuando escribimos el Name del Proyect)
-   * --> Version  : Por Defecto como está
-   * --> Working Sets Desmarcado.
+   	* --> Service Url : https://start.spring.io
+   	* --> Use default location por defecto(es la ruta absoluta de tu workspace)
+   	 * --> Type : Maven
+	 * --> Java Version : 8
+	 * --> Packaging : Jar
+	 * --> Language : Java
+	 * --> Artifact : Por Defecto como está (cambia automáticamente cuando escribimos el Name del Proyect)
+	  * --> Version  : Por Defecto como está
+	  * --> Working Sets Desmarcado.
 
 * Configuramos lo restante
    * --> Name : Api_Rest_Spring_Productos (Nombre del proyecto, en mi caso este). Debe cambiarse aut. el Artifact
@@ -342,12 +345,12 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Nos posicionamos sobre el Archivo application.properties (src/main/resources/application.properties) y copias-pegas lo siguiente
 
 ```xml
-server.port = 8090
+server.port = 8092
 server.error.whitelabel.enabled=true
 ```
 
 #### 5.2) Configuraciones de la Conexión a la Base de Datos
-* Primeramente deberías haber creado la db paso a paso explcado en la sección anterior
+* Primeramente deberías haber creado la db paso a paso explicado en la sección anterior.
 * Configuramos la url, el usuario y contraseña
 * El nombre de la URL cambia si creaste otra db. Luego del localhost tendrás que escribir el nombre completo de la db creada
 * Lo mismo para el Usuario y Contraseña, por defecto siempre el user root y contraseña vacío (Pruebas Locales, no Producción).
@@ -362,7 +365,7 @@ spring.datasource.password =
 * No es requerimiento saber hibernate pero si lo recomiendo para entender como se produce la persistencia de los datos en la db, la simplificación de tiempo y codificación que demanda jdbc puro en relación a este Framework, etc.
 * Vamos a declarar las siguientes propiedades.
 * jpa.show-sql es para que se muestren las sentencias por consola
-* jpa.hibernate.ddl-auto es para la la actualización o creación de la db en cada actualización del proyecto. Si lo declaramos update actualiza o create crea.
+* jpa.hibernate.ddl-auto es para la la actualización o creación de la db en cada actualización del proyecto. Si lo declaramos update actualiza la db o create  la crea con todas sus tablas y campos.
 * jpa.hibernate.naming.strategy es la estrategia de nomenclatura que usa Hibernate
 * jpa.properties.hibernate.dialect es la asignación del tipo de Base de Datos que vamos a utilizar 
 
@@ -371,6 +374,25 @@ spring.jpa.show-sql = true
 spring.jpa.hibernate.ddl-auto = update
 spring.jpa.hibernate.naming.strategy = org.hibernate.cfg.ImprovedNamingStrategy
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+```
+
+* Código Completo del application.properties
+
+
+```xml
+server.port = 8092
+server.error.whitelabel.enabled=true
+
+spring.datasource.url = jdbc:mysql://localhost:3306/db_api_productos?serverTimezone=UTC
+spring.datasource.username = root
+spring.datasource.password = 
+
+
+spring.jpa.show-sql = true
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.naming.strategy = org.hibernate.cfg.ImprovedNamingStrategy
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+
 ```
 
 * ...
@@ -546,8 +568,277 @@ public class Producto {
 * Con la anotación `@GeneratedValue(strategy = GenerationType.IDENTITY)` en el campo id se indica el auto_increment
 * Con la anotación `@Id` le indicamos que es el campo id de la db.
 * Con la anotación `@Column(name="nombreDelCampoDeLaClase")` le indicamos que es un campo de la Clase.
-* 
- 
+* Código
+
+```java 
+package com.api.productos.mypackages.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table(name="Producto")
+@Entity
+public class Producto {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@Column(name="id")
+	private int id;
+
+	@Column(name="codigo")
+	private String codigo;
+	
+	@Column(name="nombre")
+	private String nombre;
+	
+	@Column(name="precio")
+	private String precio;
+	
+	
+	
+	
+	
+	public Producto() {
+	}
+	
+
+	public Producto(String codigo, String nombre, String precio) {
+		super();
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.precio = precio;
+	} 
+	
+
+	public Producto(int id, String codigo, String nombre, String precio) {
+		super();
+		this.id = id;
+		this.codigo = codigo;
+		this.nombre = nombre;
+		this.precio = precio;
+	}
+
+
+
+
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(String precio) {
+		this.precio = precio;
+	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
+	
+
+}
+
+
+```
+
+ </br>
+
+### Paso 7) Creación y Configuración de la Clase-Modelo Producto
+#### ( Existen 2 Conceptualizaciones en este caso. La primera es que a una Clase se le llame Entidad-Modelo y la otra que exista la misma Clase definida como Modelo y Entidad (osea 2 clases casi identicas). Varios prefieren usar la primera o la segunda dependiendo cúal sea la finalidad (ahorrar tiempo de código, modularizar el código o lo que sea). Yo opté por la segunda ya que si bien es verdad que se tiene que generar más código, cuando el mismo crezca los problemas van a tener un alcance más controlado).
+#### ( Las Entidades se trabajan en los Repositorios y los Modelos en los Controladores o Service )
+
+
+</br>
+
+#### 7.1) Creación de la Clase Modelo Producto
+
+* Creamos un paquete llamado mypackages.models dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.models (com.api.productos.mypackages.models)
+	* --> Finish
+
+* Creamos la Clase-Modelo Producto
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Class
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ModeloProducto
+ 	* --> Finish
+
+
+```java
+package com.api.productos.mypackages.models;
+
+public class ModeloProducto {
+
+}
+
+```
+
+
+</br>
+
+#### 7.2) Configuración de la Clase Modelo Producto
+
+* Vamos a copiar todo de la clase-entidad Producto ya creada excluyendo las anotaciones 
+* La conversión de una entidad a modelo lo podemos hacer instanciando un objeto de la clase entidad a través de la clase modelo
+* Crearemos un constructor dentro de la clase ModeloProducto que instancie dicho objeto de la clase entidad Producto
+* Códido Constructor
+
+```java
+	/*
+		 * @version 1.0
+		 * 
+		 * Instancia de la clase-entidad Producto
+		 * @param producto
+		 * */
+		public ModeloProducto(Producto producto) {
+			this.id = producto.getId();
+			this.nombre = producto.getNombre();
+			this.codigo = producto.getCodigo();
+			this.precio = producto.getPrecio();
+			
+		}
+
+```
+
+* Código Completo
+
+```java
+package com.api.productos.mypackages.models;
+
+import com.api.productos.mypackages.entities.Producto;
+
+public class ModeloProducto {
+
+	
+		private int id;
+
+		private String codigo;
+		
+		private String nombre;
+		
+		private String precio;
+		
+		
+		public ModeloProducto() {
+		}
+		
+
+		public ModeloProducto(String codigo, String nombre, String precio) {
+			super();
+			this.codigo = codigo;
+			this.nombre = nombre;
+			this.precio = precio;
+		} 
+		
+
+		public ModeloProducto(int id, String codigo, String nombre, String precio) {
+			super();
+			this.id = id;
+			this.codigo = codigo;
+			this.nombre = nombre;
+			this.precio = precio;
+		}
+		
+		/*
+		 * @version 1.0
+		 * 
+		 * Instancia de la clase-entidad Producto
+		 * @param producto
+		 * */
+		public ModeloProducto(Producto producto) {
+			this.id = producto.getId();
+			this.nombre = producto.getNombre();
+			this.codigo = producto.getCodigo();
+			this.precio = producto.getPrecio();
+			
+		}
+
+
+
+
+		
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public String getCodigo() {
+			return codigo;
+		}
+
+		public void setCodigo(String codigo) {
+			this.codigo = codigo;
+		}
+
+		public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public String getPrecio() {
+			return precio;
+		}
+
+		public void setPrecio(String precio) {
+			this.precio = precio;
+		}
+		
+		
+		
+
+		@Override
+		public String toString() {
+			return "Producto [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", precio=" + precio + "]";
+		}
+		
+
+	}
+
+
+
+
+
+```
 
 
 
@@ -556,9 +847,13 @@ public class Producto {
 
 
 
+</br>
 
+</br>
 
+</br>
 
+</br>
 
 </br>
 
