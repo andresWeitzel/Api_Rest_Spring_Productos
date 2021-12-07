@@ -1,5 +1,7 @@
 package com.api.productos.mypackages.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 
 @Table(name="Producto")
 @Entity
-public class Producto {
+public class Producto implements Serializable{
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
