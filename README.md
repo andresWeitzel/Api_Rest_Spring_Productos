@@ -24,6 +24,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | mysql-connector | 8.0.21 |  Conexión e Implementación de Queries a la db con Mysql |
 | Hibernate-Core | 5.4.27 | El Core de Hibernate |
 | JPA-Hibernate | 2.1 | Persistencia de datos a la db |
+| Spring-data-jpa | 2.6.1 | Api de JpaRepository para el manejo de métodos | 
 | Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
 | jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
@@ -34,6 +35,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Repositorio dependencia Javax Annotation API: https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2
 * Repositorio dependencia Hibernate-Core: https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar
 * Repositorio dependencia JPA-Hibernate: https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final
+* Repositorio dependencia Spring data JpaRepository: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1
 * Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
 
@@ -90,12 +92,9 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 7) Creación y Configuración de la Clase-Modelo Producto](#paso-7-creación-y-configuración-de-la-clase-modelo-producto)
   
   
-#### Sección 5) Creación y Configuración de las Interfaces y Clases Repositories 
+#### Sección 5) Creación y Configuración de las Interfaces repositories y Controladores  
 
    - [Paso 8) Creación y Configuración de la Interfaz-Repository Producto](#paso-8-creación-y-configuración-de-la-interfaz-repository-producto)
-
-
-   - [Paso 9) Creación y Configuración de la Clase-Repository Producto](#paso-9-creación-y-configuración-de-la-clase-repository-producto)
 
 
 
@@ -203,11 +202,9 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 ### Paso 3) Dependencias del Proyecto
 #### (Las siguientes dependencias del Proyecto se deberán agregar al pom.xml para el correcto funcionamiento del Proyecto).
 
-</br>
-
-* Dependencia para el conector de Mysql.
-   * --> Buscamos Mysql Connector (https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21)
-   * --> Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
+#### 3.1) Dependencia para el conector de Mysql.
+* Buscamos la dependencia Mysql Connector (https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21)
+* Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
 
 ```xml
 <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -221,8 +218,10 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-* Dependencia para JPA-HIBRNATE (Persistenca de Datos en la db, de esto se encarga Spring).
-   * --> La Primera será el core de Hibernate, hibernate-core la 5.4... Final (https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar).
+#### 3.2) Dependencia para JPA-HIBERNATE 
+#### (Persistenca de Datos en la db, de esto se encarga Spring).
+
+* La Primera será el core de Hibernate, hibernate-core la 5.4... Final (https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar).
 
 ```xml
 <dependency>
@@ -233,7 +232,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 ```
 * ...
 
-  * --> La segunda será JPA para Hibernate, la más importante, ya que nos desacoplamos de depender de Hibernate en un futuro, y nos centramos en trabajar con JPA, la dependencia es JPA-Hibernate 2.1 (https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final).
+* La segunda será JPA para Hibernate, la más importante, ya que nos desacoplamos de depender de Hibernate en un futuro, y nos centramos en trabajar con JPA, la dependencia es JPA-Hibernate 2.1 (https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final).
 
 ```xml
 <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
@@ -246,7 +245,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 ```
 * ...
  
-  * --> La Tercera dependencia será para las Lecturas de las Anotaciones para JPA-Hibernate, Javax Annotation API (https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2)
+* La Tercera dependencia será para las Lecturas de las Anotaciones para JPA-Hibernate, Javax Annotation API (https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2)
 
 ```xml
 <!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
@@ -256,19 +255,15 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
     <version>1.3.2</version>
 </dependency>
 ```
-* ...
-
-  * --> Una vez incluidas, Ctrl+s guardamos,  F5 actualizamos y Alt+F5 para que Maven Actualice.
-  * --> Asegurate que Maven haya descargado las 3 dependencias mencionadas y colocadas en el pom.
-
 
 
 </br>
 
 
-* Dependencia para convertir Objetos Java en Objetos XML.
-  * --> Buscamos javax.xml.bin, la versión 2.3.1, (https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api/2.3.1)
-  * --> Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
+#### 3.3) Dependencia para convertir Objetos Java en Objetos XML.
+
+* Buscamos javax.xml.bin, la versión 2.3.1, (https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api/2.3.1)
+* Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
 
 ```xml
 <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
@@ -280,12 +275,30 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ```
 
+</br>
+
+#### 3.4) Dependencia para el Uso de los métodos de JpaRepository
+#### (Usaremos la api de Spring Data Jpa ya que nos va a ahorrar desarrollar los métodos que realicen las consultas sql a la db, creando menos cantidad de código ).
+
+* Buscamos la dependencia (https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1)
+* Código de la Dependencia
+```xml
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+    <version>2.6.1</version>
+</dependency>
+
+```
+
 
 </br>
 
-* Dependencia para convertir Objetos Java en Objetos JSON.
-  * --> Buscamos jackson databind, la versión 2.12.4, (https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind/2.12.4)
-  * --> Copias la dependencia desde Maven o de acá, luego lo incluís en el pom.xml
+#### 3.5) Dependencia para convertir Objetos Java en Objetos JSON.
+
+* Buscamos jackson databind, la versión 2.12.4, (https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind/2.12.4)
+* Copias la dependencia desde Maven o de acá, luego lo incluís en el pom.xml
 
 ```xml
 <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -297,10 +310,10 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ```
 * ...
-   * --> Ctrl + s Guardas 
-   * --> Click Der sobre el proyecto
-   * --> Maven y update Maven o Alt + F5
-   * --> Fijarse dentro de Maven Dependencies si Maven descargo la misma
+* Ctrl + s Guardas 
+* Click Der sobre el proyecto
+* Maven y update Maven o Alt + F5
+* Fijarse dentro de Maven Dependencies si Maven descargo la misma
 
 
 </br>
@@ -870,20 +883,20 @@ public class ModeloProducto {
 
 </br>
 
-## Sección 5) Creación y Configuración de las Interfaces y Clases Repositories 
+## Sección 5) Creación y Configuración de las Interfaces repositories y Controladores  
 
 
 </br>
 
-  ## Paso 8) Creación y Configuración de la Interfaz-Repository Producto
-  #### (Vamos a trabajar con el Patrón de Diseño DAO para la peristencia de los datos en la db. Al fin y al cabo la arquitectura dao nos suministra las interfaces para poder usar los métodos CRUD sin necesidad de duplicar código. Las interfaces diseñadas van a contener los métodos CRUD para poder implementarlos y definir el cuerpo dentro de la ClaseRepository )
+ ### Paso 8) Creación y Configuración de la Interfaz-Repository Producto
+ #### (Vamos a trabajar con el Patrón de Diseño DAO para la persistencia de los datos en la db. Al fin y al cabo la arquitectura dao nos suministra las interfaces para poder usar los métodos CRUD sin necesidad de duplicar código. Las interfaces diseñadas van a contener los métodos CRUD sin necesidad de implementarlos y definir su cuerpo en una clase repository ya que vamos a implementar Spring Data JpaRepository. Esta API trae todos los métodos desarrollados )
 
 </br>
 
 
 #### 8.1) Creación de la Interfaz I_ProductoRepository
 * Primeramente vamos a crear el paquete que alojarán las interfaces repositories con los métodos CRUD.
-* Creamos un paquete llamado mypackages.repositories.interfaces dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+* Creamos un paquete llamado mypackages.repositories.repositories.interfaces dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
 	* --> Click Der sobre la ruta mencionada  
 	* --> New --> Package
 	* --> En Name seguido de com.api.productos colocamos mypackages.repositories.interfaces (com.api.productos.mypackages.repositories.interfaces)
@@ -910,47 +923,94 @@ public interface I_ProductoRepository {
 
 
 #### 8.2) Configuración de la Interfaz I_ProductoRepository
-
-
-
+#### (Vamos a trabajar con los repositorios de datos de Spring, estos nos van a ayudar a simplificar de forma significativa el código desarrollado).
 
 </br>
 
+* Vamos a crear métodos abstractos usando la serialización de Spring (conversión de objetos Java a bytes).
+* Recordar que los métodos abstractos son métodos que no tienen cuerpo, justamente por que ya está definido dentro de Spring Boot. Estos métodos vienen en las clases que Spring descarga cuando se declara la dependencia de spring-data-jpa dentro del pom.
+* Recomiendo la siguiente documentación `https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html`
+* Para poder declarar la serialización de dichos objetos hay que heredar esta cualidad de jpa-repository  `JpaRepository<"entidadSinComas", Serializable>`
+* Además vamos a declarar una anotación diciendole a Spring Boot que será un repositorio con la anotación `@Repository("nombreSinComillas")`
+* Código Snippet...
+```java
+package com.api.productos.mypackages.repositories.interfaces;
 
-  ## Paso 9) Creación y Configuración de la Clase-Repository Producto
-  #### (Vamos a trabajar con el Patrón de Diseño DAO para la peristencia de los datos en la db. Al fin y al cabo la arquitectura dao nos suministra las interfaces para poder usar los métodos CRUD sin necesidad de duplicar código. )
-  
-</br>
+import java.io.Serializable;
 
-#### 9.1) Creación de la Clase ProductoRepository
-* Primeramente vamos a crear el paquete que alojará las clases repositories a implementar.
-* Creamos un paquete llamado mypackages.repositories.jpa dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
-	* --> Click Der sobre la ruta mencionada  
-	* --> New --> Package
-	* --> En Name seguido de com.api.productos colocamos mypackages.repositories.jpa (com.api.productos.mypackages.repositories.jpa)
-	* --> Finish
+import org.springframework.data.jpa.repository.JpaRepository;
 
-* Creamos la Clase-Repository Producto
- 	* --> Click Der sobre el paquete creado
- 	* --> New --> Class
- 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
- 	* --> En Name colocamos ProductoRepository
- 	* --> Finish
+import org.springframework.stereotype.Repository;
+
+import com.api.productos.mypackages.entities.Producto;
+
+
+@Repository("I_ProductoRepository")
+public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>{
+
+
+	
+}
+
+
+```
+* Seguido de esto vamos a definir los métodos a utilizar
+* El primer método será para traer el producto por el id pedido.
+```java
+
+public abstract Producto findById(int id);
+
+```
+* El Segundo método será para traer el producto requerido a través del código pasado.
+```java
+
+public abstract Producto findByCodigo(String codigo);
+
+```
+* El tercer y cuarto método serán listas, ya que los nombres y precios pueden ser repetidos
+```java
+
+public abstract List<Producto> findByNombre(String nombre);
+
+public abstract List<Producto> findByPrecio(double precio);
+
+```
+* Código Snippet Completo..
 
 ```java
 
-package com.api.productos.mypackages.repositories.jpa;
+package com.api.productos.mypackages.repositories.interfaces;
 
-public class ProductoRepository {
+import java.io.Serializable;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.api.productos.mypackages.entities.Producto;
+
+
+@Repository("I_ProductoRepository")
+public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>{
+
+
+
+public abstract Producto findById(int id);
+
+public abstract Producto findByCodigo(String codigo);
+
+public abstract List<Producto> findByNombre(String nombre);
+
+public abstract List<Producto> findByPrecio(double precio);
+
+	
+	
 }
 
+
 ```
+
 </br>
-
-#### 9.2) Configuración de la Clase ProductoRepository
-
-
 
 
 
