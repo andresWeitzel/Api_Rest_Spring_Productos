@@ -2,7 +2,6 @@
 
 Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql y JPA-Hibernate.
 
-
 </br>
 
 
@@ -16,6 +15,14 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | XAMPP | 3.2.2  | Paquete de Servidores |
 | Cygwin | 3.1.6  | Colección de Herramientas / Terminal en Windows integrada al IDE |
 | Git | 2.29.1  | Control de Versiones |
+
+
+</br>
+
+| **Patrón de Diseño** | **Finalidad** |               
+| ------------- | ------------- |
+| DAO | Uso de interfaces entre la aplicación y el almacenamiento de datos. |
+| MVC | Separación y Representación de los Datos, Manejo de errores, Escalabilidad, etc  |
 
 </br>
 
@@ -97,8 +104,17 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 8) Creación y Configuración de la Interfaz-Repository Producto](#paso-8-creación-y-configuración-de-la-interfaz-repository-producto)
 
 
+   - [Paso 9) Creación y Configuración de la Clase Converter](#paso-9-creación-y-configuración-de-la-clase-converter)
 
 
+#### Sección 6) Creación y Configuración de los Services
+
+   - [Paso 10) Creación y Configuración de la Clase Service](#paso-10-creación-y-configuración-de-la-clase-service)
+
+
+#### Sección 7) Apéndice
+
+- [ Anotaciones Usadas de Spring](#anotaciones-usadas-de-spring)
 
 
 
@@ -173,7 +189,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-#### 2.2) Paquetes Maven (Java Resources). (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
+#### 2.2) Paquetes Maven `(Java Resources)`. (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
 
 * Por Defecto Viene deshabilitada la opción de paquetes Maven, en donde vamos a guardar nuestros paquetes y clases
 	* --> Para habilitar las mismas, click Der sobre el Proyecto.
@@ -218,7 +234,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-#### 3.2) Dependencia para JPA-HIBERNATE 
+#### 3.2) Dependencia para `JPA-HIBERNATE `
 #### (Persistenca de Datos en la db, de esto se encarga Spring).
 
 * La Primera será el core de Hibernate, hibernate-core la 5.4... Final (https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar).
@@ -277,7 +293,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-#### 3.4) Dependencia para el Uso de los métodos de JpaRepository
+#### 3.4) Dependencia para el Uso de los métodos de `JpaRepository`
 #### (Usaremos la api de Spring Data Jpa ya que nos va a ahorrar desarrollar los métodos que realicen las consultas sql a la db, creando menos cantidad de código ).
 
 * Buscamos la dependencia (https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1)
@@ -349,7 +365,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 </br>
 
 
-## Sección 3) Configuración del Archivo de Propiedades(application.properties)
+## Sección 3) Configuración del Archivo de Propiedades `(application.properties)`
 
 
 </br>
@@ -357,7 +373,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
-### Paso 5) Archivo de Propiedades (application.properties)
+### Paso 5) Archivo de Propiedades `(application.properties)`
 #### (El uso de Spring Boot properties es muy habitual cuando trabajamos con una aplicación de Spring Boot. A diferencia de otras aplicaciones clásicas de Spring Framework , Spring Boot hace uso del principio de convención sobre configuración y define un fichero por defecto de propiedades . Este fichero se encuentra en la carpeta resources (src/main/resources/application.properties) de nuestro proyecto.)
 
 </br>
@@ -443,7 +459,7 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 
 </br>
 
-#### 6.1) Creación de la Clase Entidad Producto
+#### 6.1) Creación de la Clase `ProductoEntidad`
 
 * Creamos un paquete llamado mypackages.entities dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
 	* --> Click Der sobre la ruta mencionada  
@@ -470,7 +486,7 @@ public class Producto {
 
 </br>
 
-#### 6.1) Configuración de la Clase Entidad Producto
+#### 6.1) Configuración de la Clase  `ProductoEntidad`
 
 * Primeramente vamos a implementar la Clase Serializable dentro de la Clase Producto Creada, el proceso de serialización es la conversión de los objetos java en flujos de bytes(código binario para la correcta transferencia de datos).
 
@@ -727,7 +743,7 @@ public class Producto implements Serializable{
 
 </br>
 
-#### 7.1) Creación de la Clase Modelo Producto
+#### 7.1) Creación de la Clase `ProductoModelo`
 
 * Creamos un paquete llamado mypackages.models dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
 	* --> Click Der sobre la ruta mencionada  
@@ -755,7 +771,7 @@ public class ModeloProducto {
 
 </br>
 
-#### 7.2) Configuración de la Clase Modelo Producto
+#### 7.2) Configuración de la Clase `ProductoModelo`
 
 * Vamos a copiar todo de la clase-entidad Producto ya creada excluyendo las anotaciones 
 * La conversión de una entidad a modelo lo podemos hacer instanciando un objeto de la clase entidad a través de la clase modelo
@@ -894,7 +910,7 @@ public class ModeloProducto {
 </br>
 
 
-#### 8.1) Creación de la Interfaz I_ProductoRepository
+#### 8.1) Creación de la Interfaz `I_ProductoRepository`
 * Primeramente vamos a crear el paquete que alojarán las interfaces repositories con los métodos CRUD.
 * Creamos un paquete llamado mypackages.repositories.repositories.interfaces dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
 	* --> Click Der sobre la ruta mencionada  
@@ -922,7 +938,7 @@ public interface I_ProductoRepository {
 </br>
 
 
-#### 8.2) Configuración de la Interfaz I_ProductoRepository
+#### 8.2) Configuración de la Interfaz `I_ProductoRepository`
 #### (Vamos a trabajar con los repositorios de datos de Spring, estos nos van a ayudar a simplificar de forma significativa el código desarrollado).
 
 </br>
@@ -1010,6 +1026,264 @@ public abstract List<Producto> findByPrecio(double precio);
 
 ```
 
+
+</br>
+
+ ### Paso 9) Creación y Configuración de la Clase Converter 
+ #### ( Además de implementar el patrón de diseño DAO para el manejo de los datos en la db, se implementa el patrón MVC. En este caso desarrollando una Clase Converter vamos a poder convertir las entidades en modelos, y de esa forma poder trabajar con Hibernate en la Clase Modelo y no en la Clase Entidad )
+
+</br>
+
+</br>
+
+
+#### 9.1) Creación de la Clase `ProductoConverter`
+* Primeramente vamos a crear el paquete que alojarán las clases Converter.
+* Creamos un paquete llamado mypackages.converters dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.converters (com.api.productos.mypackages.converters)
+	* --> Finish
+
+* Creamos la Clase Converter
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Clase
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ProductoConverter
+ 	* --> Finish
+
+
+
+```java
+package com.api.productos.mypackages.converters;
+
+public class ProductoConverter {
+
+}
+
+
+
+```
+
+</br>
+
+#### 9.2) Configuración de la Clase `ProductoConverter`
+* Primeramente vamos a incluir la anotación `@Component("ProductoComponent")`.
+* La anotación `@Component` marca la clase Java como un bean o componente para que el mecaniso de exploración de componentes de Spring pueda agregarla al contexto de la aplicación.
+* Seguidamente vamos a construir el cuerpo de la clase con los métodos que modelizaremos para la conversión de entidades a modelos.
+* Código Snippet..
+```java
+
+package com.api.productos.mypackages.converters;
+
+import org.springframework.stereotype.Component;
+
+@Component("ProductoConverter")
+public class ProductoConverter {
+
+}
+
+```
+
+
+
+</br>
+
+
+#### 9.2.1) Creación del Método `convertirListaProducto`
+#### (Este Método se va a encargar de convertir una lista de tipo Producto Entidad a otra de Tipo Producto Modelo)
+
+</br>
+
+* El Método es de tipo Lista, se le pasa una Lista de Productos de tipo Producto Entidad y nos devuelve una Lista de Tipo Modelo Producto.
+* Pero para realizar tal conversión se usará un for each, el for each va a convertir todos los objetos de la lista Entidad a una lista de objetos de la clase Modelo.
+* Código Snippet..
+
+```java
+	public ArrayList<ModeloProducto> convertirListaProducto(ArrayList<Producto> productos){
+		
+		ArrayList<ModeloProducto> listaModeloProductos = new ArrayList<>();
+	
+		
+		productos.forEach(objetoProducto -> listaModeloProductos.add(new ModeloProducto(objetoProducto)));
+		
+		return listaModeloProductos;
+	
+	}
+
+```
+
+</br>
+
+
+* Código Completo de la Clase..
+
+```java 
+package com.api.productos.mypackages.converters;
+
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Component;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ModeloProducto;
+
+@Component("ProductoConverter")
+public class ProductoConverter {
+	
+	
+	
+	
+	public ArrayList<ModeloProducto> convertirListaProducto(ArrayList<Producto> productos){
+		
+		ArrayList<ModeloProducto> listaModeloProductos = new ArrayList<>();
+	
+		
+		productos.forEach(objetoProducto -> listaModeloProductos.add(new ModeloProducto(objetoProducto)));
+		
+		return listaModeloProductos;
+	
+	}
+	
+	
+	
+
+}
+
+```
+
+
+
+</br>
+
+
+
+## Sección 6) Creación y Configuración de los Services
+
+
+
+</br>
+
+ ### Paso 10) Creación y Configuración de la Clase Service
+ #### (La Clase Service (Componente de Servicio) nos va a permitir gestionar la lógica empresarial en una capa diferente. )
+
+</br>
+
+#### Paso 10.1) Creación de la Clase `ProductoService`
+* Primeramente vamos a crear el paquete que alojará el Service.
+* Creamos un paquete llamado mypackages.service dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.service (com.api.productos.mypackages.service)
+	* --> Finish
+
+* Creamos la Clase Service
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Clase
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ProductoService
+ 	* --> Finish
+* Código Snippet..
+
+
+
+```java
+package com.api.productos.mypackages.service;
+
+public class ProductoService {
+
+}
+
+```
+
+</br>
+
+
+</br>
+
+#### Paso 10.2) Configuración de la Clase `ProductoService`
+* Primeramente vamos a incluir la anotación `@Service("ProductoService")`.
+* La anotación `@Service` se encarga de registrar el componente y permiter que se inyecten otras clases a él.
+* Código Snippet..
+
+```java
+package com.api.productos.mypackages.service;
+
+@Service("ProductoService")
+public class ProductoService {
+
+}
+
+
+```
+
+</br>
+
+#### Paso 10.2) Campos-Atributos de la Clase `ProductoService`
+
+* Vamos a definir los atributos de la clase que al fin y al cabo serán la Interfaz creada, el Controlador, etc. Todo relacionado mediante el Service creado
+* Dentro de la Clase vamos a usar la anotación `@Autowired` para la relación de los Beans e Interfaces.
+* Seguidamente vamos a hacer uso de la notación `@Qualifier("NombreBean")` para nombrar y relacionar el Bean que vamos a definir dentro del servicio
+* Creamos el campo-atributo que hará referencia a la interfaz bean.
+* Código Snippet..
+```java
+
+	@Autowired
+	@Qualifier("I_ProductoRepository")
+	private I_ProductoRepository iProductoRepository;
+
+}
+
+
+```
+* Ahora creamos el campo que usaremos que será el Bean Clase Controler. 
+* Vamos a implementar las mismas anotaciones cambiando el nombre del bean logicamente.
+* Código Snippet..
+```java
+	@Autowired
+	@Qualifier("ProductoConverter")
+	private ProductoConverter productoConvertidos;
+
+```
+
+</br>
+
+* Código Completo..
+```java
+package com.api.productos.mypackages.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.api.productos.mypackages.converters.ProductoConverter;
+import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
+
+@Service("ProductoService")
+public class ProductoService {
+	
+	@Autowired
+	@Qualifier("I_ProductoRepository")
+	private I_ProductoRepository iProductoRepository;
+
+	
+	@Autowired
+	@Qualifier("ProductoConverter")
+	private ProductoConverter productoConvertidos;
+
+}
+
+
+```
+
+</br>
+
+#### Paso 10.3) Métodos de la Clase `ProductoService`
+
+
+
+
+
 </br>
 
 
@@ -1020,9 +1294,39 @@ public abstract List<Producto> findByPrecio(double precio);
 
 
 
+</br>
 
 
 
+## Sección 7) Apéndice
+
+
+</br>
+
+
+ ### Anotaciones Usadas para JPA
+ 
+| **Tipo de Anotación** | **Finalidad** |               
+| ------------- | ------------- |
+| @Table(name="nombreTabla") | Definición de Nombre de Tabla SQL. |
+| @Column(name="nombreCampo") | Definición de Nombre de Campo SQL. |
+| @Entity | Definición de Entidad, para que la misma pueda ser mapeada a una Tabla SQL. |
+| @Id | Definición de Campo tipo identificador entero SQL. |
+
+
+
+</br>
+
+
+ ### Anotaciones Usadas para Spring
+ 
+| **Tipo de Anotación** | **Finalidad** |               
+| ------------- | ------------- |
+| @Component("nombreComponente") |  Establecemos la clase Java como un bean o componente para que el mecanismo de exploración de componentes de Spring pueda agregarla al contexto de la aplicación |
+| @Repository("nombreRepositorio") | Estereotipo para la Capa de Persistencia. |
+| @Service("NombreServicio") | Registrar el componente y permitir que se inyecten otras clases a él|
+| @Autowired | Inyección de Dependencias. Busca un objeto Bean que implementen determinada interfaz y lo referencia para no crear una nueva instancia del objeto. |
+| @Qualifier("NombreBean") | Nombramos el Bean que queremos inyectar. Se evita la ambigueda cuando Spring encuentra multiples beans del mismo tipo. |
 
 </br>
 
