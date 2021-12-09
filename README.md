@@ -112,9 +112,15 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 10) Creación y Configuración de la Clase Service](#paso-10-creación-y-configuración-de-la-clase-service)
 
 
+
+
+
+
 #### Sección 7) Apéndice
 
-- [ Anotaciones Usadas de Spring](#anotaciones-usadas-de-spring)
+- [ Anotaciones Usadas para JPA](#anotaciones-usadas-para-jpa)
+ 
+- [ Anotaciones Usadas para Spring](#anotaciones-usadas-para-spring)
 
 
 
@@ -983,12 +989,15 @@ public abstract Producto findById(int id);
 public abstract Producto findByCodigo(String codigo);
 
 ```
-* El tercer y cuarto método serán listas, ya que los nombres y precios pueden ser repetidos
+* El tercer, cuarto y quinto método serán listas, ya que los nombres y precios pueden ser repetidos y la ultima nos traera los productos
 ```java
 
 public abstract List<Producto> findByNombre(String nombre);
 
 public abstract List<Producto> findByPrecio(double precio);
+
+public abstract List<Producto> findAll();
+
 
 ```
 * Código Snippet Completo..
@@ -1018,6 +1027,9 @@ public abstract Producto findByCodigo(String codigo);
 public abstract List<Producto> findByNombre(String nombre);
 
 public abstract List<Producto> findByPrecio(double precio);
+
+public abstract List<Producto> findAll();
+
 
 	
 	
@@ -1269,7 +1281,7 @@ public class ProductoService {
 	
 	@Autowired
 	@Qualifier("ProductoConverter")
-	private ProductoConverter productoConvertidos;
+	private ProductoConverter productoConvertidor;
 
 }
 
@@ -1278,8 +1290,139 @@ public class ProductoService {
 
 </br>
 
-#### Paso 10.3) Métodos de la Clase `ProductoService`
+#### Paso 10.3) Métodos CRUD de la Clase `ProductoService`
+#### (Acá vamos a definir los métodos que se encarguen de traer toda la lógica de persistencia del repositorio del Producto, como lo son agregar, editar y eliminar algún producto)
 
+
+</br>
+
+#### 10.3.1 ) Creación del Método `agregarProducto`
+* Este Método va a persistir un Producto en la db a través de la Interfaz creada implementando jpa y declarada en este service.
+* El Método deevuelve un booleano, si hace lo requerido devuelve true, si el objeto es nulo false y sino false.
+* Dentro del Método, utilizando la interfaz creada vamos a invocar al método `save()` de JPA para persistir el producto en la db.
+* Notar que se puede crear otro método en la interfaz con otro nombre que haga exactamente lo mismo que el método save de jpa, queda a criterio de cada uno
+* Códido Snippet..
+
+```java
+//INSERT
+	public boolean agregarProducto(Producto producto) {
+		
+		try {
+			
+			if (producto == null) {
+				
+				return false;
+					
+			}else {
+				
+				iProductoRepository.save(producto);
+				
+				return true;
+			
+			}
+		
+			
+		}catch(Exception e) {
+			return false;
+		}
+	}
+
+```
+
+
+
+</br>
+
+#### 10.3.2 ) Creación del Método `editarProducto`
+* Este Método va a actualizar y persistir un Producto en la db a través de la Interfaz creada implementando jpa y declarada en este service.
+* El Método devuelve un booleano, si hace lo requerido devuelve true, si el objeto es nulo o el id es 0 false y sino también false.
+* Aplicamos el mismo método save de jpa
+
+```java
+
+//UPDATE
+		public boolean editarProducto(Producto producto) {
+			
+			try {
+				
+				if ((producto == null) || (producto.getId() == 0)) {
+					
+					return false;
+						
+				}else {
+					
+					iProductoRepository.save(producto);
+					
+					return true;
+				
+				}
+			
+				
+			}catch(Exception e) {
+				return false;
+			}
+		}
+
+
+```
+
+
+</br>
+
+#### 10.3.3 ) Creación del Método `eliminarProducto`
+* Este Método va a eliminar un Producto de la db a través de la Interfaz creada implementando jpa y declarada en este service.
+* El Método devuelve un booleano, si hace lo requerido devuelve true, si el id es 0 false y sino también false.
+* Vamos a invocar el método creado en la interfaz llamado `findById()` para eliminar el producto a traves del id que se le pase a artaves del argumento de este metodo.
+* Una vez que jpa encuentra este id, lo eliminamos con el método de jpa `delete()` 
+
+```java
+
+//DELETE
+	public boolean eliminarProducto(int id) {
+					
+			try {
+						
+				if ((id == 0)) {
+							
+					return false;
+								
+				}else {
+							
+					Producto idProducto = iProductoRepository.findById(id);
+							
+					iProductoRepository.delete(idProducto);
+					
+					
+					return true;
+						
+				}
+					
+						
+				}catch(Exception e) {
+						return false;
+					}
+				}
+```
+
+
+
+
+</br>
+
+#### 10.3.3 ) Creación del Método `listaProductos`
+* Este Método nos va a traer la lista de productos del ModeloProducto y NO de la Entidad Producto
+* Para poder realizar esto llamamos al `Convertidor`
+* ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
+* Vamos a invocar al Método creado de la interfaz llamado `findAll()` y lo. 
+* Notar que se puede crear otro método en la interfaz con otro nombre que haga exactamente lo mismo que el método save de jpa, queda a criterio de cada uno.
+* Seguidamente vamos a devolver un return con la lista de Productos.
+
+				
+```java
+
+
+				
+```
 
 
 
