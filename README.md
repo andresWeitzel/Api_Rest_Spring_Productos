@@ -1138,7 +1138,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ModeloProducto;
+import com.api.productos.mypackages.models.ProductoModel;
 
 @Component("ProductoConverter")
 public class ProductoConverter {

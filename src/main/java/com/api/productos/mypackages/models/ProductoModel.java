@@ -2,7 +2,7 @@ package com.api.productos.mypackages.models;
 
 import com.api.productos.mypackages.entities.Producto;
 
-public class ModeloProducto {
+public class ProductoModel {
 
 	
 		private int id;
@@ -14,11 +14,11 @@ public class ModeloProducto {
 		private String precio;
 		
 		
-		public ModeloProducto() {
+		public ProductoModel() {
 		}
 		
 
-		public ModeloProducto(String codigo, String nombre, String precio) {
+		public ProductoModel(String codigo, String nombre, String precio) {
 			super();
 			this.codigo = codigo;
 			this.nombre = nombre;
@@ -26,7 +26,7 @@ public class ModeloProducto {
 		} 
 		
 
-		public ModeloProducto(int id, String codigo, String nombre, String precio) {
+		public ProductoModel(int id, String codigo, String nombre, String precio) {
 			super();
 			this.id = id;
 			this.codigo = codigo;
@@ -40,7 +40,7 @@ public class ModeloProducto {
 		 * Instancia de la clase-entidad Producto
 		 * @param producto
 		 * */
-		public ModeloProducto(Producto producto) {
+		public ProductoModel(Producto producto) {
 			this.id = producto.getId();
 			this.nombre = producto.getNombre();
 			this.codigo = producto.getCodigo();

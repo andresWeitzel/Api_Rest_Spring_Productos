@@ -1,7 +1,8 @@
 package com.api.productos.mypackages.repositories.interfaces;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,11 +20,11 @@ public abstract Producto findById(int id);
 
 public abstract Producto findByCodigo(String codigo);
 
-public abstract List<Producto> findByNombre(String nombre);
+public abstract ArrayList<Producto> findByNombre(String nombre);
 
-public abstract List<Producto> findByPrecio(double precio);
+public abstract ArrayList<Producto> findByPrecio(double precio);
 
-public abstract List<Producto> findAll();
+public abstract ArrayList<Producto> findAll();
 
 	
 	
