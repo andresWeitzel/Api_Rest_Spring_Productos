@@ -4,6 +4,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
+## Tecnologías Implementadas
 
 | **Tecnologías** | **Versión** | **Finalidad** |               
 | ------------- | ------------- | ------------- |
@@ -21,38 +22,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-| **Patrón de Diseño** | **Finalidad** |               
-| ------------- | ------------- |
-| DAO | Uso de interfaces entre la aplicación y el almacenamiento de datos. |
-| MVC | Separación y Representación de los Datos, Manejo de errores, Escalabilidad, etc  |
-
-</br>
-
-| **Dependencia Maven**  | **Versión** | **Finalidad** |               
-| ------------- | ------------- | ------------- |
-| mysql-connector | 8.0.21 |  Conexión e Implementación de Queries a la db con Mysql |
-| Hibernate-Core | 5.4.27 | El Core de Hibernate |
-| JPA-Hibernate | 2.1 | Persistencia de datos a la db |
-| Spring-data-jpa | 2.6.1 | Api de JpaRepository para el manejo de métodos | 
-| Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
-| javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
-| jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
-
-
-
-* Repositorio dependencia mysql : https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21
-* Repositorio dependencia Javax Annotation API: https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2
-* Repositorio dependencia Hibernate-Core: https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar
-* Repositorio dependencia JPA-Hibernate: https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final
-* Repositorio dependencia Spring data JpaRepository: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1
-* Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
-* Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
-
-
-
-</br>
-
-## Descarga y documentacion de las Tecnologías empleadas
+## Descarga y Documentacion de las Tecnologías Implementadas
 
 | **Tecnología**  | **Descarga** | **Documentación** |               
 | ------------- | ------------- | ------------- |
@@ -64,6 +34,42 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Git  | https://git-scm.com/downloads |  https://git-scm.com/docs |
 
 </br>
+
+## Patrones de Diseño Implementados
+
+| **Patrón de Diseño** | **Finalidad** |               
+| ------------- | ------------- |
+| DAO | Uso de interfaces entre la aplicación y el almacenamiento de datos. |
+| MVC | Separación y Representación de los Datos, Manejo de errores, Escalabilidad, etc  |
+
+</br>
+
+## Dependencias Implementadas
+
+| **Dependencia Maven**  | **Versión** | **Finalidad** |               
+| ------------- | ------------- | ------------- |
+| mysql-connector | 8.0.21 |  Conexión e Implementación de Queries a la db con Mysql |
+| Hibernate-Core | 5.4.27 | El Core de Hibernate |
+| JPA-Hibernate | 2.1 | Persistencia de datos a la db |
+| Spring-data-jpa | 2.6.1 | Api de JpaRepository para el manejo de métodos | 
+| Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
+| javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
+| jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
+
+</br>
+
+## Descarga de Dependencias
+
+* Repositorio dependencia mysql : https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21
+* Repositorio dependencia Javax Annotation API: https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api/1.3.2
+* Repositorio dependencia Hibernate-Core: https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar
+* Repositorio dependencia JPA-Hibernate: https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final
+* Repositorio dependencia Spring data JpaRepository: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1
+* Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+* Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
+
+
+
 
 <hr>
 
