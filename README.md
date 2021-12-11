@@ -12,7 +12,9 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Spring Boot |   2.5.4  | Framework |
 | Maven |  4.0.0 | Gestor de Proyectos |
 | JPA-Hibernate | 5.4.27 | Framework para el mapeo de objetos y persistenciua en la db |
+| PostMan | 9.4.1 | Test de Apis |
 | XAMPP | 3.2.2  | Paquete de Servidores |
+| Mysql | 10.1.38 | Sistema de Gestión de Bases de Datos |
 | Cygwin | 3.1.6  | Colección de Herramientas / Terminal en Windows integrada al IDE |
 | Git | 2.29.1  | Control de Versiones |
 
@@ -50,15 +52,16 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-## Descarga y documentacion de las Tecnologías empleadas:
-#### Java-JDK 12:                     https://www.oracle.com/java/technologies/javase/jdk12-archive-downloads.html
-#### Spring Tool Suite 4:             https://spring.io/tools
-#### XAMPP:                            https://www.apachefriends.org/download.html
-#### Maven Repositories:              https://mvnrepository.com/
-#### Cygwin:                           https://cygwin.com/install.html
-#### Git:                              https://git-scm.com/docs
+## Descarga y documentacion de las Tecnologías empleadas
 
-
+| **Tecnología**  | **Descarga** | **Documentación** |               
+| ------------- | ------------- | ------------- |
+| Java-JDK 12 | https://www.oracle.com/java/technologies/javase/jdk12-archive-downloads.html |  https://docs.oracle.com/en/ |
+| Spring Tool Suite 4 |https://spring.io/tools | https://spring.io/guides |
+| XAMPP | https://www.apachefriends.org/download.html | https://community.apachefriends.org/f/ |
+| Maven Repository | - | https://mvnrepository.com/ | 
+| Cygwin | https://cygwin.com/install.html | https://cygwin.com/cygwin-ug-net.html |
+| Git  | https://git-scm.com/downloads |  https://git-scm.com/docs |
 
 </br>
 
@@ -99,7 +102,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 7) Creación y Configuración de la Clase-Modelo Producto](#paso-7-creación-y-configuración-de-la-clase-modelo-producto)
   
   
-#### Sección 5) Creación y Configuración de las Interfaces repositories y Controladores  
+#### Sección 5) Creación y Configuración de las Interfaces repositories y Convertidores de Clases  
 
    - [Paso 8) Creación y Configuración de la Interfaz-Repository Producto](#paso-8-creación-y-configuración-de-la-interfaz-repository-producto)
 
@@ -107,9 +110,11 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 9) Creación y Configuración de la Clase Converter](#paso-9-creación-y-configuración-de-la-clase-converter)
 
 
-#### Sección 6) Creación y Configuración de los Services
+#### Sección 6) Creación y Configuración de los Services y Controladores
 
    - [Paso 10) Creación y Configuración de la Clase Service](#paso-10-creación-y-configuración-de-la-clase-service)
+   
+   -[Paso 11) Creación y Configuración de la Clase Controler](#paso-11-creación-y-configuración-de-la-clase-controler) 
 
 
 
@@ -749,7 +754,7 @@ public class Producto implements Serializable{
 
 </br>
 
-#### 7.1) Creación de la Clase `ProductoModelo`
+#### 7.1) Creación de la Clase `ProductoModel`
 
 * Creamos un paquete llamado mypackages.models dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
 	* --> Click Der sobre la ruta mencionada  
@@ -761,14 +766,14 @@ public class Producto implements Serializable{
  	* --> Click Der sobre el paquete creado
  	* --> New --> Class
  	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
- 	* --> En Name colocamos ModeloProducto
+ 	* --> En Name colocamos ProductoModel
  	* --> Finish
 
 
 ```java
 package com.api.productos.mypackages.models;
 
-public class ModeloProducto {
+public class ProductoModel {
 
 }
 
@@ -777,11 +782,11 @@ public class ModeloProducto {
 
 </br>
 
-#### 7.2) Configuración de la Clase `ProductoModelo`
+#### 7.2) Configuración de la Clase `ProductoModel`
 
 * Vamos a copiar todo de la clase-entidad Producto ya creada excluyendo las anotaciones 
 * La conversión de una entidad a modelo lo podemos hacer instanciando un objeto de la clase entidad a través de la clase modelo
-* Crearemos un constructor dentro de la clase ModeloProducto que instancie dicho objeto de la clase entidad Producto
+* Crearemos un constructor dentro de la clase ProductoModel que instancie dicho objeto de la clase entidad Producto
 * Códido Constructor
 
 ```java
@@ -791,7 +796,7 @@ public class ModeloProducto {
 		 * Instancia de la clase-entidad Producto
 		 * @param producto
 		 * */
-		public ModeloProducto(Producto producto) {
+		public ProductoModel(Producto producto) {
 			this.id = producto.getId();
 			this.nombre = producto.getNombre();
 			this.codigo = producto.getCodigo();
@@ -808,7 +813,7 @@ package com.api.productos.mypackages.models;
 
 import com.api.productos.mypackages.entities.Producto;
 
-public class ModeloProducto {
+public class ProductoModel {
 
 	
 		private int id;
@@ -820,11 +825,11 @@ public class ModeloProducto {
 		private String precio;
 		
 		
-		public ModeloProducto() {
+		public ProductoModel() {
 		}
 		
 
-		public ModeloProducto(String codigo, String nombre, String precio) {
+		public ProductoModel(String codigo, String nombre, String precio) {
 			super();
 			this.codigo = codigo;
 			this.nombre = nombre;
@@ -832,7 +837,7 @@ public class ModeloProducto {
 		} 
 		
 
-		public ModeloProducto(int id, String codigo, String nombre, String precio) {
+		public ProductoModel(int id, String codigo, String nombre, String precio) {
 			super();
 			this.id = id;
 			this.codigo = codigo;
@@ -846,7 +851,7 @@ public class ModeloProducto {
 		 * Instancia de la clase-entidad Producto
 		 * @param producto
 		 * */
-		public ModeloProducto(Producto producto) {
+		public ProductoModel(Producto producto) {
 			this.id = producto.getId();
 			this.nombre = producto.getNombre();
 			this.codigo = producto.getCodigo();
@@ -900,6 +905,10 @@ public class ModeloProducto {
 		
 
 	}
+
+
+
+
 
 ```
 
@@ -1024,11 +1033,12 @@ public abstract Producto findById(int id);
 
 public abstract Producto findByCodigo(String codigo);
 
-public abstract List<Producto> findByNombre(String nombre);
+public abstract ArrayList<Producto> findByNombre(String nombre);
 
-public abstract List<Producto> findByPrecio(double precio);
+public abstract ArrayList<Producto> findByPrecio(double precio);
 
-public abstract List<Producto> findAll();
+public abstract ArrayList<Producto> findAll();
+
 
 
 	
@@ -1138,7 +1148,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
 import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ModeloProducto;
+import com.api.productos.mypackages.models.ProductoModel;
 
 @Component("ProductoConverter")
 public class ProductoConverter {
@@ -1211,7 +1221,6 @@ public class ProductoService {
 </br>
 
 
-</br>
 
 #### Paso 10.2) Configuración de la Clase `ProductoService`
 * Primeramente vamos a incluir la anotación `@Service("ProductoService")`.
@@ -1296,7 +1305,7 @@ public class ProductoService {
 
 </br>
 
-#### 10.3.1 ) Creación del Método `agregarProducto`
+#### 10.3.1) Creación del Método `agregarProducto`
 * Este Método va a persistir un Producto en la db a través de la Interfaz creada implementando jpa y declarada en este service.
 * El Método deevuelve un booleano, si hace lo requerido devuelve true, si el objeto es nulo false y sino false.
 * Dentro del Método, utilizando la interfaz creada vamos a invocar al método `save()` de JPA para persistir el producto en la db.
@@ -1333,7 +1342,7 @@ public class ProductoService {
 
 </br>
 
-#### 10.3.2 ) Creación del Método `editarProducto`
+#### 10.3.2) Creación del Método `editarProducto`
 * Este Método va a actualizar y persistir un Producto en la db a través de la Interfaz creada implementando jpa y declarada en este service.
 * El Método devuelve un booleano, si hace lo requerido devuelve true, si el objeto es nulo o el id es 0 false y sino también false.
 * Aplicamos el mismo método save de jpa
@@ -1369,7 +1378,7 @@ public class ProductoService {
 
 </br>
 
-#### 10.3.3 ) Creación del Método `eliminarProducto`
+#### 10.3.3) Creación del Método `eliminarProducto`
 * Este Método va a eliminar un Producto de la db a través de la Interfaz creada implementando jpa y declarada en este service.
 * El Método devuelve un booleano, si hace lo requerido devuelve true, si el id es 0 false y sino también false.
 * Vamos a invocar el método creado en la interfaz llamado `findById()` para eliminar el producto a traves del id que se le pase a artaves del argumento de este metodo.
@@ -1409,25 +1418,427 @@ public class ProductoService {
 
 </br>
 
-#### 10.3.3 ) Creación del Método `listaProductos`
-* Este Método nos va a traer la lista de productos del ModeloProducto y NO de la Entidad Producto
+#### 10.3.3) Creación del Método `listaProductos`
+* Este Método nos va a traer uno o varios Producto/s como lista de productos del ModeloProducto y NO de la Entidad Producto
 * Para poder realizar esto llamamos al `Convertidor`
 * ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
-* Vamos a invocar al Método creado de la interfaz llamado `findAll()` y lo. 
+* Vamos a invocar al Método que convierte la lista Entidad a Modelo de Productos a traves del convertidor
+* Dentro del Convertidor vamos a implementar el metodo `findAll()` invocandolo cno la interfaz.
 * Notar que se puede crear otro método en la interfaz con otro nombre que haga exactamente lo mismo que el método save de jpa, queda a criterio de cada uno.
-* Seguidamente vamos a devolver un return con la lista de Productos.
+* Vamos a devolver un return con la lista de Productos.
 
 				
 ```java
 
+	//LISTA DE PRODUCTOS
+	public ArrayList<ModeloProducto> listaProductos(){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		
+	}
+				
+```
+* Código Completo Métodos CRUD..
+```java
+
+	
+	//===================== MÉTODOS CRUD ===========================
+	
+	//INSERT
+	public boolean agregarProducto(Producto producto) {
+		
+		try {
+			if (producto == null) {return false;}
+			
+			else {
+				iProductoRepository.save(producto);
+				return true;}
+		
+			
+		}catch(Exception e) {return false;}
+	}
+	
+	
+	
+	//UPDATE
+	public boolean editarProducto(Producto producto) {
+			
+			try {
+				
+				if ((producto == null) || (producto.getId() == 0)) {
+					
+					return false;}
+				
+				else {	
+					iProductoRepository.save(producto);
+					return true;}
+			
+				
+			}catch(Exception e) {return false;}
+		}
+	
+	//DELETE
+	public boolean eliminarProducto(int id) {
+					
+			try {
+						
+				if ((id == 0)) {return false;}
+				
+				else {
+							
+					Producto idProducto = iProductoRepository.findById(id);
+							
+					iProductoRepository.delete(idProducto);
+
+					return true;}
+					
+						
+				}catch(Exception e) {return false;} 
+	}
+	
+	
+	//LISTA DE PRODUCTOS
+	public ArrayList<ModeloProducto> listaProductos(){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		
+	}
+	
+
+```
+
+
+</br>
+
+#### Paso 10.4) Otros Métodos de Uso de la Clase `ProductoService`
+#### (Acá vamos a definir los métodos que se encarguen de traer los objetos de la db pero según los campos que le pasemos como argumento de la funcion creada. Vamos a utilizar los mismos nombres que los metodos creados en la Interfaz)
+
+
+
+</br>
+
+#### 10.4.1) Creación del Método `findById`
+* Este Método nos va a traer el Producto con el Id pedido. 
+* Es importante aclarar que el método es de tipo Modelo y no Entidad
+* Para poder realizar esto llamamos al método creado `findById` a traves de la interfaz
+* El Método nos va a crear y devolver un Producto con el  id pasado. 
+* ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
 
 				
+```java
+
+//PRODUCTO POR ID
+	public ModeloProducto findById(int id) {
+		
+		return new ModeloProducto(iProductoRepository.findById(id));
+		
+	}
+				
+```
+
+</br>
+
+#### 10.4.2) Creación del Método `findByCodigo`
+* Este Método nos va a traer el Producto con el codigo pedido. 
+* Es importante aclarar que el método es de tipo Modelo y no Entidad
+* Para poder realizar esto llamamos al método creado `findByCodigo` a traves de la interfaz
+* El Método nos va a crear y devolver un Producto con el  id pasado. 
+* ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
+
+				
+```java
+
+	//PRODUCTO POR CODIGO
+	public ModeloProducto findByCodigo(String codigo) {
+		
+		return new ModeloProducto(iProductoRepository.findByCodigo(codigo));
+	}
+		
+				
+```
+
+
+</br>
+
+#### 10.4.3) Creación del Método `findByNombre`
+* Este Método nos va a traer uno o varios Producto/s como lista a traves de el nombre pedido. 
+* Es importante aclarar que el método es de tipo Modelo y no Entidad
+* Trabajando con el converter convertimos la lista de Entidad a lista de Modelo
+* Para poder realizar esto llamamos al método creado `findByNombre` a traves de la interfaz
+* El Método nos va a devolver uno o varios Producto/s como lista . 
+* ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
+
+				
+```java
+
+	
+	//LISTA DE PRODUCTOS POR NOMBRE
+	public ArrayList<ModeloProducto> findByNombre(String nombre){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
+		
+	}
+				
+```
+
+
+</br>
+
+#### 10.4.4) Creación del Método `findByPrecio`
+* Este Método nos va a traer uno o varios Producto/s como lista a traves de el precio pedido. 
+* Es importante aclarar que el método es de tipo Modelo y no Entidad
+* Trabajando con el converter convertimos la lista de Entidad a lista de Modelo
+* Para poder realizar esto llamamos al método creado `findByPrecio` a traves de la interfaz
+* El Método nos va a devolver uno o varios Producto/s como lista . 
+* ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
+
+				
+```java
+
+	//LISTA DE PRODUCTOS POR PRECIO
+	public ArrayList<ModeloProducto> findByPrecio(double precio){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
+		
+	}
+				
+```
+* Código Completo Métodos de Uso..
+
+```java
+
+
+	//================ METODOS DE USO =============================
+	
+	
+	//PRODUCTO POR ID | VALOR UNICO
+	public ModeloProducto findById(int id) {
+		
+		return new ModeloProducto(iProductoRepository.findById(id));
+		
+	}
+	
+	//PRODUCTO POR CODIGO | VALOR UNICO
+	public ModeloProducto findByCodigo(String codigo) {
+		
+		return new ModeloProducto(iProductoRepository.findByCodigo(codigo));
+	}
+		
+	
+	//LISTA DE PRODUCTOS POR NOMBRE
+	public ArrayList<ModeloProducto> findByNombre(String nombre){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
+		
+	}
+	
+	//LISTA DE PRODUCTOS POR PRECIO
+	public ArrayList<ModeloProducto> findByPrecio(double precio){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
+		
+	}
+	
+	
+```
+
+</br>
+
+* Código Completo Clase ProductoService..
+
+```java
+
+package com.api.productos.mypackages.service;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.api.productos.mypackages.converters.ProductoConverter;
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
+
+@Service("ProductoService")
+public class ProductoService {
+	
+	@Autowired
+	@Qualifier("I_ProductoRepository")
+	private I_ProductoRepository iProductoRepository;
+
+	
+	@Autowired
+	@Qualifier("ProductoConverter")
+	private ProductoConverter productoConvertidor;
+	
+	
+	//===================== MÉTODOS CRUD ===========================
+	
+	//INSERT
+	public boolean agregarProducto(Producto producto) {
+		
+		try {
+			if (producto == null) {return false;}
+			
+			else {
+				iProductoRepository.save(producto);
+				return true;}
+		
+			
+		}catch(Exception e) {return false;}
+	}
+	
+	
+	
+	//UPDATE
+	public boolean editarProducto(Producto producto) {
+			
+			try {
+				
+				if ((producto == null) || (producto.getId() == 0)) {
+					
+					return false;}
+				
+				else {	
+					iProductoRepository.save(producto);
+					return true;}
+			
+				
+			}catch(Exception e) {return false;}
+		}
+	
+	//DELETE
+	public boolean eliminarProducto(int id) {
+					
+			try {
+						
+				if ((id == 0)) {return false;}
+				
+				else {
+							
+					Producto idProducto = iProductoRepository.findById(id);
+							
+					iProductoRepository.delete(idProducto);
+
+					return true;}
+					
+						
+				}catch(Exception e) {return false;} 
+	}
+	
+	
+	//LISTA DE PRODUCTOS
+	public ArrayList<ModeloProducto> listaProductos(){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		
+	}
+	
+	//================ METODOS DE USO =============================
+	
+	
+	//PRODUCTO POR ID | VALOR UNICO
+	public ModeloProducto findById(int id) {
+		
+		return new ModeloProducto(iProductoRepository.findById(id));
+		
+	}
+	
+	//PRODUCTO POR CODIGO | VALOR UNICO
+	public ModeloProducto findByCodigo(String codigo) {
+		
+		return new ModeloProducto(iProductoRepository.findByCodigo(codigo));
+	}
+		
+	
+	//LISTA DE PRODUCTOS POR NOMBRE
+	public ArrayList<ModeloProducto> findByNombre(String nombre){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
+		
+	}
+	
+	//LISTA DE PRODUCTOS POR PRECIO
+	public ArrayList<ModeloProducto> findByPrecio(double precio){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
+		
+	}
+
+
+}
+
+
+
+```
+
+
+</br>
+
+ ### Paso 11) Creación y Configuración de la Clase Controler
+ #### (La Clase Controller es la que se encarga de preparar el Modelo(el Modelo son los datos manejados por la aplicación) y seleccionar el nombre de la vista que será utilizada para mostrar el modelo al cliente. )
+
+</br>
+
+#### Paso 11.1) Creación de la Clase `ProductoController`
+* Primeramente vamos a crear el paquete que alojará el Controller.
+* Creamos un paquete llamado mypackages.controller dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.controllers
+	* --> Finish
+
+* Creamos la Clase Controller
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Clase
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ProductoController
+ 	* --> Finish
+* Código Snippet..
+
+
+
+```java
+package com.api.productos.mypackages.controllers;
+
+public class ProductoController {
+	
+	public static void main(String[] args) {
+		
+	}
+}
+
+```
+
+</br>
+
+</br>
+
+#### Paso 11.2) Configuración de la Clase `ProductoController`
+* Vamos a Implementar la anotation `@RestController`. Con esta anotación le indicamos a Spring que esta clase será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST.  
+* Implementamos la anotación `@RequestMapping("rutaVersionadoApi")` que se va a encargar de relacionar un método con una petición http.
+
+
+
+* Código Snippet..
+
+
+
+```java
+
+
 ```
 
 
 
 
-</br>
+
+
+
+
+
 
 
 
@@ -1470,6 +1881,8 @@ public class ProductoService {
 | @Service("NombreServicio") | Registrar el componente y permitir que se inyecten otras clases a él|
 | @Autowired | Inyección de Dependencias. Busca un objeto Bean que implementen determinada interfaz y lo referencia para no crear una nueva instancia del objeto. |
 | @Qualifier("NombreBean") | Nombramos el Bean que queremos inyectar. Se evita la ambigueda cuando Spring encuentra multiples beans del mismo tipo. |
+| @RestController | Con esta anotación le indicamos a Spring que será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST. | 
+| @RequestMapping("rutaVersionadoApi") | Se va a encargar de relacionar un método con una petición http |
 
 </br>
 
