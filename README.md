@@ -30,6 +30,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Spring Tool Suite 4 |https://spring.io/tools | https://spring.io/guides |
 | XAMPP | https://www.apachefriends.org/download.html | https://community.apachefriends.org/f/ |
 | Maven Repository | - | https://mvnrepository.com/ | 
+| PostMan | https://www.postman.com/downloads/ | https://www.postman.com/product/what-is-postman/ |
 | Cygwin | https://cygwin.com/install.html | https://cygwin.com/cygwin-ug-net.html |
 | Git  | https://git-scm.com/downloads |  https://git-scm.com/docs |
 
@@ -521,7 +522,7 @@ public class Producto implments Serializable{
 ```
 
 
-* Creamos los atributos - campos de la db 
+* Creamos los atributos o campos de la Clase que a su vez serán los campos de la db 
 
 ```java
 
@@ -643,7 +644,7 @@ public class Producto implments Serializable{
 * Con la anotación `@GeneratedValue(strategy = GenerationType.IDENTITY)` en el campo id se indica el auto_increment
 * Con la anotación `@Id` le indicamos que es el campo id de la db.
 * Con la anotación `@Column(name="nombreDelCampoDeLaClase")` le indicamos que es un campo de la Clase.
-* Código
+* Código Completo Clase Producto..
 
 ```java 
 package com.api.productos.mypackages.entities;
@@ -657,7 +658,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name="Producto")
+@Table(name="productos")
 @Entity
 public class Producto implements Serializable{
 	
@@ -1229,6 +1230,7 @@ public class ProductoService {
 
 
 #### Paso 10.2) Configuración de la Clase `ProductoService`
+* En esta Clase Service se implementará Inyección de Dependencias, esta nos permite relacionar objetos. Todas las dependencias se encuentran en un contenedor, que será el responsable de inyectarlas y crear los beans (Clases de tipo objetos) necesarios.
 * Primeramente vamos a incluir la anotación `@Service("ProductoService")`.
 * La anotación `@Service` se encarga de registrar el componente y permiter que se inyecten otras clases a él.
 * Código Snippet..
@@ -1246,9 +1248,9 @@ public class ProductoService {
 
 </br>
 
-#### Paso 10.2) Campos-Atributos de la Clase `ProductoService`
+#### Paso 10.2) Inyección de Dependendencias de la Clase `ProductoService`
 
-* Vamos a definir los atributos de la clase que al fin y al cabo serán la Interfaz creada, el Controlador, etc. Todo relacionado mediante el Service creado
+* Vamos a definir las inyecciones de Dependencia de la clase que al fin y al cabo serán la Interfaz creada, el Convertidor, etc. Todo relacionado mediante el Service creado
 * Dentro de la Clase vamos a usar la anotación `@Autowired` para la relación de los Beans e Interfaces.
 * Seguidamente vamos a hacer uso de la notación `@Qualifier("NombreBean")` para nombrar y relacionar el Bean que vamos a definir dentro del servicio
 * Creamos el campo-atributo que hará referencia a la interfaz bean.
@@ -1306,7 +1308,7 @@ public class ProductoService {
 </br>
 
 #### Paso 10.3) Métodos CRUD de la Clase `ProductoService`
-#### (Acá vamos a definir los métodos que se encarguen de traer toda la lógica de persistencia del repositorio del Producto, como lo son agregar, editar y eliminar algún producto)
+#### (Acá vamos a definir los métodos que se encarguen de traer toda la lógica de persistencia del repositorio del Producto, como lo son listar, agregar, editar y eliminar algún producto)
 
 
 </br>
@@ -1783,8 +1785,8 @@ public class ProductoService {
 
 </br>
 
- ### Paso 11) Creación y Configuración de la Clase Controler
- #### (La Clase Controller es la que se encarga de preparar el Modelo(el Modelo son los datos manejados por la aplicación) y seleccionar el nombre de la vista que será utilizada para mostrar el modelo al cliente. )
+ ### Paso 11) Creación y Configuración de la Clase Controller
+ #### (La Clase Controller es la que se encarga de preparar el Modelo(el Modelo son los datos manejados por la aplicación) y seleccionar el nombre de la vista que será utilizada para mostrar el modelo al cliente. Esta Clase ejecuta la lógica de negocio, obtiene los resultados y los devuelve al servlet, encapsulado en un objeto de tipo Model)
 
 </br>
 
@@ -1823,14 +1825,118 @@ public class ProductoController {
 </br>
 
 #### Paso 11.2) Configuración de la Clase `ProductoController`
-* Vamos a Implementar la anotation `@RestController`. Con esta anotación le indicamos a Spring que esta clase será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST.  
-* Implementamos la anotación `@RequestMapping("rutaVersionadoApi")` que se va a encargar de relacionar un método con una petición http.
-
-
-
+* Al igual que la Clase Service, en esta Clase Controller  se implementará Inyección de Dependencias, esta nos permite relacionar objetos. Todas las dependencias se encuentran en un contenedor Spring, que será el responsable de inyectarlas y crear los beans (Clases de tipo objetos) necesarios.
+* Para la Clase ProductoController vamos a Implementar la anotation `@RestController`. Con esta anotación le indicamos a Spring que esta clase será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST.  
+* También Implementamos la anotación `@RequestMapping("rutaVersionadoApi")` que se va a encargar de relacionar un método con una petición http.
 * Código Snippet..
 
 
+
+```java
+package com.api.productos.mypackages.controllers;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+
+
+}
+ 
+
+```
+
+</br>
+
+#### Paso 11.3) Inyección de Dependendencias de la Clase `ProductoController`
+
+* Vamos a definir las inyecciones de Dependencia de la clase que al fin y al cabo será el Servicio creado.
+* Dentro de la Clase vamos a usar la anotación `@Autowired` para la relación de los Beans e Interfaces.
+* Seguidamente vamos a hacer uso de la notación `@Qualifier("NombreBean")` para nombrar y relacionar el Bean que vamos a definir dentro del controller
+* Código Snippet..
+```java
+
+	//INYECCION DEL SERVICE
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+	
+	
+
+
+```
+* Código Snippet..
+```java
+package com.api.productos.mypackages.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.service.ProductoService;
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+	//INYECCION DEL SERVICE
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+	
+	
+
+
+}
+ 
+
+```
+
+</br>
+
+#### Paso 11.4) Métodos CRUD de la Clase `ProductoController`
+#### (Acá vamos a definir los métodos CRUD del Controller como lo son listar, agregar, editar y eliminar algún producto. Los Métodos CRUD del controller llevarán la anotación de Métodos de Petición(GET, HEAD, POST, PUT, ETC). Estos métodos nos permitarán trabajar con el Servicio RESTful )
+
+
+</br>
+
+#### 11.4.1) Creación del Método `agregarProducto`
+* Este Método va a persistir un Producto en la db a través del Service Creado.
+* El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
+* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
+* Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
+* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
+* Vamos a usar el Service inyectado en este Controller.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `agregarProducto()` creado en el mismo Service, junto con la lógica de persistencia para persistir el producto en la db.
+* Códido Snippet..
+
+```java
+	//METODO PUT
+	@PutMapping("/productos")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+	
+
+```
+
+
+
+</br>
+
+#### 11.4.2) Creación del Método `editarProducto`
+* Este Método va a persistir un Producto en la db a través del Service Creado.
+* El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
+* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
+* Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
+* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
+* Vamos a usar el Service inyectado en este Controller.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `agregarProducto()` creado en el mismo Service, junto con la lógica de persistencia para persistir el producto en la db.
+* Códido Snippet..
 
 ```java
 
@@ -1839,11 +1945,81 @@ public class ProductoController {
 
 
 
+</br>
+
+* Código Completo..
+```java
+package com.api.productos.mypackages.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.service.ProductoService;
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+	//INYECCION DEL SERVICE
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+	
+	//METODO PUT
+	@PutMapping("/productos")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+	
 
 
+}
+ 
 
 
+```
 
+
+</br>
+
+#### Paso 11.5) Test de los Métodos CRUD de la Clase `ProductoController`
+#### (Vamos a realizar las pruebas de cada uno de los métodos desarrollados hasta el momento
+de nuestra API)
+
+</br>
+
+#### 11.5.1) Prueba de Funcionalidad con `Postman`
+* Levantar el Servicio de Mysql.
+	* --> Abrir  xampp y click en Mysql
+* Ejecutar el Proyecto Spring 
+* Visualizar en la salida de consola cuál es el Puerto en el cúal está corriendo el Servidor de Spring Tomcat. (En mi caso es el 8092, el puerto es configurable)
+* Descargar la herramienta Postman. (Fijarse los links de descarga en el apartado de Tecnologías Empleadas.) 
+* Una vez descargada crear un usuario y ejecutar la aplicación.
+* Una vez que todos los pasos anteriores se están ejecutando sin problemas, vamos a tener que pasarle lo que es la url a Postman y probar cada método.
+
+#### 11.5.2) Test Método PUT
+* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/producto`
+* Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
+* Escribimos el Registro que vamos a agregar a la db en formato Json
+* Código Snippet..
+
+```json
+{
+    "codigo":"ART-990",
+    "nombre":"Monitor 32 pulgadas",
+    "precio":33.334
+
+}
+```
+* Recordar que el id es auto incremental y dinamico
+* Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
+* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
 
 
 
@@ -1889,6 +2065,11 @@ public class ProductoController {
 | @Qualifier("NombreBean") | Nombramos el Bean que queremos inyectar. Se evita la ambigueda cuando Spring encuentra multiples beans del mismo tipo. |
 | @RestController | Con esta anotación le indicamos a Spring que será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST. | 
 | @RequestMapping("rutaVersionadoApi") | Se va a encargar de relacionar un método con una petición http |
+| @PutMapping("ruta") | Propiedad de Petición HTTP |
+| @RequestBody | Nos permite Recuperar el Cuerpo de la Solicitud HTTP |
+| @Validated | Ejecuta Validaciones para los Métodos de una Clase |
+
+
 
 </br>
 
