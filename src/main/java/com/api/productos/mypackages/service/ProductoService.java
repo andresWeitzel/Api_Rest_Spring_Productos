@@ -2,6 +2,7 @@ package com.api.productos.mypackages.service;
 
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import com.api.productos.mypackages.entities.Producto;
 import com.api.productos.mypackages.models.ProductoModel;
 import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
 
+
 @Service("ProductoService")
 public class ProductoService {
 	
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
 	@Autowired
 	@Qualifier("I_ProductoRepository")
 	private I_ProductoRepository iProductoRepository;
@@ -24,20 +27,39 @@ public class ProductoService {
 	private ProductoConverter productoConvertidor;
 	
 	
+	
+	//==================== LOGS ============================
+	
+	//LOGS DE ERROR
+	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
+	
+	
+	
+	
 	//===================== MÉTODOS CRUD ===========================
 	
 	//INSERT
 	public boolean agregarProducto(Producto producto) {
 		
 		try {
-			if (producto == null) {return false;}
+			if (producto == null) {
+				logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO ES NULO!");
+				return false;				
+			}
 			
 			else {
 				iProductoRepository.save(producto);
-				return true;}
+				return true;
+				
+			}
 		
 			
-		}catch(Exception e) {return false;}
+		}catch(Exception e) {
+			logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO NO SE HA GUARDADO!");
+			return false;
+			
+			
+		}
 	}
 	
 	
@@ -48,15 +70,23 @@ public class ProductoService {
 			try {
 				
 				if ((producto == null) || (producto.getId() == 0)) {
+					logger.error("ERROR EDITAR_PRODUCTO:  EL PRODUCTO ES NULO O EL ID ES 0!");		
+					return false;
 					
-					return false;}
+				}
 				
 				else {	
 					iProductoRepository.save(producto);
-					return true;}
+					return true;
+					
+				}
 			
 				
-			}catch(Exception e) {return false;}
+			}catch(Exception e) {
+				logger.error("ERROR EDITAR_PRODUCTO: EL PRODUCTO NO SE HA EDITADO!");		
+				return false;
+				
+			}
 		}
 	
 	//DELETE
@@ -64,7 +94,10 @@ public class ProductoService {
 					
 			try {
 						
-				if ((id == 0)) {return false;}
+				if ((id == 0)) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL ID DEL PRODUCTO ES 0!");
+					return false;
+				}
 				
 				else {
 							
@@ -72,15 +105,20 @@ public class ProductoService {
 							
 					iProductoRepository.delete(idProducto);
 
-					return true;}
+					return true;
+					}
 					
 						
-				}catch(Exception e) {return false;} 
+				}catch(Exception e) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL PRODUCTO NO SE HA ELIMINADO!");
+					return false;
+					
+				} 
 	}
 	
 	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ProductoModel> listaProductos(){
+	public ArrayList<ProductoModel> listadoProductos(){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
 		
