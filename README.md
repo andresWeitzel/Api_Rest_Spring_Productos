@@ -1439,7 +1439,7 @@ public class ProductoService {
 ```java
 
 	//LISTA DE PRODUCTOS
-	public ArrayList<ModeloProducto> listaProductos(){
+	public ArrayList<ModeloProducto> listadoProductos(){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
 		
@@ -1506,7 +1506,7 @@ public class ProductoService {
 	
 	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ModeloProducto> listaProductos(){
+	public ArrayList<ModeloProducto> listadoProductos(){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
 		
@@ -1738,7 +1738,7 @@ public class ProductoService {
 	
 	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ModeloProducto> listaProductos(){
+	public ArrayList<ModeloProducto> listadoProductos(){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
 		
@@ -1904,7 +1904,7 @@ public class ProductoController {
 
 </br>
 
-#### 11.4.1) Creación del Método `agregarProducto`
+#### 11.4.1) Creación del Método `agregarProducto` mediante  `POST`
 * Este Método va a persistir un Producto en la db a través del Service Creado.
 * El Método va a tener la anotación `@PostMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
 * La Petición POST coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, POST reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, POST crea uno. A difeerncia del Método PUT, los datos no se muestran en el caché ni tampoco en el historial de navegación.
@@ -1916,7 +1916,7 @@ public class ProductoController {
 
 ```java
 	//METODO POST
-	@PostMapping("/productos")
+	@PostMapping("/producto")
 	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.agregarProducto(producto);
 	}
@@ -1927,7 +1927,7 @@ public class ProductoController {
 
 </br>
 
-#### 11.4.2) Creación del Método `editarProducto`
+#### 11.4.2) Creación del Método `editarProducto` mediante  `PUT`
 * Este Método va a editar y luego persistir un Producto en la db a través del Service Creado.
 * El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
 
@@ -1942,7 +1942,7 @@ public class ProductoController {
 ```java
 	
 	//MÉTODO PUT
-	@PutMapping("/productos")
+	@PutMapping("/producto")
 	public boolean editarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.editarProducto(producto);
 		
@@ -1954,7 +1954,7 @@ public class ProductoController {
 
 </br>
 
-#### 11.4.3) Creación del Método `eliminarProducto`
+#### 11.4.3) Creación del Método `eliminarProducto` mediante  `DELETE`
 * Este Método va a eliminar un Producto en la db a través del Service Creado.
 * El Método va a tener la anotación `@DeleteMapping("ruta")`, este tipo de anotación será una propiedad de petición http delete.
 * Vamos a incluir el id del producto dentro de la ruta que se le pase a la anotación, de esta forma podemos eliminar el producto por el id que le pasemos dentro de la URI completa
@@ -1967,11 +1967,30 @@ public class ProductoController {
 ```java
 	
 //MÉTODO DELETE
-	@DeleteMapping("/productos/{id}")
+	@DeleteMapping("/producto/{id}")
 	public boolean eliminarProducto(@PathVariable("id") int id) {
 		return productoService.eliminarProducto(id);
 			
 		}
+```
+
+
+
+</br>
+
+#### 11.4.3) Creación del Método `listadoProductos` mediante  `GET`
+* Este Método va a devolvernos una lista del ProductoModel con uno o más Productos a través del Service Creado.
+* El Método va a tener la anotación `@GetMapping("ruta")`, este tipo de anotación será una propiedad de petición http get. Es importante aclarar que la ruta será `/productos`
+* El Método devuelve una lista de tipo ProductoModel a través del método `listadoProductos` del Service creado
+* Códido Snippet..
+
+```java
+	
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public ArrayList<ProductoModel> listadoProductos(){
+		return productoService.listadoProductos();
+	}
 ```
 
 
@@ -1984,10 +2003,14 @@ public class ProductoController {
 ```java
 package com.api.productos.mypackages.controllers;
 
+import java.util.ArrayList;
+
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -1996,45 +2019,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
 import com.api.productos.mypackages.service.ProductoService;
+import com.mysql.cj.log.Log;
+
 
 @RestController
 @RequestMapping("/v1")
 public class ProductoController {
 	
-	//INYECCION DEL SERVICE
+	//==========INYECCION DEL SERVICE==========
 	@Autowired
 	@Qualifier("ProductoService")
 	ProductoService productoService;
+
 	
 	
-	//--MÉTODOS HTTP--
+	//==========MÉTODOS HTTP====================
 	
 	//METODO POST
-	@PostMapping("/productos")
+	@PostMapping("/producto")
 	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.agregarProducto(producto);
 	}
 	
 	//MÉTODO PUT
-	@PutMapping("/productos")
+	@PutMapping("/producto")
 	public boolean editarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.editarProducto(producto);
 		
 	}
 	
 	//MÉTODO DELETE
-	@DeleteMapping("/productos/{id}")
+	@DeleteMapping("/producto/{id}")
 	public boolean eliminarProducto(@PathVariable("id") int id) {
 		return productoService.eliminarProducto(id);
 			
 		}
 	
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public ArrayList<ProductoModel> listadoProductos(){
+		return productoService.listadoProductos();
+	}
+	
 
 
 }
  
-
 
 ```
 
@@ -2061,7 +2093,7 @@ de nuestra API)
 
 
 #### 11.5.2) Test Método  `agregarProducto` mediante  `POST`
-* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método POST y colocamos la URL `http://localhost:8092/v1/productos`
+* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método POST y colocamos la URL `http://localhost:8092/v1/producto`
 * Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
 * Escribimos el Registro que vamos a agregar a la db en formato Json
 * Código Snippet..
@@ -2082,7 +2114,7 @@ de nuestra API)
 </br>
 
 #### 11.5.3) Test Método  `editarProducto` mediante  `PUT`
-* El Segundo Método será el de `editarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/productos`
+* El Segundo Método será el de `editarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/producto`
 * Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
 * Escribimos el Registro que vamos a agregar a la db en formato Json
 * `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar en postman deberá incluir el id de ese producto.
@@ -2108,10 +2140,231 @@ de nuestra API)
 </br>
 
 #### 11.5.4) Test Método  `eliminarProducto` mediante  `DELETE`
-* El Tewrcer Método será el de `eliminarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método DELETE y colocamos la URL `http://localhost:8092/v1/productos/idDelProductoAeliminar`. Si queremos eliminar el producto con el id 1 la URI completa sería `http://localhost:8092/v1/productos/1`
+* El Tercer Método será el de `eliminarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método DELETE y colocamos la URL `http://localhost:8092/v1/producto/idDelProductoAeliminar`. Si queremos eliminar el producto con el id 1 la URI completa sería `http://localhost:8092/v1/producto/1`
 * La Eliminación del Producto no posee cuerpo Json.
 * Click en Send y verificamos la respuesta(true si se agrego el registro, false no se agrego)
 * Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool.
+
+
+
+</br>
+
+#### 11.5.5) Test Método  `listadoProductos` mediante  `GET`
+* El Cuarto Método será el de `listadoProductos`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método GET y colocamos la URL `http://localhost:8092/v1/productos`.
+* Click en Send y verificamos la respuesta(deberíamos tener la lista de Productos dentro del body en la respuesta de postman).
+
+
+
+
+</br>
+
+#### Paso 11.6) Creación de Logs de Error
+#### (Es una buena práctica utilizar logs. Los Logs son Registros(archivos de historial) que nos ayudan a la hora de identificar un posible error, advertencias, actividades realizadas,etc. Nos es recomendable utilizar varios métodos logs, ya que el espacio del servidor podría colapsar. El Método más utilizado es el de error. )
+
+</br>
+
+* Vamos a implementar los logs dentro del service, ya que allí es donde se encuentra toda la lógica de persistencia de datos.
+* Creamos una variable llamada logger de tipo `Logger` del paquete 
+`org.apache.logging.log4j.Logger` , y vamos a inicializarla pasandole la clase ProductoService
+```java
+
+	//==================== LOGS ============================
+	
+	//LOGS DE ERROR
+	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
+	
+	
+
+```
+	
+* Para implementar dicho log, habrá que invocar el método error `.error("mensaje")` a través del objeto de la clase. Dicha implementación deberá ser estar antes que el return
+* Se implementará un log por método creado del Service
+* Código Completo..
+
+```java
+package com.api.productos.mypackages.service;
+
+import java.util.ArrayList;
+
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.api.productos.mypackages.converters.ProductoConverter;
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
+
+
+@Service("ProductoService")
+public class ProductoService {
+	
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
+	@Autowired
+	@Qualifier("I_ProductoRepository")
+	private I_ProductoRepository iProductoRepository;
+
+	
+	@Autowired
+	@Qualifier("ProductoConverter")
+	private ProductoConverter productoConvertidor;
+	
+	
+	
+	//==================== LOGS ============================
+	
+	//LOGS DE ERROR
+	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
+	
+	
+	
+	
+	//===================== MÉTODOS CRUD ===========================
+	
+	//INSERT
+	public boolean agregarProducto(Producto producto) {
+		
+		try {
+			if (producto == null) {
+				logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO ES NULO!");
+				return false;				
+			}
+			
+			else {
+				iProductoRepository.save(producto);
+				return true;
+				
+			}
+		
+			
+		}catch(Exception e) {
+			logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO NO SE HA GUARDADO!");
+			return false;
+			
+			
+		}
+	}
+	
+	
+	
+	//UPDATE
+	public boolean editarProducto(Producto producto) {
+			
+			try {
+				
+				if ((producto == null) || (producto.getId() == 0)) {
+					logger.error("ERROR EDITAR_PRODUCTO:  EL PRODUCTO ES NULO O EL ID ES 0!");		
+					return false;
+					
+				}
+				
+				else {	
+					iProductoRepository.save(producto);
+					return true;
+					
+				}
+			
+				
+			}catch(Exception e) {
+				logger.error("ERROR EDITAR_PRODUCTO: EL PRODUCTO NO SE HA EDITADO!");		
+				return false;
+				
+			}
+		}
+	
+	//DELETE
+	public boolean eliminarProducto(int id) {
+					
+			try {
+						
+				if ((id == 0)) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL ID DEL PRODUCTO ES 0!");
+					return false;
+				}
+				
+				else {
+							
+					Producto idProducto = iProductoRepository.findById(id);
+							
+					iProductoRepository.delete(idProducto);
+
+					return true;
+					}
+					
+						
+				}catch(Exception e) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL PRODUCTO NO SE HA ELIMINADO!");
+					return false;
+					
+				} 
+	}
+	
+	
+	//LISTA DE PRODUCTOS
+	public ArrayList<ProductoModel> listadoProductos(){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		
+	}
+	
+	//================ METODOS DE USO =============================
+	
+	
+	//PRODUCTO POR ID | VALOR UNICO
+	public ProductoModel findById(int id) {
+		
+		return new ProductoModel(iProductoRepository.findById(id));
+		
+	}
+	
+	//PRODUCTO POR CODIGO | VALOR UNICO
+	public ProductoModel findByCodigo(String codigo) {
+		
+		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
+	}
+		
+	
+	//LISTA DE PRODUCTOS POR NOMBRE
+	public ArrayList<ProductoModel> findByNombre(String nombre){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
+		
+	}
+	
+	//LISTA DE PRODUCTOS POR PRECIO
+	public ArrayList<ProductoModel> findByPrecio(double precio){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
+		
+	}
+	
+	
+
+	
+
+}
+
+
+```
+* Para el testeo de los logs, usar postman y pasarle un id 0 al método put de edición de productos o enviar un objeto vacío. Se deberían mostrar los respectivos mensajes en la consola de spring.
+
+
+</br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
