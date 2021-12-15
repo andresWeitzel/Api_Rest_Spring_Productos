@@ -1906,8 +1906,8 @@ public class ProductoController {
 
 #### 11.4.1) Creación del Método `agregarProducto`
 * Este Método va a persistir un Producto en la db a través del Service Creado.
-* El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
-* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
+* El Método va a tener la anotación `@PostMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
+* La Petición POST coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, POST reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, POST crea uno. A difeerncia del Método PUT, los datos no se muestran en el caché ni tampoco en el historial de navegación.
 * Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
 * El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
 * Vamos a usar el Service inyectado en este Controller.
@@ -1915,12 +1915,11 @@ public class ProductoController {
 * Códido Snippet..
 
 ```java
-	//METODO PUT
-	@PutMapping("/productos")
+	//METODO POST
+	@PostMapping("/productos")
 	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.agregarProducto(producto);
 	}
-	
 
 ```
 
@@ -1929,19 +1928,53 @@ public class ProductoController {
 </br>
 
 #### 11.4.2) Creación del Método `editarProducto`
-* Este Método va a persistir un Producto en la db a través del Service Creado.
+* Este Método va a editar y luego persistir un Producto en la db a través del Service Creado.
 * El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
-* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
+
 * Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
+* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
 * El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
 * Vamos a usar el Service inyectado en este Controller.
-* Dentro del Método, utilizando el Service creado vamos a invocar al método `agregarProducto()` creado en el mismo Service, junto con la lógica de persistencia para persistir el producto en la db.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `editarProducto()` creado en el mismo Service, junto con la lógica de persistencia para luego de editar persistir el producto en la db.
+* `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar a la hora de testear este método hay que incluir el id de ese producto. 
 * Códido Snippet..
 
 ```java
-
+	
+	//MÉTODO PUT
+	@PutMapping("/productos")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+		
+	}
 
 ```
+
+
+
+</br>
+
+#### 11.4.3) Creación del Método `eliminarProducto`
+* Este Método va a eliminar un Producto en la db a través del Service Creado.
+* El Método va a tener la anotación `@DeleteMapping("ruta")`, este tipo de anotación será una propiedad de petición http delete.
+* Vamos a incluir el id del producto dentro de la ruta que se le pase a la anotación, de esta forma podemos eliminar el producto por el id que le pasemos dentro de la URI completa
+* Dentro del argumento del método agregaremos las anotaciones `@PathVariable("parametroDelMappping")` . Esta Anotación nos permite manejar las variables declaradas dentro del mapping para la asignación de la URI de la solicitud HTTP y establecerlas como parametros de metodo. 
+* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
+* Vamos a usar el Service inyectado en este Controller.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `eliminarProducto()` creado en el mismo Service, junto con la lógica de persistencia para luego de editar persistir el producto en la db. 
+* Códido Snippet..
+
+```java
+	
+//MÉTODO DELETE
+	@DeleteMapping("/productos/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+			
+		}
+```
+
+
 
 
 
@@ -1954,6 +1987,9 @@ package com.api.productos.mypackages.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1971,11 +2007,28 @@ public class ProductoController {
 	@Qualifier("ProductoService")
 	ProductoService productoService;
 	
-	//METODO PUT
-	@PutMapping("/productos")
+	
+	//--MÉTODOS HTTP--
+	
+	//METODO POST
+	@PostMapping("/productos")
 	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.agregarProducto(producto);
 	}
+	
+	//MÉTODO PUT
+	@PutMapping("/productos")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+		
+	}
+	
+	//MÉTODO DELETE
+	@DeleteMapping("/productos/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+			
+		}
 	
 
 
@@ -1984,6 +2037,7 @@ public class ProductoController {
 
 
 ```
+
 
 
 </br>
@@ -2003,8 +2057,11 @@ de nuestra API)
 * Una vez descargada crear un usuario y ejecutar la aplicación.
 * Una vez que todos los pasos anteriores se están ejecutando sin problemas, vamos a tener que pasarle lo que es la url a Postman y probar cada método.
 
-#### 11.5.2) Test Método PUT
-* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/producto`
+</br>
+
+
+#### 11.5.2) Test Método  `agregarProducto` mediante  `POST`
+* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método POST y colocamos la URL `http://localhost:8092/v1/productos`
 * Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
 * Escribimos el Registro que vamos a agregar a la db en formato Json
 * Código Snippet..
@@ -2020,6 +2077,42 @@ de nuestra API)
 * Recordar que el id es auto incremental y dinamico
 * Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
 * Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
+
+
+</br>
+
+#### 11.5.3) Test Método  `editarProducto` mediante  `PUT`
+* El Segundo Método será el de `editarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/productos`
+* Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
+* Escribimos el Registro que vamos a agregar a la db en formato Json
+* `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar en postman deberá incluir el id de ese producto.
+* Vamos a cambiar todos los campos menos el id
+* Código Snippet..
+
+```json
+{
+    "id": 1,
+    "codigo":"ART-991",
+    "nombre":"Monitor 16 pulgadas",
+    "precio": 26.000
+
+}
+```
+
+
+* Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
+* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
+
+
+
+</br>
+
+#### 11.5.4) Test Método  `eliminarProducto` mediante  `DELETE`
+* El Tewrcer Método será el de `eliminarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método DELETE y colocamos la URL `http://localhost:8092/v1/productos/idDelProductoAeliminar`. Si queremos eliminar el producto con el id 1 la URI completa sería `http://localhost:8092/v1/productos/1`
+* La Eliminación del Producto no posee cuerpo Json.
+* Click en Send y verificamos la respuesta(true si se agrego el registro, false no se agrego)
+* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool.
+
 
 
 
@@ -2056,19 +2149,26 @@ de nuestra API)
 
  ### Anotaciones Usadas para Spring
  
-| **Tipo de Anotación** | **Finalidad** |               
+| **Componentes e Inyección de Dependencia** | **Finalidad** |               
 | ------------- | ------------- |
 | @Component("nombreComponente") |  Establecemos la clase Java como un bean o componente para que el mecanismo de exploración de componentes de Spring pueda agregarla al contexto de la aplicación |
 | @Repository("nombreRepositorio") | Estereotipo para la Capa de Persistencia. |
 | @Service("NombreServicio") | Registrar el componente y permitir que se inyecten otras clases a él|
 | @Autowired | Inyección de Dependencias. Busca un objeto Bean que implementen determinada interfaz y lo referencia para no crear una nueva instancia del objeto. |
 | @Qualifier("NombreBean") | Nombramos el Bean que queremos inyectar. Se evita la ambigueda cuando Spring encuentra multiples beans del mismo tipo. |
+
+</br>
+
+| **Solicitudes HTTP** | **Finalidad** |
+| ------------- | ------------- |
 | @RestController | Con esta anotación le indicamos a Spring que será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST. | 
 | @RequestMapping("rutaVersionadoApi") | Se va a encargar de relacionar un método con una petición http |
-| @PutMapping("ruta") | Propiedad de Petición HTTP |
 | @RequestBody | Nos permite Recuperar el Cuerpo de la Solicitud HTTP |
 | @Validated | Ejecuta Validaciones para los Métodos de una Clase |
-
+| @PutMapping("ruta") | Propiedad de Petición HTTP PUT |
+| @PostMapping("ruta") | Propiedad de Petición HTTP POST|
+| @DeleteMapping("ruta") | Propiedad de petición HTTP DELETE |
+| @PathVariable("parametro") | Permite Manejar las variables declaradas dentro del mapping(put,delete,etc) para la asignación de la URI de la solicitud HTTP y establecerlas como parametros del método |
 
 
 </br>
