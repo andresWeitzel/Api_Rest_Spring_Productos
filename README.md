@@ -2149,7 +2149,7 @@ de nuestra API)
 
  ### Anotaciones Usadas para Spring
  
-| ** Componentes e Inyección de Dependencia** | **Finalidad** |               
+| **Componentes e Inyección de Dependencia** | **Finalidad** |               
 | ------------- | ------------- |
 | @Component("nombreComponente") |  Establecemos la clase Java como un bean o componente para que el mecanismo de exploración de componentes de Spring pueda agregarla al contexto de la aplicación |
 | @Repository("nombreRepositorio") | Estereotipo para la Capa de Persistencia. |
@@ -2159,7 +2159,8 @@ de nuestra API)
 
 </br>
 
-| ** Solicitudes HTTP** | **Finalidad** |               
+| **Solicitudes HTTP** | **Finalidad** |
+| ------------- | ------------- |
 | @RestController | Con esta anotación le indicamos a Spring que será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST. | 
 | @RequestMapping("rutaVersionadoApi") | Se va a encargar de relacionar un método con una petición http |
 | @RequestBody | Nos permite Recuperar el Cuerpo de la Solicitud HTTP |
