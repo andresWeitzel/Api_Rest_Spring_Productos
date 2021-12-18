@@ -75,7 +75,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 <hr>
 
 ## ` Documentación y Guía del Proyecto `
-#### (Esta Documentación que Desarrollé es para la Creación y Configuración del Proyecto desde Cero, Manejo de Maven, Spring Tool Suite, Spring Booot, Hibernate-JPA, Mysql, Dependencias con Maven, Servidor de Despliegue y otros Usos de este Proyecto. Recomiendo Leerla y Realizar todo paso a paso como se indica en la misma).
+#### (Esta Documentación que Desarrollé es para la Creación y Configuración del Proyecto desde Cero, Manejo y Dependencias de Maven, Spring Tool Suite, Spring Booot, Hibernate-JPA, Mysql, Servidor de Despliegue y otros usos. Recomiendo Leerla y Realizar todo paso a paso como se indica en la misma).
 
 </br>
 
@@ -102,11 +102,14 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 5) Archivo de Propiedades(application.properties)](#paso-5-archivo-de-propiedades-application.properties)
 
 
+
 #### Sección 4) Creación y Configuración de las Clases Entidades y Clases Modelos
   
    - [Paso 6) Creación y Configuración de la Clase-Entidad Producto](#paso-6-creación-y-configuración-de-la-clase-entidad-producto)
    
    - [Paso 7) Creación y Configuración de la Clase-Modelo Producto](#paso-7-creación-y-configuración-de-la-clase-modelo-producto)
+  
+  
   
   
 #### Sección 5) Creación y Configuración de las Interfaces repositories y Convertidores de Clases  
@@ -117,6 +120,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 9) Creación y Configuración de la Clase Converter](#paso-9-creación-y-configuración-de-la-clase-converter)
 
 
+
+
 #### Sección 6) Creación y Configuración de los Services y Controladores
 
    - [Paso 10) Creación y Configuración de la Clase Service](#paso-10-creación-y-configuración-de-la-clase-service)
@@ -125,10 +130,15 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
+#### Sección 7) Paginación
+
+
+   -[Paso 12) Configuración de la Paginación](#paso-12-configuración-de-la-paginación) 
 
 
 
-#### Sección 7) Apéndice
+
+#### Sección 8) Apéndice
 
 - [ Anotaciones Usadas para JPA](#anotaciones-usadas-para-jpa)
  
@@ -149,13 +159,13 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 * Una vez abierto Spring Tool Suite 4
-  	* --> Seleccionas la Pestaña File 
+  	* --> Seleccionas la Pestaña `File` 
    	* --> New 
-   	* --> Spring Starter Proyect(Si no aparece buscar en Other).
+   	* --> Spring Starter Proyect (Si no aparece buscar en Other).
 
 * Se abrirá una Interfaz Gráfica, por defecto dejar marcado lo siguiente con los siguientes valores por defecto
-   	* --> Service Url : https://start.spring.io
-   	* --> Use default location por defecto(es la ruta absoluta de tu workspace)
+   	 * --> Service Url : https://start.spring.io
+   	 * --> Use default location por defecto (es la ruta absoluta de tu workspace)
    	 * --> Type : Maven
 	 * --> Java Version : 8
 	 * --> Packaging : Jar
@@ -194,11 +204,11 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 #### 2.1) Actualización de Java-1.7 a 1.8 (Si seleccionaste una versión Moderna de Spring no es Necesario esto)
 
-* Vamos al pom.xml (el archivo al final de todo)
+* Vamos al `pom.xml` (el archivo al final de todo)
 
-* Dentro de el tag properties donde dice java.versión cambiar la version del compiler a 1.8, ctrl+s para guardar
+* Dentro de el tag `properties` donde dice java.versión cambiar la version del compiler a 1.8, ctrl+s para guardar
 
-* Click Der sobre el Proyecto
+* Click Derecho sobre el Proyecto
 	* --> Maven
 	* --> Update Proyect
 	* --> Fijate que el Proyecto este seleccionado y Boton ok
@@ -212,10 +222,10 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Por Defecto Viene deshabilitada la opción de paquetes Maven, en donde vamos a guardar nuestros paquetes y clases
 	* --> Para habilitar las mismas, click Der sobre el Proyecto.
 	* --> Properties.
-	* --> Buscamos la sección Java Build Path
-	* --> Seleccionamos la casilla Maven Dependencies.
+	* --> Buscamos la sección `Java Build Path`
+	* --> Seleccionamos la casilla `Maven Dependencies`.
 	* --> Apply and Close.
-	* --> F5 y deberían aparecer (src/main/java y src/test/java)
+	* --> F5 y deberían aparecer `src/main/java` y `src/test/java`
 
 
 
@@ -238,7 +248,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 #### 3.1) Dependencia para el conector de Mysql.
 * Buscamos la dependencia Mysql Connector (https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21)
-* Copias la Dependencia desde Maven o desde acá y la incluis en el pom.xml
+* Copias la Dependencia desde Maven o desde acá y la incluis en el `pom.xml`
 
 ```xml
 <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -355,14 +365,14 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 ### Paso 4) Configuraciones del SGDB Mysql.
 #### (El Sistema de Gestión de Base de datos(SGDB) es un conjunto de programas que nos permiten gestionar la base de datos, es común confundirse con el Nombre, Mysql como tal no es la Base de Datos, sino un SGDB, el Motor de Mysql que he implementado es INNODB, el más común).
 
-* Hasta acá deberías tener incluido el conector para Mysql en el pom para que se descargue la dependencia (Fijarse la Sección de dependencias).
+* Hasta acá deberías tener incluido el `conector` para Mysql en el `pom` para que se descargue la dependencia (Fijarse la Sección de dependencias).
 
-* Abrimos la Herramienta XAMPP ( Buscate un microtutorial para usarla ), o la que se tenga, levantamos los Servicios de Mysql y Creamos una Nueva Base de Datos.
+* Abrimos la Herramienta `XAMPP` ( Buscate un microtutorial para usarla ), o la que se tenga, levantamos los Servicios de Mysql y Creamos una Nueva Base de Datos.
 	* --> Depende que S.O tengas podrás o no tener esta herramienta, no hace falta tenerla, también es posible levantar un servicio mysql desde la bash en Linux
 	* --> Una vez abierto, en el control panel inicializas los servicios de Mysql y Apache para ver las dbs desde el localhost en el Navegador
-	* --> Colocas localhost... en el navegador y accedes a PHPMYADMIN o clickeas Admin desde xampp en la parte de Apache.
+	* --> Colocas localhost... en el navegador y accedes a `PHPMYADMIN` o clickeas Admin desde xampp en la parte de Apache.
 	* --> Vamos a crear una db, para eso en la esquina izquierda superior tocás en Nueva.
-	* --> Colocas el Nombre a la derecha (en mi caso db_api_productos), dejas latin1 y luego en Crear
+	* --> Colocas el Nombre a la derecha (en mi caso `db_api_productos`), dejas latin1 y luego en Crear
 	* --> Vamos a Crear una sola tabla con solo 4 campos para persistir posteriormente los datos con Hibernate.
 	* --> Selecciona la db creada y a la derecha te va a aparecer crear tabla, colocamos en Nombre productos, numero de columnas 4 y continuar.
 	* --> Ahora creamos los campos(columnas), el primero sera id, tipo int y al final en Indice colocas primary(llave primaria).
@@ -1119,8 +1129,8 @@ public class ProductoConverter {
 </br>
 
 
-#### 9.2.1) Creación del Método `convertirListaProducto`
-#### (Este Método se va a encargar de convertir una lista de tipo Producto Entidad a otra de Tipo Producto Modelo)
+#### 9.2.1) Creación del Método `convertirListaProducto` de tipo `ArrayList`
+#### (Este Método se va a encargar de convertir una lista de tipo Producto Entidad a otra de Tipo Producto Modelo. Para este caso voy a utilizar una lista de tipo ArrayList ya que es mucho más eficiente que una List cuando se realizan muchos accesos)
 
 </br>
 
@@ -1145,12 +1155,39 @@ public class ProductoConverter {
 </br>
 
 
+#### 9.2.1) Creación del Método `convertirListaProducto` de tipo `List`
+#### (Vamos a implementar el mismo método y de forma sobrecargada, ya que hay clases que utilizaremos más adelante que solo soportan List)
+
+</br>
+
+* Código Snippet..
+
+```java
+	
+	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
+		
+		List<ProductoModel> listaModeloProductos = new ArrayList<>();
+	
+		
+		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
+		
+		return listaModeloProductos;
+	
+	}
+	
+
+```
+
+</br>
+
+
 * Código Completo de la Clase..
 
 ```java 
 package com.api.productos.mypackages.converters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -1163,17 +1200,28 @@ public class ProductoConverter {
 	
 	
 	
-	public ArrayList<ModeloProducto> convertirListaProducto(ArrayList<Producto> productos){
+	public ArrayList<ProductoModel> convertirListaProducto(ArrayList<Producto> productos){
 		
-		ArrayList<ModeloProducto> listaModeloProductos = new ArrayList<>();
+		ArrayList<ProductoModel> listaModeloProductos = new ArrayList<>();
 	
 		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ModeloProducto(objetoProducto)));
+		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
 		
 		return listaModeloProductos;
 	
 	}
 	
+	
+	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
+		
+		List<ProductoModel> listaModeloProductos = new ArrayList<>();
+	
+		
+		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
+		
+		return listaModeloProductos;
+	
+	}
 	
 	
 
@@ -2350,37 +2398,424 @@ public class ProductoService {
 * Para el testeo de los logs, usar postman y pasarle un id 0 al método put de edición de productos o enviar un objeto vacío. Se deberían mostrar los respectivos mensajes en la consola de spring.
 
 
-</br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 </br>
 
 
+## Sección 7) Paginación
 
-## Sección 7) Apéndice
+
+</br>
+
+
+### 12) Configuración de la Paginación
+#### (La Paginación es necesaria para evitar que la consulta en la API se sobrecargue, causando un timeout al utilziar la solicitud dada. Para todos los servicios que devuelven grandes cantidades de datos, siempre se debe utilizar la paginación para devolver los registros).
+
+</br>
+
+#### 12.1) Propiedades para la Paginación
+
+* Copiar las siguientes propiedades y pegarlas en el `application.properties`
+
+```xml
+spring.data.rest.page-param-name=page
+spring.data.rest.default-page-size = 5
+spring.data.rest.max-page-size = 20
+
+```
+* La primera propiedad hace referencia al nombre del primer parametro de la paginación
+* La segunda Propiedad indicamos la cantidad de páginaciones por defecto
+* La tercera la cantidad máxima de paginaciones
+
+</br>
+
+#### 12.2) Implementación de la Paginación en `I_ProductoRepository`
+* La Interfaz I_ProductoRepository va a heredar la paginación de una clase y esta se debera serializar (transformar el objeto java en flujos de bytes para enviarlos).
+* Dentro de la interfaz mencionada vamos a heredar de la clase PaginAndSortingRepository<Producto,Serializable>
+* Código Snippet..
+
+```java
+@Repository("I_ProductoRepository")
+public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>, PagingAndSortingRepository<Producto,Serializable>{
+
+...
+
+}
+
+```
+* Dentro de esta interfaz vamos a crear un Método llamado `Page` de tipo `Pageable`....bue...osea que es un objeto paginado
+* Código Snippet..
+
+```java
+public abstract Page<Producto> findAll(Pageable pageable);
+
+	
+```
+* Código Completo..
+
+```java
+package com.api.productos.mypackages.repositories.interfaces;
+
+import java.awt.print.Pageable;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
+
+import com.api.productos.mypackages.entities.Producto;
+
+
+@Repository("I_ProductoRepository")
+public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>, PagingAndSortingRepository<Producto,Serializable>{
+
+//Hay Métodos que JPA ya los tiene desarrollados, se pueden crear para tener
+//una manipulación más especifica a la hora de usarlos en el service	
+
+public abstract Producto findById(int id);
+
+public abstract Producto findByCodigo(String codigo);
+
+public abstract ArrayList<Producto> findByNombre(String nombre);
+
+public abstract ArrayList<Producto> findByPrecio(double precio);
+
+public abstract ArrayList<Producto> findAll();
+
+public abstract Page<Producto> findAll(Pageable pageable);
+
+	
+	
+}
+	
+```
+
+
+</br>
+
+#### 12.2) Implementación de la Paginación en `ProductoService`
+* Vamos a crear un método llamado  listadoProductosPaginacion que será una lista de los Productos de tipo Model
+* Este Método va a devolver una lista de tipo ProductoModel gracias al convertidor. El objeto pageable es de tipo List y el objeto producto final, lo vamos a trabajar como de tipo arrayList, asique casteamos y usamos el método del converter sobrecargado de tipo List.
+* Código Snippet..
+```java
+
+	
+	// LISTA DE PRODUCTOS POR PAGINACIÓN
+	public ArrayList<ProductoModel> listadoProductosPaginacion(Pageable pageable){
+		return (ArrayList<ProductoModel>) productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
+	}
+	
+	
+
+```
+* Código Completo..
+```java
+package com.api.productos.mypackages.service;
+
+import java.awt.print.Pageable;
+import java.util.ArrayList;
+
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.api.productos.mypackages.converters.ProductoConverter;
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
+
+
+@Service("ProductoService")
+public class ProductoService {
+	
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
+	@Autowired
+	@Qualifier("I_ProductoRepository")
+	private I_ProductoRepository iProductoRepository;
+
+	
+	@Autowired
+	@Qualifier("ProductoConverter")
+	private ProductoConverter productoConvertidor;
+	
+	
+	
+	//==================== LOGS ============================
+	
+	//LOGS DE ERROR
+	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
+	
+	
+	
+	
+	//===================== MÉTODOS CRUD ===========================
+	
+	//INSERT
+	public boolean agregarProducto(Producto producto) {
+		
+		try {
+			if (producto == null) {
+				logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO ES NULO!");
+				return false;				
+			}
+			
+			else {
+				iProductoRepository.save(producto);
+				return true;
+				
+			}
+		
+			
+		}catch(Exception e) {
+			logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO NO SE HA GUARDADO!");
+			return false;
+			
+			
+		}
+	}
+	
+	
+	
+	//UPDATE
+	public boolean editarProducto(Producto producto) {
+			
+			try {
+				
+				if ((producto == null) || (producto.getId() == 0)) {
+					logger.error("ERROR EDITAR_PRODUCTO:  EL PRODUCTO ES NULO O EL ID ES 0!");		
+					return false;
+					
+				}
+				
+				else {	
+					iProductoRepository.save(producto);
+					return true;
+					
+				}
+			
+				
+			}catch(Exception e) {
+				logger.error("ERROR EDITAR_PRODUCTO: EL PRODUCTO NO SE HA EDITADO!");		
+				return false;
+				
+			}
+		}
+	
+	//DELETE
+	public boolean eliminarProducto(int id) {
+					
+			try {
+						
+				if ((id == 0)) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL ID DEL PRODUCTO ES 0!");
+					return false;
+				}
+				
+				else {
+							
+					Producto idProducto = iProductoRepository.findById(id);
+							
+					iProductoRepository.delete(idProducto);
+
+					return true;
+					}
+					
+						
+				}catch(Exception e) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL PRODUCTO NO SE HA ELIMINADO!");
+					return false;
+					
+				} 
+	}
+	
+	
+	//LISTA DE PRODUCTOS
+	public ArrayList<ProductoModel> listadoProductos(){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		
+	}
+	
+	
+	// LISTA DE PRODUCTOS POR PAGINACIÓN
+	public ArrayList<ProductoModel> listadoProductosPaginacion(Pageable pageable){
+		return (ArrayList<ProductoModel>) productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
+	}
+	
+	
+	
+	
+	//================ METODOS DE USO =============================
+	
+	
+	//PRODUCTO POR ID | VALOR UNICO
+	public ProductoModel findById(int id) {
+		
+		return new ProductoModel(iProductoRepository.findById(id));
+		
+	}
+	
+	//PRODUCTO POR CODIGO | VALOR UNICO
+	public ProductoModel findByCodigo(String codigo) {
+		
+		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
+	}
+		
+	
+	//LISTA DE PRODUCTOS POR NOMBRE
+	public ArrayList<ProductoModel> findByNombre(String nombre){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
+		
+	}
+	
+	//LISTA DE PRODUCTOS POR PRECIO
+	public ArrayList<ProductoModel> findByPrecio(double precio){
+		
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
+		
+	}
+	
+
+	
+	
+
+	
+
+}
+
+
+
+```
+
+
+
+</br>
+
+#### 12.3) Implementación de la Paginación en `ProductoController`
+* Vamos a crear nu método identico al de listado de Productos pero la diferencia que este no nios va a traer todos los productos, sino que vamos a tener que pasarle un objetopaginación (Número) y nos va a devolver una lista de productos de tipo Model con la cantidad de paginados pedidos.
+* Código Snippet..
+
+```java
+
+	//==========MÉTODO PAGINACIÓN====================
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public ArrayList<ProductoModel> listaProductosPaginados(Pageable pageable){
+		return productoService.listadoProductosPaginacion(pageable);
+	}
+
+
+```
+* Código Completo..
+```java 
+package com.api.productos.mypackages.controllers;
+
+import java.awt.print.Pageable;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.service.ProductoService;
+
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+	//==========INYECCION DEL SERVICE==========
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+
+	
+	
+	//==========MÉTODOS HTTP====================
+	
+	//METODO POST
+	@PostMapping("/producto")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+	
+	//MÉTODO PUT
+	@PutMapping("/producto")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+		
+	}
+	
+	//MÉTODO DELETE
+	@DeleteMapping("/producto/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+			
+		}
+	
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public ArrayList<ProductoModel> listadoProductos(){
+		return productoService.listadoProductos();
+	}
+	
+	//==========MÉTODO PAGINACIÓN====================
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public ArrayList<ProductoModel> listaProductosPaginados(Pageable pageable){
+		return productoService.listadoProductosPaginacion(pageable);
+	}
+
+
+}
+ 
+
+```
+
+
+
+</br>
+
+
+### 13) Test de Paginación
+#### (Para realizar el test de paginación, hay que tener en consideraciónque habrá que pasarle nua serie de paramétros para poder probar las páginas de la paginación y de esa forma recibir el conjunto de productos).
+
+</br>
+
+* Abrimos Postman y dentro de la uri que venimos trbajando (http://localhost:8092/v1/productos) vamos a enviarle esos parametros de uso.
+* Para obtener la primera página de productos con 2 registros, vamos a incluir en la URI, luego de productos signo de interrogación seguidamente el número de paginación con page y el tamaño de esa paginación,l osea el número de registros. (?page=0&size=2)
+
+* REETOMAR ESTE PUNTO
+
+
+
+
+
+
+
+
+
+</br>
+
+
+
+## Sección 8) Apéndice
 
 
 </br>
