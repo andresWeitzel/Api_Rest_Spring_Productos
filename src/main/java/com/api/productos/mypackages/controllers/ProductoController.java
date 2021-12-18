@@ -1,5 +1,6 @@
 package com.api.productos.mypackages.controllers;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class ProductoController {
 		return productoService.listadoProductos();
 	}
 	
+	//==========MÉTODO PAGINACIÓN====================
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public ArrayList<ProductoModel> listaProductosPaginados(Pageable pageable){
+		return productoService.listadoProductosPaginacion(pageable);
+	}
 
 
 }

@@ -1,5 +1,6 @@
 package com.api.productos.mypackages.service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.Logger;
@@ -124,6 +125,15 @@ public class ProductoService {
 		
 	}
 	
+	
+	// LISTA DE PRODUCTOS POR PAGINACIÓN
+	public ArrayList<ProductoModel> listadoProductosPaginacion(Pageable pageable){
+		return (ArrayList<ProductoModel>) productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
+	}
+	
+	
+	
+	
 	//================ METODOS DE USO =============================
 	
 	
@@ -154,6 +164,8 @@ public class ProductoService {
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
 	}
+	
+
 	
 	
 

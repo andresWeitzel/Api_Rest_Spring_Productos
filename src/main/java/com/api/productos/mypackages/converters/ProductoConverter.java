@@ -1,6 +1,7 @@
 package com.api.productos.mypackages.converters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,17 @@ public class ProductoConverter {
 	
 	}
 	
+	
+	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
+		
+		List<ProductoModel> listaModeloProductos = new ArrayList<>();
+	
+		
+		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
+		
+		return listaModeloProductos;
+	
+	}
 	
 	
 
