@@ -1,11 +1,12 @@
 package com.api.productos.mypackages.service;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.productos.mypackages.converters.ProductoConverter;
@@ -127,9 +128,10 @@ public class ProductoService {
 	
 	
 	// LISTA DE PRODUCTOS POR PAGINACIÓN
-	public ArrayList<ProductoModel> listadoProductosPaginacion(Pageable pageable){
-		return (ArrayList<ProductoModel>) productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
+	public List<ProductoModel> listadoProductosPaginacion(Pageable pageable){
+		return  productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
 	}
+	
 	
 	
 	
