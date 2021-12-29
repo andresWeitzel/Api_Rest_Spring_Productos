@@ -130,14 +130,6 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
-#### Sección 7) Paginación
-
-
-   -[Paso 12) Configuración de la Paginación](#paso-12-configuración-de-la-paginación) 
-
-
-
-
 #### Sección 8) Apéndice
 
 - [ Anotaciones Usadas para JPA](#anotaciones-usadas-para-jpa)
@@ -1015,49 +1007,71 @@ public abstract Producto findById(int id);
 public abstract Producto findByCodigo(String codigo);
 
 ```
-* El tercer, cuarto y quinto método serán listas, ya que los nombres y precios pueden ser repetidos y la ultima nos traera los productos
+* El tercer, cuarto  método serán listas, ya que los nombres y precios pueden ser repetidos 
 ```java
 
 public abstract List<Producto> findByNombre(String nombre);
 
 public abstract List<Producto> findByPrecio(double precio);
 
-public abstract List<Producto> findAll();
-
-
 ```
-* Código Snippet Completo..
+* Vamos a trabajar con paginación, por ende mantenemos todos los métodos como List y no ArrayList
+* Para el Quinto vamos a trabajar con Paginación 
+* La Paginación es necesaria para evitar que la consulta a la API se sobrecargue, causando un timeout al utilizar la solicitud dada. Para todos los servicios que devuelven grandes cantidades de datos, siempre se debe utilizar la paginación para devolver los registros.
+* La Interfaz I_ProductoRepository va a heredar la paginación de una clase y esta se debera serializar (transformar el objeto java en flujos de bytes para enviarlos).
+* Dentro de la interfaz mencionada vamos a heredar de la clase PaginAndSortingRepository<Producto,Serializable>
+* Código Snippet..
 
 ```java
+@Repository("I_ProductoRepository")
+public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>, PagingAndSortingRepository<Producto,Serializable>{
 
+...
+
+}
+
+```
+* Dentro de esta interfaz vamos a crear otro Método sobrecargado llamado `findAll` que será `Page` de tipo Producto, este método se le pasará como parametro un objeto de tipo `Pageable`....bue...osea que es un objeto paginado, a su vez este método se implemenatrá a traves de JPA-Hibernate (Recordar que las convenciones de nombres en la interfaz implementando este Framework hay que respetarlas, sino surgiran errores a la larga). 
+* ATENTI que clase se importe, para este caso, todo de `org.springframework.data.domain`
+* Código Snippet..
+
+```java
+public abstract Page<Producto> findAll(Pageable pageable);
+
+	
+```
+* Código Completo..
+
+```java
 package com.api.productos.mypackages.repositories.interfaces;
 
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.api.productos.mypackages.entities.Producto;
 
 
 @Repository("I_ProductoRepository")
-public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>{
+public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>, PagingAndSortingRepository<Producto, Serializable>{
 
-
+//Hay Métodos que JPA ya los tiene desarrollados, se pueden crear para tener
+//una manipulación más especifica a la hora de usarlos en el service	
 
 public abstract Producto findById(int id);
 
 public abstract Producto findByCodigo(String codigo);
 
-public abstract ArrayList<Producto> findByNombre(String nombre);
+public abstract List<Producto> findByNombre(String nombre);
 
-public abstract ArrayList<Producto> findByPrecio(double precio);
+public abstract List<Producto> findByPrecio(double precio);
 
-public abstract ArrayList<Producto> findAll();
-
-
-
+public abstract Page<Producto> findAll(Pageable pageable);
 	
 	
 }
@@ -1065,16 +1079,36 @@ public abstract ArrayList<Producto> findAll();
 
 ```
 
+</br>
+
+
+### 8.3) Configuración de la Paginación en el `application.properties`
+
+* Copiar las siguientes propiedades y pegarlas en el `application.properties`
+
+```xml
+spring.data.rest.page-param-name=page
+spring.data.rest.sort-param-name=sort
+spring.data.rest.limit-param-name=limit
+spring.data.rest.default-page-size = 5
+spring.data.rest.max-page-size = 20
+
+```
+* La primera propiedad hace referencia al nombre del primer parametro de la paginación
+* La segunda propiedad spring ordena la consulta
+* Con la tercera establecemos un limite de registros por paginación
+* La Cuarta Propiedad indicamos la cantidad de páginaciones por defecto
+* La Quinta la cantidad máxima de paginaciones
 
 </br>
+
+
+
 
  ### Paso 9) Creación y Configuración de la Clase Converter 
  #### ( Además de implementar el patrón de diseño DAO para el manejo de los datos en la db, se implementa el patrón MVC. En este caso desarrollando una Clase Converter vamos a poder convertir las entidades en modelos, y de esa forma poder trabajar con Hibernate en la Clase Modelo y no en la Clase Entidad )
 
 </br>
-
-</br>
-
 
 #### 9.1) Creación de la Clase `ProductoConverter`
 * Primeramente vamos a crear el paquete que alojarán las clases Converter.
@@ -1129,8 +1163,8 @@ public class ProductoConverter {
 </br>
 
 
-#### 9.2.1) Creación del Método `convertirListaProducto` de tipo `ArrayList`
-#### (Este Método se va a encargar de convertir una lista de tipo Producto Entidad a otra de Tipo Producto Modelo. Para este caso voy a utilizar una lista de tipo ArrayList ya que es mucho más eficiente que una List cuando se realizan muchos accesos)
+#### 9.2.1) Creación del Método `convertirListaProducto` de tipo `List`
+#### (Este Método se va a encargar de convertir una lista de tipo Producto Entidad a otra de Tipo Producto Modelo. Para este caso voy a utilizar una lista de tipo List porque al momento ded trabajar con paginación es más fácil su uso. Es evidente que se podría usar ArrayList ya que es mucho más eficiente que una List cuando se realizan muchos accesos pero me trajo algunos inconvenientes ya que las clases que se implementan en la paginación no son tan modernas)
 
 </br>
 
@@ -1139,95 +1173,20 @@ public class ProductoConverter {
 * Código Snippet..
 
 ```java
-	public ArrayList<ModeloProducto> convertirListaProducto(ArrayList<Producto> productos){
-		
-		ArrayList<ModeloProducto> listaModeloProductos = new ArrayList<>();
 	
-		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ModeloProducto(objetoProducto)));
-		
-		return listaModeloProductos;
-	
-	}
-
-```
-
-</br>
-
-
-#### 9.2.1) Creación del Método `convertirListaProducto` de tipo `List`
-#### (Vamos a implementar el mismo método y de forma sobrecargada, ya que hay clases que utilizaremos más adelante que solo soportan List)
-
-</br>
-
-* Código Snippet..
-
-```java
-	
-	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
+	public List<ProductoModel> convertirListaProducto(List<Producto> list){
 		
 		List<ProductoModel> listaModeloProductos = new ArrayList<>();
 	
 		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
+		list.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
 		
 		return listaModeloProductos;
 	
 	}
-	
 
 ```
 
-</br>
-
-
-* Código Completo de la Clase..
-
-```java 
-package com.api.productos.mypackages.converters;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
-import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ProductoModel;
-
-@Component("ProductoConverter")
-public class ProductoConverter {
-	
-	
-	
-	
-	public ArrayList<ProductoModel> convertirListaProducto(ArrayList<Producto> productos){
-		
-		ArrayList<ProductoModel> listaModeloProductos = new ArrayList<>();
-	
-		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
-		
-		return listaModeloProductos;
-	
-	}
-	
-	
-	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
-		
-		List<ProductoModel> listaModeloProductos = new ArrayList<>();
-	
-		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
-		
-		return listaModeloProductos;
-	
-	}
-	
-	
-
-}
-
-```
 
 
 
@@ -1474,26 +1433,29 @@ public class ProductoService {
 
 </br>
 
-#### 10.3.3) Creación del Método `listaProductos`
+#### 10.3.3) Creación del Método `listadoProductos`
 * Este Método nos va a traer uno o varios Producto/s como lista de productos del ModeloProducto y NO de la Entidad Producto
 * Para poder realizar esto llamamos al `Convertidor`
 * ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
+* El Método será de tipo List y no ArrayList por el uso de la paginación mencionada
 * Vamos a invocar al Método que convierte la lista Entidad a Modelo de Productos a traves del convertidor
 * Dentro del Convertidor vamos a implementar el metodo `findAll()` invocandolo cno la interfaz.
 * Notar que se puede crear otro método en la interfaz con otro nombre que haga exactamente lo mismo que el método save de jpa, queda a criterio de cada uno.
 * Vamos a devolver un return con la lista de Productos.
-
-				
+* ATENTI que clase se importe, para este caso, todo de `org.springframework.data.domain`
+* Código Snippet..
 ```java
-
-	//LISTA DE PRODUCTOS
-	public ArrayList<ModeloProducto> listadoProductos(){
+//LISTA DE PRODUCTOS
+	public List<ProductoModel> listadoProductos(Pageable pageable){
 		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		return  productoConvertidor.convertirListaProducto( iProductoRepository.findAll(pageable).getContent()); 
 		
 	}
-				
+	
+
 ```
+
+
 * Código Completo Métodos CRUD..
 ```java
 
@@ -1553,15 +1515,19 @@ public class ProductoService {
 	}
 	
 	
+	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ModeloProducto> listadoProductos(){
+	public ArrayList<ProductoModel> listadoProductos(Pageable pageable){
 		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		return  productoConvertidor.convertirListaProducto((ArrayList<Producto>) iProductoRepository.findAll(pageable).getContent()); 
 		
 	}
 	
 
+	
+
 ```
+
 
 
 </br>
@@ -1629,7 +1595,7 @@ public class ProductoService {
 
 	
 	//LISTA DE PRODUCTOS POR NOMBRE
-	public ArrayList<ModeloProducto> findByNombre(String nombre){
+	public List<ProductoModel> findByNombre(String nombre){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
 		
@@ -1652,7 +1618,7 @@ public class ProductoService {
 ```java
 
 	//LISTA DE PRODUCTOS POR PRECIO
-	public ArrayList<ModeloProducto> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(double precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
@@ -1668,28 +1634,28 @@ public class ProductoService {
 	
 	
 	//PRODUCTO POR ID | VALOR UNICO
-	public ModeloProducto findById(int id) {
+	public ProductoModel findById(int id) {
 		
-		return new ModeloProducto(iProductoRepository.findById(id));
+		return new ProductoModel(iProductoRepository.findById(id));
 		
 	}
 	
 	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ModeloProducto findByCodigo(String codigo) {
+	public ProductoModel findByCodigo(String codigo) {
 		
-		return new ModeloProducto(iProductoRepository.findByCodigo(codigo));
+		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
 	}
 		
 	
 	//LISTA DE PRODUCTOS POR NOMBRE
-	public ArrayList<ModeloProducto> findByNombre(String nombre){
+	public List<ProductoModel> findByNombre(String nombre){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
 		
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public ArrayList<ModeloProducto> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(double precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
@@ -1703,13 +1669,15 @@ public class ProductoService {
 * Código Completo Clase ProductoService..
 
 ```java
-
 package com.api.productos.mypackages.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.productos.mypackages.converters.ProductoConverter;
@@ -1717,9 +1685,11 @@ import com.api.productos.mypackages.entities.Producto;
 import com.api.productos.mypackages.models.ProductoModel;
 import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
 
+
 @Service("ProductoService")
 public class ProductoService {
 	
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
 	@Autowired
 	@Qualifier("I_ProductoRepository")
 	private I_ProductoRepository iProductoRepository;
@@ -1730,20 +1700,39 @@ public class ProductoService {
 	private ProductoConverter productoConvertidor;
 	
 	
+	
+	//==================== LOGS ============================
+	
+	//LOGS DE ERROR
+	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
+	
+	
+	
+	
 	//===================== MÉTODOS CRUD ===========================
 	
 	//INSERT
 	public boolean agregarProducto(Producto producto) {
 		
 		try {
-			if (producto == null) {return false;}
+			if (producto == null) {
+				logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO ES NULO!");
+				return false;				
+			}
 			
 			else {
 				iProductoRepository.save(producto);
-				return true;}
+				return true;
+				
+			}
 		
 			
-		}catch(Exception e) {return false;}
+		}catch(Exception e) {
+			logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO NO SE HA GUARDADO!");
+			return false;
+			
+			
+		}
 	}
 	
 	
@@ -1754,15 +1743,23 @@ public class ProductoService {
 			try {
 				
 				if ((producto == null) || (producto.getId() == 0)) {
+					logger.error("ERROR EDITAR_PRODUCTO:  EL PRODUCTO ES NULO O EL ID ES 0!");		
+					return false;
 					
-					return false;}
+				}
 				
 				else {	
 					iProductoRepository.save(producto);
-					return true;}
+					return true;
+					
+				}
 			
 				
-			}catch(Exception e) {return false;}
+			}catch(Exception e) {
+				logger.error("ERROR EDITAR_PRODUCTO: EL PRODUCTO NO SE HA EDITADO!");		
+				return false;
+				
+			}
 		}
 	
 	//DELETE
@@ -1770,7 +1767,10 @@ public class ProductoService {
 					
 			try {
 						
-				if ((id == 0)) {return false;}
+				if ((id == 0)) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL ID DEL PRODUCTO ES 0!");
+					return false;
+				}
 				
 				else {
 							
@@ -1778,57 +1778,74 @@ public class ProductoService {
 							
 					iProductoRepository.delete(idProducto);
 
-					return true;}
+					return true;
+					}
 					
 						
-				}catch(Exception e) {return false;} 
+				}catch(Exception e) {
+					logger.error("ERROR ELIMINAR_PRODUCTO: EL PRODUCTO NO SE HA ELIMINADO!");
+					return false;
+					
+				} 
 	}
 	
 	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ModeloProducto> listadoProductos(){
+	public List<ProductoModel> listadoProductos(Pageable pageable){
 		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		return  productoConvertidor.convertirListaProducto( iProductoRepository.findAll(pageable).getContent()); 
 		
 	}
+	
+
+	
+	
+	
 	
 	//================ METODOS DE USO =============================
 	
 	
 	//PRODUCTO POR ID | VALOR UNICO
-	public ModeloProducto findById(int id) {
+	public ProductoModel findById(int id) {
 		
-		return new ModeloProducto(iProductoRepository.findById(id));
+		return new ProductoModel(iProductoRepository.findById(id));
 		
 	}
 	
 	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ModeloProducto findByCodigo(String codigo) {
+	public ProductoModel findByCodigo(String codigo) {
 		
-		return new ModeloProducto(iProductoRepository.findByCodigo(codigo));
+		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
 	}
 		
 	
 	//LISTA DE PRODUCTOS POR NOMBRE
-	public ArrayList<ModeloProducto> findByNombre(String nombre){
+	public List<ProductoModel> findByNombre(String nombre){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
 		
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public ArrayList<ModeloProducto> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(double precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
 	}
+	
 
+	
+	
+
+	
 
 }
 
 
 
 ```
+
+
 
 
 </br>
@@ -2029,19 +2046,21 @@ public class ProductoController {
 #### 11.4.3) Creación del Método `listadoProductos` mediante  `GET`
 * Este Método va a devolvernos una lista del ProductoModel con uno o más Productos a través del Service Creado.
 * El Método va a tener la anotación `@GetMapping("ruta")`, este tipo de anotación será una propiedad de petición http get. Es importante aclarar que la ruta será `/productos`
-* El Método devuelve una lista de tipo ProductoModel a través del método `listadoProductos` del Service creado
-* Códido Snippet..
+* El Método devuelve una lista de tipo List y no ArrayList por el tema de paginación ya aclarado, esta lista es de tipo ProductoModel a través del método `listadoProductos` del Service creado y es de tipo pageable, osea nos va a paginar los productos para no devolvernos todos
+* Código Snippet..
 
 ```java
-	
+
 	//MÉTODO GET
 	@GetMapping("/productos")
-	public ArrayList<ProductoModel> listadoProductos(){
-		return productoService.listadoProductos();
+	public List<ProductoModel> listadoProductos(Pageable pageable){
+		return productoService.listadoProductos(pageable);
 	}
+	
+	
+
+
 ```
-
-
 
 
 
@@ -2052,10 +2071,11 @@ public class ProductoController {
 package com.api.productos.mypackages.controllers;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -2069,7 +2089,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.productos.mypackages.entities.Producto;
 import com.api.productos.mypackages.models.ProductoModel;
 import com.api.productos.mypackages.service.ProductoService;
-import com.mysql.cj.log.Log;
 
 
 @RestController
@@ -2107,17 +2126,16 @@ public class ProductoController {
 	
 	//MÉTODO GET
 	@GetMapping("/productos")
-	public ArrayList<ProductoModel> listadoProductos(){
-		return productoService.listadoProductos();
+	public List<ProductoModel> listadoProductos(Pageable pageable){
+		return productoService.listadoProductos(pageable);
 	}
 	
 
+	
 
 }
  
-
 ```
-
 
 
 </br>
@@ -2201,6 +2219,10 @@ de nuestra API)
 * El Cuarto Método será el de `listadoProductos`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método GET y colocamos la URL `http://localhost:8092/v1/productos`.
 * Click en Send y verificamos la respuesta(deberíamos tener la lista de Productos dentro del body en la respuesta de postman).
 
+* Para obtener la primera página de productos con 2 registros, vamos a incluir en la URI, luego de productos signo de interrogación seguidamente el número de paginación con page y el tamaño de esa paginación,l osea el número de registros. (?page=0&size=2)
+* URI completa `http://localhost:8092/v1/productos?page=0&size=2`.
+* Tendriamos 2 productos de la Primera paginación, podemos pedir que se traiga más productos o cambiar mismo de paginación, a elección de uno.
+
 
 
 
@@ -2233,10 +2255,12 @@ de nuestra API)
 package com.api.productos.mypackages.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.api.productos.mypackages.converters.ProductoConverter;
@@ -2350,11 +2374,16 @@ public class ProductoService {
 	
 	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ProductoModel> listadoProductos(){
+	public List<ProductoModel> listadoProductos(Pageable pageable){
 		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		return  productoConvertidor.convertirListaProducto( iProductoRepository.findAll(pageable).getContent()); 
 		
 	}
+	
+
+	
+	
+	
 	
 	//================ METODOS DE USO =============================
 	
@@ -2374,494 +2403,65 @@ public class ProductoService {
 		
 	
 	//LISTA DE PRODUCTOS POR NOMBRE
-	public ArrayList<ProductoModel> findByNombre(String nombre){
+	public List<ProductoModel> findByNombre(String nombre){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
 		
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public ArrayList<ProductoModel> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(double precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
 	}
+	
+
 	
 	
 
 	
 
 }
-
 
 ```
 * Para el testeo de los logs, usar postman y pasarle un id 0 al método put de edición de productos o enviar un objeto vacío. Se deberían mostrar los respectivos mensajes en la consola de spring.
 
 
-
-
-
 </br>
 
 
-## Sección 7) Paginación
 
 
-</br>
 
 
-### 12) Configuración de la Paginación
-#### (La Paginación es necesaria para evitar que la consulta a la API se sobrecargue, causando un timeout al utilizar la solicitud dada. Para todos los servicios que devuelven grandes cantidades de datos, siempre se debe utilizar la paginación para devolver los registros).
 
-</br>
 
-#### 12.1) Propiedades para la Paginación
 
-* Copiar las siguientes propiedades y pegarlas en el `application.properties`
 
-```xml
-spring.data.rest.page-param-name=page
-spring.data.rest.sort-param-name=sort
-spring.data.rest.limit-param-name=limit
-spring.data.rest.default-page-size = 5
-spring.data.rest.max-page-size = 20
 
-```
-* La primera propiedad hace referencia al nombre del primer parametro de la paginación
-* La segunda propiedad spring ordena la consulta
-* Con la tercera establecemos un limite de registros por paginación
-* La Cuarta Propiedad indicamos la cantidad de páginaciones por defecto
-* La Quinta la cantidad máxima de paginaciones
 
-</br>
 
-#### 12.2) Implementación de la Paginación en `I_ProductoRepository`
-* La Interfaz I_ProductoRepository va a heredar la paginación de una clase y esta se debera serializar (transformar el objeto java en flujos de bytes para enviarlos).
-* Dentro de la interfaz mencionada vamos a heredar de la clase PaginAndSortingRepository<Producto,Serializable>
-* Código Snippet..
 
-```java
-@Repository("I_ProductoRepository")
-public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>, PagingAndSortingRepository<Producto,Serializable>{
 
-...
 
-}
 
-```
-* Dentro de esta interfaz vamos a crear otro Método sobrecargado llamado `findAll` que será `Page` de tipo Producto, este método se le pasará como parametro un objeto de tipo `Pageable`....bue...osea que es un objeto paginado, a su vez este método se implemenatrá a traves de JPA-Hibernate (Recordar que las convenciones de nombres en la interfaz implementando este Framework hay que respetarlas, sino surgiran errores a la larga). 
-* ATENTI que clase se importe, para este caso, todo de `org.springframework.data.domain`
-* Código Snippet..
 
-```java
-public abstract Page<Producto> findAll(Pageable pageable);
 
-	
-```
-* Código Completo..
 
-```java
-package com.api.productos.mypackages.repositories.interfaces;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Repository;
 
-import com.api.productos.mypackages.entities.Producto;
 
 
-@Repository("I_ProductoRepository")
-public interface I_ProductoRepository extends JpaRepository<Producto, Serializable>, PagingAndSortingRepository<Producto, Serializable>{
 
-//Hay Métodos que JPA ya los tiene desarrollados, se pueden crear para tener
-//una manipulación más especifica a la hora de usarlos en el service	
 
-public abstract Producto findById(int id);
 
-public abstract Producto findByCodigo(String codigo);
 
-public abstract ArrayList<Producto> findByNombre(String nombre);
 
-public abstract ArrayList<Producto> findByPrecio(double precio);
 
-public abstract ArrayList<Producto> findAll();
 
-public abstract Page<Producto> findAll(Pageable pageable);
-	
-	
-}
 
-	
-```
-</br>
-
-#### 12.2) Implementación de la Paginación en `ProductoConverter`
-* Para este paso se desarrollaron 2 métodos sobrecargados pero uno de tipo ArrayList y el otro de tipo List previamente detallado, vamos a implementar el método de tipo Lista ya que las Clases `Pageable` trabaja solo con listas
-* Código Snippet..
-```java
-package com.api.productos.mypackages.converters;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
-import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ProductoModel;
-
-@Component("ProductoConverter")
-public class ProductoConverter {
-	
-	
-	
-	
-	public ArrayList<ProductoModel> convertirListaProducto(ArrayList<Producto> productos){
-		
-		ArrayList<ProductoModel> listaModeloProductos = new ArrayList<>();
-	
-		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
-		
-		return listaModeloProductos;
-	
-	}
-	
-	
-	
-	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
-		
-		List<ProductoModel> listaModeloProductos = new ArrayList<>();
-	
-		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
-		
-		return listaModeloProductos;
-	
-	}
-	
-	
-	
-
-}
-
-```
-
-
-</br>
-
-#### 12.3) Implementación de la Paginación en `ProductoService`
-* Vamos a crear un método llamado  listadoProductosPaginacion que será una lista de los Productos de tipo Model
-* Este Método va a devolver una lista de tipo ProductoModel gracias al convertidor. El objeto pageable es de tipo List y el objeto producto final, lo vamos a trabajar como de tipo arrayList, asique casteamos y usamos el método del converter sobrecargado de tipo List.
-* ATENTI que clase se importe, para este caso, todo de `org.springframework.data.domain`
-* Código Snippet..
-```java
-
-	
-	// LISTA DE PRODUCTOS POR PAGINACIÓN
-	public List<ProductoModel> listadoProductosPaginacion(Pageable pageable){
-		return  productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
-	}
-	
-	
-
-```
-* Código Completo..
-```java
-package com.api.productos.mypackages.service;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import com.api.productos.mypackages.converters.ProductoConverter;
-import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ProductoModel;
-import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
-
-
-@Service("ProductoService")
-public class ProductoService {
-	
-	// ========= INYECCIÓN DE DEPENDENCIAS ==========
-	@Autowired
-	@Qualifier("I_ProductoRepository")
-	private I_ProductoRepository iProductoRepository;
-
-	
-	@Autowired
-	@Qualifier("ProductoConverter")
-	private ProductoConverter productoConvertidor;
-	
-	
-	
-	//==================== LOGS ============================
-	
-	//LOGS DE ERROR
-	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
-	
-	
-	
-	
-	//===================== MÉTODOS CRUD ===========================
-	
-	//INSERT
-	public boolean agregarProducto(Producto producto) {
-		
-		try {
-			if (producto == null) {
-				logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO ES NULO!");
-				return false;				
-			}
-			
-			else {
-				iProductoRepository.save(producto);
-				return true;
-				
-			}
-		
-			
-		}catch(Exception e) {
-			logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO NO SE HA GUARDADO!");
-			return false;
-			
-			
-		}
-	}
-	
-	
-	
-	//UPDATE
-	public boolean editarProducto(Producto producto) {
-			
-			try {
-				
-				if ((producto == null) || (producto.getId() == 0)) {
-					logger.error("ERROR EDITAR_PRODUCTO:  EL PRODUCTO ES NULO O EL ID ES 0!");		
-					return false;
-					
-				}
-				
-				else {	
-					iProductoRepository.save(producto);
-					return true;
-					
-				}
-			
-				
-			}catch(Exception e) {
-				logger.error("ERROR EDITAR_PRODUCTO: EL PRODUCTO NO SE HA EDITADO!");		
-				return false;
-				
-			}
-		}
-	
-	//DELETE
-	public boolean eliminarProducto(int id) {
-					
-			try {
-						
-				if ((id == 0)) {
-					logger.error("ERROR ELIMINAR_PRODUCTO: EL ID DEL PRODUCTO ES 0!");
-					return false;
-				}
-				
-				else {
-							
-					Producto idProducto = iProductoRepository.findById(id);
-							
-					iProductoRepository.delete(idProducto);
-
-					return true;
-					}
-					
-						
-				}catch(Exception e) {
-					logger.error("ERROR ELIMINAR_PRODUCTO: EL PRODUCTO NO SE HA ELIMINADO!");
-					return false;
-					
-				} 
-	}
-	
-	
-	//LISTA DE PRODUCTOS
-	public ArrayList<ProductoModel> listadoProductos(){
-		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
-		
-	}
-	
-	
-	// LISTA DE PRODUCTOS POR PAGINACIÓN
-	public List<ProductoModel> listadoProductosPaginacion(Pageable pageable){
-		return  productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
-	}
-	
-	
-	
-	
-	
-	//================ METODOS DE USO =============================
-	
-	
-	//PRODUCTO POR ID | VALOR UNICO
-	public ProductoModel findById(int id) {
-		
-		return new ProductoModel(iProductoRepository.findById(id));
-		
-	}
-	
-	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ProductoModel findByCodigo(String codigo) {
-		
-		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
-	}
-		
-	
-	//LISTA DE PRODUCTOS POR NOMBRE
-	public ArrayList<ProductoModel> findByNombre(String nombre){
-		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
-		
-	}
-	
-	//LISTA DE PRODUCTOS POR PRECIO
-	public ArrayList<ProductoModel> findByPrecio(double precio){
-		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
-		
-	}
-	
-
-
-}
-
-
-```
-
-
-
-</br>
-
-#### 12.4) Implementación de la Paginación en `ProductoController`
-* Vamos a crear un método llamado `listadoProductosPaginacion` que nos va a traer todos los productos de tipo Pageable, osea una lista de productios paginados, al metodo hay que pasarle el objeto (Número) y nos va a devolver una lista de productos de tipo Model con la cantidad de paginados pedidos.
-* Lógicamente que vamos a cambiarle la ruta-mapping a `/productos-paginacion`
-* Código Snippet..
-
-```java
-
-	//==========MÉTODO PAGINACIÓN====================
-	//MÉTODO GET
-	@GetMapping("/productos-paginacion")
-	public List<ProductoModel> listadoProductosPaginacion(Pageable pageable){
-		return productoService.listadoProductosPaginacion(pageable);
-	}
-
-
-```
-* Código Completo..
-```java 
-package com.api.productos.mypackages.controllers;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Pageable;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ProductoModel;
-import com.api.productos.mypackages.service.ProductoService;
-
-
-@RestController
-@RequestMapping("/v1")
-public class ProductoController {
-	
-	//==========INYECCION DEL SERVICE==========
-	@Autowired
-	@Qualifier("ProductoService")
-	ProductoService productoService;
-
-	
-	
-	//==========MÉTODOS HTTP====================
-	
-	//METODO POST
-	@PostMapping("/producto")
-	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
-		return productoService.agregarProducto(producto);
-	}
-	
-	//MÉTODO PUT
-	@PutMapping("/producto")
-	public boolean editarProducto(@RequestBody @Validated Producto producto) {
-		return productoService.editarProducto(producto);
-		
-	}
-	
-	//MÉTODO DELETE
-	@DeleteMapping("/producto/{id}")
-	public boolean eliminarProducto(@PathVariable("id") int id) {
-		return productoService.eliminarProducto(id);
-			
-		}
-	
-	//MÉTODO GET
-	@GetMapping("/productos")
-	public ArrayList<ProductoModel> listadoProductos(){
-		return productoService.listadoProductos();
-	}
-	
-	
-	//==========MÉTODO PAGINACIÓN====================
-	//MÉTODO GET
-	@GetMapping("/productos-paginacion")
-	public List<ProductoModel> listadoProductosPaginacion(Pageable pageable){
-		return productoService.listadoProductosPaginacion(pageable);
-	}
-	
-	
-
-}
- 
- 
-
-```
-
-
-
-</br>
-
-
-### 13) Test de Paginación
-#### (Para realizar el test de paginación, hay que tener en consideraciónque habrá que pasarle nua serie de paramétros para poder probar las páginas de la paginación y de esa forma recibir el conjunto de productos).
-
-</br>
-
-* Abrimos Postman y dentro de la uri que venimos trbajando (http://localhost:8092/v1/productos) vamos a enviarle esos parametros de uso.
-* Para obtener la primera página de productos con 2 registros, vamos a incluir en la URI, luego de productos signo de interrogación seguidamente el número de paginación con page y el tamaño de esa paginación,l osea el número de registros. (?page=0&size=2)
-
-* RETOMAR ESTE PUNTO
 
 
 
