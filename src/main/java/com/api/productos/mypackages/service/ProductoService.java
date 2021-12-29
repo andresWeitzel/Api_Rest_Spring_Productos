@@ -120,18 +120,13 @@ public class ProductoService {
 	
 	
 	//LISTA DE PRODUCTOS
-	public ArrayList<ProductoModel> listadoProductos(){
+	public List<ProductoModel> listadoProductos(Pageable pageable){
 		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findAll()); 
+		return  productoConvertidor.convertirListaProducto( iProductoRepository.findAll(pageable).getContent()); 
 		
 	}
 	
-	
-	// LISTA DE PRODUCTOS POR PAGINACIÓN
-	public List<ProductoModel> listadoProductosPaginacion(Pageable pageable){
-		return  productoConvertidor.convertirListaProducto(iProductoRepository.findAll(pageable).getContent());
-	}
-	
+
 	
 	
 	
@@ -154,14 +149,14 @@ public class ProductoService {
 		
 	
 	//LISTA DE PRODUCTOS POR NOMBRE
-	public ArrayList<ProductoModel> findByNombre(String nombre){
+	public List<ProductoModel> findByNombre(String nombre){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
 		
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public ArrayList<ProductoModel> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(double precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		

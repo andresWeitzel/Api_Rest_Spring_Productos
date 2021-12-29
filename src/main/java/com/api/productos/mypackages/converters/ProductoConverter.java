@@ -14,31 +14,19 @@ public class ProductoConverter {
 	
 	
 	
-	public ArrayList<ProductoModel> convertirListaProducto(ArrayList<Producto> productos){
-		
-		ArrayList<ProductoModel> listaModeloProductos = new ArrayList<>();
-	
-		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
-		
-		return listaModeloProductos;
-	
-	}
-	
-	
-	
-	public List<ProductoModel> convertirListaProducto(List<Producto> productos){
+	public List<ProductoModel> convertirListaProducto(List<Producto> list){
 		
 		List<ProductoModel> listaModeloProductos = new ArrayList<>();
 	
 		
-		productos.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
+		list.forEach(objetoProducto -> listaModeloProductos.add(new ProductoModel(objetoProducto)));
 		
 		return listaModeloProductos;
 	
 	}
 	
+
 	
-	
+
 
 }
