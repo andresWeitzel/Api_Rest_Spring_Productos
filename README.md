@@ -1,6 +1,6 @@
-# API REST con Spring Boot, Mysql y Maven.
+# API REST con Spring Boot, Spring Security, Mysql , Maven , etc.
 
-Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql y JPA-Hibernate.
+Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql, JPA-Hibernate y otras Tecnologías.
 
 </br>
 
@@ -11,12 +11,14 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Java |   12.0.2 | JDK |
 | Spring Tool Suite 4 | 4.9.0  | IDE |
 | Spring Boot |   2.5.4  | Framework |
+| Spring Security | 5.6.1 | Servicios de Seguridad |
+| JSON Web Token | 3.18.2 | Creación de tokens de acceso | 
 | Maven |  4.0.0 | Gestor de Proyectos |
 | JPA-Hibernate | 5.4.27 | Framework para el mapeo de objetos y persistenciua en la db |
 | PostMan | 9.4.1 | Test de Apis |
 | XAMPP | 3.2.2  | Paquete de Servidores |
 | Mysql | 10.1.38 | Sistema de Gestión de Bases de Datos |
-| Cygwin | 3.1.6  | Colección de Herramientas / Terminal en Windows integrada al IDE |
+| GNU bash / Terminal | 4.4.23  | Bash / Terminal para el manejo e implementación de Git integrado al IDE Eclipse |
 | Git | 2.29.1  | Control de Versiones |
 
 
@@ -28,6 +30,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | ------------- | ------------- | ------------- |
 | Java-JDK 12 | https://www.oracle.com/java/technologies/javase/jdk12-archive-downloads.html |  https://docs.oracle.com/en/ |
 | Spring Tool Suite 4 |https://spring.io/tools | https://spring.io/guides |
+| Spring Security | https://spring.io/projects/spring-security | https://spring.io/projects/spring-security | 
+| JSON Web Security | https://jwt.io/introduction/ | https://jwt.io/introduction/
 | XAMPP | https://www.apachefriends.org/download.html | https://community.apachefriends.org/f/ |
 | Maven Repository | - | https://mvnrepository.com/ | 
 | PostMan | https://www.postman.com/downloads/ | https://www.postman.com/product/what-is-postman/ |
@@ -53,9 +57,12 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Hibernate-Core | 5.4.27 | El Core de Hibernate |
 | JPA-Hibernate | 2.1 | Persistencia de datos a la db |
 | Spring-data-jpa | 2.6.1 | Api de JpaRepository para el manejo de métodos | 
+| Spring Security | 5.6.1 | Servicios de Seguridad |
 | Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
 | jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
+| JSON Web Token | 3.18.2 | Creación de tokens de acceso | 
+
 
 </br>
 
@@ -345,11 +352,51 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 </dependency>
 
 ```
+
+</br>
+
+#### 3.6) Dependencia para la Seguridad de la aplicación con Spring Security.
+
+* Como siempre ,en MavenRepository, buscamos Spring Security Core, versión 5.6.1 (https://mvnrepository.com/artifact/org.springframework.security/spring-security-core/5.6.1)
+* Copias la dependencia desde Maven o desde acá, luego lo incluis en el pom.xml
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+    <version>5.6.1</version>
+</dependency>
+
+
+```
+
+</br>
+
+#### 3.7) Dependencia para los tokens de la aplicación y autenticación con JSON .
+
+* Buscamos JWT, versión 3.18.2 (https://mvnrepository.com/artifact/com.auth0/java-jwt/3.18.2)
+* Copias la dependencia desde Maven o desde acá, luego lo incluis en el pom.xml
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+<dependency>
+    <groupId>com.auth0</groupId>
+    <artifactId>java-jwt</artifactId>
+    <version>3.18.2</version>
+</dependency>
+
+
+```
+
 * ...
 * Ctrl + s Guardas 
 * Click Der sobre el proyecto
 * Maven y update Maven o Alt + F5
-* Fijarse dentro de Maven Dependencies si Maven descargo la misma
+* Fijarse dentro de Maven Dependencies si Maven descargo las mismas
+ 
+
+
 
 
 </br>
