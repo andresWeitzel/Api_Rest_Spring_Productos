@@ -35,7 +35,6 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | XAMPP | https://www.apachefriends.org/download.html | https://community.apachefriends.org/f/ |
 | Maven Repository | - | https://mvnrepository.com/ | 
 | PostMan | https://www.postman.com/downloads/ | https://www.postman.com/product/what-is-postman/ |
-| Cygwin | https://cygwin.com/install.html | https://cygwin.com/cygwin-ug-net.html |
 | Git  | https://git-scm.com/downloads |  https://git-scm.com/docs |
 
 </br>
@@ -75,7 +74,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Repositorio dependencia Spring data JpaRepository: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1
 * Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
-
+* Repositorio dependencia spring-security : https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
+* Repositorio dependencia json web tokens : https://mvnrepository.com/artifact/com.auth0/java-jwt
 
 
 
@@ -133,7 +133,22 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
    - [Paso 10) Creación y Configuración de la Clase Service](#paso-10-creación-y-configuración-de-la-clase-service)
    
-   -[Paso 11) Creación y Configuración de la Clase Controler](#paso-11-creación-y-configuración-de-la-clase-controler) 
+   - [Paso 11) Creación y Configuración de la Clase Controler](#paso-11-creación-y-configuración-de-la-clase-controler) 
+
+
+
+
+#### Sección 7) Creación y Configuración de SpringSecurity y Json Web Tokens
+
+   - [Paso 12) Creación y Configuración de la Clase Usuario](#paso-12-creación-y-configuración-de-la-clase-usuario)
+
+
+   - [Paso 13) Creación y Configuración de la Interfaz I_UsuarioRepository](#paso-13-creación-y-configuración-de-la-interfaz-i_usuarioRepository)
+
+   - [Paso 14) Creación y Configuración del Servicio UsuarioService](#paso-14-creación-y-configuración-del-servicio-usuarioservice)
+
+
+   - [Paso 13) Creación de la Clase UsuarioConfiguration](#paso-13-creación-de-la-clase-usuarioconfiguration)
 
 
 
@@ -2475,6 +2490,288 @@ public class ProductoService {
 * Para el testeo de los logs, usar postman y pasarle un id 0 al método put de edición de productos o enviar un objeto vacío. Se deberían mostrar los respectivos mensajes en la consola de spring.
 
 
+
+
+</br>
+
+
+
+## 7) Creación y Configuración de SpringSecurity y Json Web Tokens
+
+
+</br>
+
+
+
+
+ ### Paso 12)  Creación y Configuración de la Clase `Usuario`
+ #### (Esta Clase será la Entidad que JPA-HIBERNATE mapee para crear la tabla en la Base de Datos)
+
+</br>
+
+#### 12.1) Creación de la Clase `Usuario`
+* Esta clase se alojará dentro de `mypackages.entities`
+* Creamos la Clase en ese paquete, los pasos para la creación de la misma ya son conocidos.
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.entities;
+
+public class Usuario {
+	
+
+}
+
+```
+
+
+
+</br>
+
+#### 12.2) Configuración de la Clase `Usuario`
+* Vamos a hacer uso de las anotaciones JPA para persistir y crear los campos en la db, hay que tener en consideración, que como bien se explico en las primeras sesiones, JPA persisti y reemplaza los valores en la db, osea que si no se creo las tablas nombradas en estas entidades hibernate las crea en la db, por ende hay que tener mayor enfasis en el nombramiento de atributos y clases en las entidades, para esta ocasión no vamos a crear la tabala en la base de datos, sino que directamente vamos a trabajar desde la clase en Java, nuevamente aclaro, ojo con los nombres y convenciones entre Java y SQL.
+* Los últimos 2 atributos de la clase hacen referencia a la sesión del usuario, si es admin, usuario convencional o lo que fuese, y si el estado de tipo booelan para los demás atributos que tenga dicho usuario, si posee activo o no los atributos que vayamos a comparar.
+* Código Completo...
+
+```java
+package com.api.productos.mypackages.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="usuarios")
+public class Usuario {
+	
+	@GeneratedValue
+	@Id
+	@Column(name="id" , unique= true)
+	private int id;
+
+	@Column(name="usuario" , unique= true)
+	private String usuario;
+	
+	
+	@Column(name="contrasenia")
+	private String contrasenia;
+
+	@Column(name="rol")
+	private byte rol;
+
+	@Column(name="estado")
+	private boolean estado;
+	
+	
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public byte getRol() {
+		return rol;
+	}
+
+	public void setRol(byte rol) {
+		this.rol = rol;
+	}
+
+	public boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", usuario=" + usuario + ", contrasenia=" + contrasenia + ", rol=" + rol
+				+ ", estado=" + estado + "]";
+	}
+	
+	
+	
+	
+
+}
+
+```
+
+
+
+
+
+
+</br>
+
+
+ ### Paso 13) Creación y Configuración de la Interfaz `I_UsuarioRepository`
+ #### (Esta Interfaz tendrá el mismo objetivo que la ya definida, siguiendo el patrón de diseño DAO, sin definir el cuerpo de las funciones ya que trabajaremos con la API de JpaRepository)
+
+</br>
+
+
+
+#### 13.1) Creación de la Interfaz `I_UsuarioRepository`
+* Esta interfaz se alojará dentro de `mypackages.repositories.interfaces`
+* Creamos la Interfaz en ese paquete, los pasos para la creación de la misma ya son conocidos.
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.repositories.interfaces;
+
+public interface I_UsuarioRepository {
+
+}
+
+
+```
+
+
+
+</br>
+
+#### 13.2) Configuración de la Interfaz `I_UsuarioRepository`
+* Vamos a hacer uso de las anotaciones de Spring para que trabaje con jpaRepository
+* Al igual que la otra interfaz, esta contendrá los métodos de JPA
+* Código Completo...
+
+```java
+package com.api.productos.mypackages.repositories.interfaces;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.entities.Usuario;
+
+@Repository("I_UsuarioRepository")
+public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable>{
+
+	public abstract Usuario findById(int id);
+
+	public abstract Usuario findByUsuario(String usuario);
+	
+	public abstract Usuario findByContrasenia(String contrasenia);
+
+	public abstract Usuario findByRol(byte rol);
+	
+	public abstract Usuario findByEstado(boolean estado);
+
+
+
+	
+}
+
+
+```
+
+
+</br>
+
+
+ ### Paso 14) Creación y Configuración del Servicio UsuarioService
+ #### (Ya sabemos que en el service desarrollamos la lógica de negocio de la aplicación)
+
+</br>
+
+#### 14.1) Creación del Servicio `UsuarioService`
+* Este servicio se alojará dentro de `mypackages.services`
+* Creamos la Clase Service en ese paquete, los pasos para la creación de la misma ya son conocidos.
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.service;
+
+public class UsuarioService {
+
+}
+
+
+```
+
+
+
+</br>
+
+#### 14.2) Configuración del Servicio `UsuarioService`
+* Vamos a hacer uso de las anotaciones de Spring para que trabaje con jpaRepository,  los pasos y anotaciones son los mismos que el otro service, la funcionalidad es la misma, la unica diferencia es que trabajamos con el repositorio y la entidad del Usuario
+* Al igual que el otro service se hará uso de la inyección de dependencias
+* Vamos a implementar la Interfaz `UserDetailsService`, esta se va a encargar que el usuario acceda directamente al contenido de las bases de datos, esta interfaz describe nu objeto que realizaz un acceso a datos con un unico metodo llmado `loadUserByUsername` que devuelve la info de un usuario. Esto lo vamos a hacer con el metodo declarado en la interfaz `findByUsuario`
+* Este metodo nos devuelve un usuario, pero necesitamos los detalles del mismo, por ende vamos a instanciar un objeto de tipo `User`, esta clase del paquete del core de spring tiene   7 argumentos que debemos pasarle,  el usuario, password, la habilitacion, la autorizacion, etc.
+* Código Completo...
+
+```java
+package com.api.productos.mypackages.repositories.interfaces;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.entities.Usuario;
+
+@Repository("I_UsuarioRepository")
+public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable>{
+
+	public abstract Usuario findById(int id);
+
+	public abstract Usuario findByUsuario(String usuario);
+	
+	public abstract Usuario findByContrasenia(String contrasenia);
+
+	public abstract Usuario findByRol(byte rol);
+	
+	public abstract Usuario findByEstado(boolean estado);
+
+
+
+	
+}
+
+
+```
+
+
 </br>
 
 
@@ -2482,6 +2779,36 @@ public class ProductoService {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</br>
+
+
+
+ ### Paso 14)  Creación de la Clase `UsuarioConfiguration`
+ #### (Esta Clase alojará la configuración del usuario o ded los usuarios que tengan acceso a la aplicación, utilizaremos Spring Security y Json Web Tokens)
+
+</br>
 
 
 
