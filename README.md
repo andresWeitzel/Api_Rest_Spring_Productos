@@ -56,6 +56,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Hibernate-Core | 5.4.27 | El Core de Hibernate |
 | JPA-Hibernate | 2.1 | Persistencia de datos a la db |
 | Spring-data-jpa | 2.6.1 | Api de JpaRepository para el manejo de métodos | 
+| Spring-boot-starter-security | 2.6.2 | Api se Spring Security para la Seguridad de la Aplicación | 
 | Spring Security | 5.6.1 | Servicios de Seguridad |
 | Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
@@ -72,6 +73,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Repositorio dependencia Hibernate-Core: https://search.maven.org/artifact/org.hibernate/hibernate-core/5.4.27.Final/jar
 * Repositorio dependencia JPA-Hibernate: https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api/1.0.2.Final
 * Repositorio dependencia Spring data JpaRepository: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/2.6.1
+* Repositorio Spring-boot-starter-security: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security/2.6.2
 * Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
 * Repositorio dependencia spring-security : https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
@@ -142,13 +144,12 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
    - [Paso 12) Creación y Configuración de la Clase Usuario](#paso-12-creación-y-configuración-de-la-clase-usuario)
 
-
    - [Paso 13) Creación y Configuración de la Interfaz I_UsuarioRepository](#paso-13-creación-y-configuración-de-la-interfaz-i_usuarioRepository)
 
    - [Paso 14) Creación y Configuración del Servicio UsuarioService](#paso-14-creación-y-configuración-del-servicio-usuarioservice)
 
+   - [Paso 15) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-15-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
 
-   - [Paso 13) Creación de la Clase UsuarioConfiguration](#paso-13-creación-de-la-clase-usuarioconfiguration)
 
 
 
@@ -381,6 +382,22 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
     <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-core</artifactId>
     <version>5.6.1</version>
+</dependency>
+
+
+```
+
+</br>
+
+* La segunda dependencia será para la API de Spring Security, Spring boot starter security 2.6.2 (https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security/2.6.2)
+* Incluis la dependeencia dentro del pom.xml
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+    <version>2.6.2</version>
 </dependency>
 
 
@@ -2732,6 +2749,22 @@ public class UsuarioService {
 * Al igual que el otro service se hará uso de la inyección de dependencias
 * Vamos a implementar la Interfaz `UserDetailsService`, esta se va a encargar que el usuario acceda directamente al contenido de las bases de datos, esta interfaz describe nu objeto que realizaz un acceso a datos con un unico metodo llmado `loadUserByUsername` que devuelve la info de un usuario. Esto lo vamos a hacer con el metodo declarado en la interfaz `findByUsuario`
 * Este metodo nos devuelve un usuario, pero necesitamos los detalles del mismo, por ende vamos a instanciar un objeto de tipo `User`, esta clase del paquete del core de spring tiene   7 argumentos que debemos pasarle,  el usuario, password, la habilitacion, la autorizacion, etc.
+* Además vamos a crear una función llamada `obtenerPermisos` que nos devuelva una Lista de tipo `GrantedAuthority`, que son los permisos para un usuario en concreto, entonces el argumento de la funcion esparara el rol (que permiso tiene el usuario) y nos devolverá los permisos a través de una simple estructura de dato.
+* Código función..
+```java
+public List<GrantedAuthority> obtenerPermisos(byte rol){
+		
+		String roles[] = {"LECTURA","USUARIO","ADMINISTRADOR"};
+		
+		List<GrantedAuthority> auths = new ArrayList();
+		
+		for(int i=0 ; i < rol ; i++) {
+			auths.add(new SimpleGrantedAuthority(roles[i]));
+		}
+		
+		return auths;
+	}
+```
 * Código Completo...
 
 ```java
@@ -2772,11 +2805,70 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 ```
 
 
+
 </br>
 
 
+ ### Paso 15) Creación y Configuración de la Clase de Configuración WebSecurity
+ #### (Esta clase va a proporcionar seguridad basada en la web, como por ejemplo que el usuaio se autentique antes de acceder a cualquier URL dentro de nuestra aplicacion, manejo de roles(permisos de usuarios), autenticacion HTTP, paginas de inicio y cierre de sesion, etc)
+
+</br>
+
+#### 15.1) Creación de la Clase Configuration `WebSecurity`
+* Vamos a crear el paquete que contendra la clase
+* El paquete será `mypackages.configurations` 
+* Creamos la Clase dentro del paquete
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.configurations;
+
+public class WebSecurity {
+
+}
 
 
+```
+
+
+
+</br>
+
+
+#### 15.2) Configuración de la Clase Configuration `WebSecurity`
+* Para una clase de configuration necesitaremos la anotacion `@Configuration` 
+* Para activar la seguridad en la clase empleamos la anotacion `@EnableWebSecurity`
+* Esta clase va a heredar de `WebSecurityConfigurerAdapter`, de esta forma podemos personalizar WebSecurity y HttpSecurity, podemos replicar el comportamiento obteniendo multiples elementos http heredando en los diferentes beans(clases) 
+* Vamos a utilizar inyección de dependencias para traer las funcionalidades de nuestro `UsuarioService`
+* Código Inyección..
+```java
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
+		@Autowired
+		@Qualifier("UsuarioService")
+		private UsuarioService usuarioService;
+
+	
+
+```
+* Implementamos los 2 métodos más usados de la clase `configure(AuthenticationManagerBuilder auth)` y `configure(HttpSecurity http)`
+* Vamos a reestructurar el cuerpo de cada uno de los metodos..
+* En el `configure(AuthenticationManagerBuilder auth)` implementamos el UsuarioService a traves del método `userDetailsService`
+* Con esta función spring comprueba y realiza la verificación de autenticación de tal usuario
+* Código función..
+```java
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		
+		auth.userDetailsService(usuarioService);
+	}
+
+
+```
+
+
+
+</br>
 
 
 
@@ -2869,7 +2961,7 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 </br>
 
 
- ### Anotaciones Usadas para Spring
+ ### Anotaciones Usadas para Spring Boot y Spring Security
  
 | **Componentes e Inyección de Dependencia** | **Finalidad** |               
 | ------------- | ------------- |
@@ -2894,6 +2986,12 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 
 
 </br>
+
+| **Spring Security** | **Finalidad** |
+| ------------- | ------------- |
+| @Configuration | Activamos las solicitudes de Servicios para estos Beans |
+| @EnableWebSecurity | Activamos SpringSecurity en nuestra aplicación |
+
 
 </br>
 
