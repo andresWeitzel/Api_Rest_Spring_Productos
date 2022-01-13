@@ -148,7 +148,15 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
    - [Paso 14) Creación y Configuración del Servicio UsuarioService](#paso-14-creación-y-configuración-del-servicio-usuarioservice)
 
-   - [Paso 15) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-15-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
+   - [Paso 15) Creación y Configuración de la Clase de Configuración UsuarioConfiguration](#paso-15-creación-y-configuración-de-la-clase-de-configuracion-usuarioconfiguration)
+
+   - [Paso 16) Creación y Configuración de la Clase de Configuración LoginFilterConfiguration](#paso-16-creación-y-configuración-de-la-clase-de-configuracion-loginfilterconfiguration)
+
+
+
+   - [Paso 18) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-18-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
+
+
 
 
 
@@ -2547,11 +2555,14 @@ public class Usuario {
 
 #### 12.2) Configuración de la Clase `Usuario`
 * Vamos a hacer uso de las anotaciones JPA para persistir y crear los campos en la db, hay que tener en consideración, que como bien se explico en las primeras sesiones, JPA persisti y reemplaza los valores en la db, osea que si no se creo las tablas nombradas en estas entidades hibernate las crea en la db, por ende hay que tener mayor enfasis en el nombramiento de atributos y clases en las entidades, para esta ocasión no vamos a crear la tabala en la base de datos, sino que directamente vamos a trabajar desde la clase en Java, nuevamente aclaro, ojo con los nombres y convenciones entre Java y SQL.
+* Además dicha clase va a emplementar un Serializable, para convertir los Beans en flujos de Bytes.
 * Los últimos 2 atributos de la clase hacen referencia a la sesión del usuario, si es admin, usuario convencional o lo que fuese, y si el estado de tipo booelan para los demás atributos que tenga dicho usuario, si posee activo o no los atributos que vayamos a comparar.
 * Código Completo...
 
 ```java
 package com.api.productos.mypackages.entities;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -2562,7 +2573,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="usuarios")
-public class Usuario {
+public class Usuario implements Serializable{
 	
 	@GeneratedValue
 	@Id
@@ -2637,6 +2648,7 @@ public class Usuario {
 	
 
 }
+
 
 ```
 
@@ -2804,17 +2816,214 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 
 ```
 
+</br>
+
+
+ ### Paso 15)  Creación y Configuración de la Clase de Configuración `UsuarioConfiguration`
+ #### (Esta Clase alojará la configuración del usuario que tenga acceso a la aplicación, utilizaremos Spring Security y Json Web Tokens)
+
+</br>
+
+#### 15.1) Creación de la Clase de Configuracion `UsuarioConfiguration`
+* Creamos la clase dentro del paquete `mypackages.configurations` ya creado previamente para la clase anterior 
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.configurations;
+
+public class UsuarioConfiguration {
+
+}
+
+
+```
+
+
+</br>
+
+#### 15.2) Configuración de la Clase de Configuracion `UsuarioConfiguration`
+* Esta clase debe de enviar un token hacia la clase WebConfiguration, el token lo deberá generar otra clase llamada `JwtUtil`, pasará por un filtro a través de la clase aún no creada `JwFilter` entre otras cosas.
+* Creamos atributos getters y setters..
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.configurations;
+
+public class UsuarioConfiguration {
+	
+	private String usuario;
+	
+	public String getUsuario() {
+		return usuario;
+	}
+
+	
+	
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	private String contrasenia;
+	
+	
+
+}
+
+
+```
 
 
 </br>
 
 
- ### Paso 15) Creación y Configuración de la Clase de Configuración WebSecurity
+ ### Paso 16) Creación y Configuración de la Clase de Configuración `LoginFilterConfiguration` 
+ #### (Esta Clase será la que procese los tokens de solicitud de autenticación creados mediante la implementación de las otras clases)
+
+</br>
+
+#### 16.1) Creación de la Clase de Configuracion `LoginFilterConfiguration` 
+* Creamos la clase dentro del paquete `mypackages.configurations` ya creado previamente para la clase anterior 
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.configurations;
+
+public class LoginFilterConfiguration {
+
+}
+
+
+```
+
+
+</br>
+
+#### 16.2) Configuración de la Clase de Configuracion `LoginFilterConfiguration` 
+* Esta clase heredara las funcionalidades de la clase `AbstractAuthenticationProcessingFilter`,que a su vez esta procesa los tokens de solicitud ed autenticación..
+* Debemos implementar el método de dicha clase, porque el constructor será completamente modificado, en los parametros de el constructor se le pasara la URL desde el Service que crearemos más adelante  `WebSecurity`, el segundo parametro sera de tipo `AuthenticationManager`, que es una interfaz para la autenticación, esta devuelve una instancia con el indicador establecido en true.
+* Dentro del constructor, invocando al padre, creamos una instancia de `AntPathRequestMatcher` pasandole la url, este objeto compara la url con un patron predefinido omitido y coincidira o no con los metodos http.
+* Luego invocamos al metodo `setAuthenticationManager` pasandole el `authManager`, el metodo obtiene una instancia de autenticacion para usarla en solicitudes posteriores
+* Código del constructor `LoginFilterConfiguration` ...
+
+```java
+ public LoginFilterConfiguration(String url, AuthenticationManager authManager) {
+	        super(new AntPathRequestMatcher(url));
+	        setAuthenticationManager(authManager);
+	    }
+
+```
+
+* El Método `attemptAuthentication` procesa el envio de un formulario de autenticación. Los formularios de inicio de sesión deben presentar dos parámetros a este filtro: un nombre y una contraseña. Los parametros de dicho metodo serán `HttpServletRequest` y `HttpServletResponse`, el primero para manejar y obtener la petición del cliente y el segundo para procesarla.
+* Dentro de dicho método declaramos una variable de tipo InputStream para obtener la petición en formato JSON. Luego creamos otra variable de tipo User para realizar el mapeo a nuestra clase UsuarioConfiguration para almacenar los datos, usuario y contraseña
+* Por último dicho método va a devolver una Colección de elementos, el usuario y contraseña autenticado, en esta parte se compara el token
+* Código del método `attemptAuthentication` ...
+
+```java
+@Override
+	    public Authentication attemptAuthentication(
+	            HttpServletRequest req, HttpServletResponse res)
+	            throws AuthenticationException, IOException, ServletException {
+
+	        // obtenemos el body de la peticion que asumimos viene en formato JSON
+	        InputStream body = req.getInputStream();
+
+	        // Asumimos que el body tendrá el siguiente JSON  {"username":"ask", "password":"123"}
+	        // Realizamos un mapeo a nuestra clase UsuarioConfiguration para tener ahi los datos
+	        UsuarioConfiguration user = new ObjectMapper().readValue(body, UsuarioConfiguration.class);
+
+	        // Finalmente autenticamos
+	        // Spring comparará el user/password recibidos
+	        // contra el que definimos en la clase SecurityConfig
+	        return getAuthenticationManager().authenticate(
+	                new UsernamePasswordAuthenticationToken(
+	                        user.getUsuario(),
+	                        user.getContrasenia(),
+	                        Collections.emptyList()
+	                )
+	        );
+	}
+```
+* Código Completo de la Clase `LoginFilterConfiguration`
+```java
+package com.api.productos.mypackages.configurations;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFilter{
+
+	  public LoginFilterConfiguration(String url, AuthenticationManager authManager) {
+	        super(new AntPathRequestMatcher(url));
+	        setAuthenticationManager(authManager);
+	    }
+
+	  @Override
+	    public Authentication attemptAuthentication(
+	            HttpServletRequest req, HttpServletResponse res)
+	            throws AuthenticationException, IOException, ServletException {
+
+	        // obtenemos el body de la peticion que asumimos viene en formato JSON
+	        InputStream body = req.getInputStream();
+
+	        // Asumimos que el body tendrá el siguiente JSON  {"username":"ask", "password":"123"}
+	        // Realizamos un mapeo a nuestra clase UsuarioConfiguration para tener ahi los datos
+	        UsuarioConfiguration user = new ObjectMapper().readValue(body, UsuarioConfiguration.class);
+
+	        // Finalmente autenticamos
+	        // Spring comparará el user/password recibidos
+	        // contra el que definimos en la clase SecurityConfig
+	        return getAuthenticationManager().authenticate(
+	                new UsernamePasswordAuthenticationToken(
+	                        user.getUsuario(),
+	                        user.getContrasenia(),
+	                        Collections.emptyList()
+	                )
+	        );
+	    }
+
+}
+
+```
+* Recomiendo el siguiente link : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt
+
+
+
+
+</br>
+
+
+
+
+</br>
+
+ ### Paso 18) Creación y Configuración de la Clase de Configuración `WebSecurity`
  #### (Esta clase va a proporcionar seguridad basada en la web, como por ejemplo que el usuaio se autentique antes de acceder a cualquier URL dentro de nuestra aplicacion, manejo de roles(permisos de usuarios), autenticacion HTTP, paginas de inicio y cierre de sesion, etc)
 
 </br>
 
-#### 15.1) Creación de la Clase Configuration `WebSecurity`
+#### 18.1) Creación de la Clase Configuration `WebSecurity`
 * Vamos a crear el paquete que contendra la clase
 * El paquete será `mypackages.configurations` 
 * Creamos la Clase dentro del paquete
@@ -2835,7 +3044,7 @@ public class WebSecurity {
 </br>
 
 
-#### 15.2) Configuración de la Clase Configuration `WebSecurity`
+#### 18.2) Configuración de la Clase Configuration `WebSecurity`
 * Para una clase de configuration necesitaremos la anotacion `@Configuration` 
 * Para activar la seguridad en la clase empleamos la anotacion `@EnableWebSecurity`
 * Esta clase va a heredar de `WebSecurityConfigurerAdapter`, de esta forma podemos personalizar WebSecurity y HttpSecurity, podemos replicar el comportamiento obteniendo multiples elementos http heredando en los diferentes beans(clases) 
@@ -2865,42 +3074,12 @@ public class WebSecurity {
 
 
 ```
-
-
-
-</br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* La Segunda 
 
 
 </br>
 
 
-
- ### Paso 14)  Creación de la Clase `UsuarioConfiguration`
- #### (Esta Clase alojará la configuración del usuario o ded los usuarios que tengan acceso a la aplicación, utilizaremos Spring Security y Json Web Tokens)
-
-</br>
 
 
 
