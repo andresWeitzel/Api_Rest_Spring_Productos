@@ -30,6 +30,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(usuarioService);
 	}
 
+	
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
