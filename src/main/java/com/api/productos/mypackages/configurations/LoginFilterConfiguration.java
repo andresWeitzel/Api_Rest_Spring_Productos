@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +47,16 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 	                        Collections.emptyList()
 	                )
 	        );
+	    }
+	  
+	  @Override
+	    protected void successfulAuthentication(
+	            HttpServletRequest req,
+	            HttpServletResponse res, FilterChain chain,
+	            Authentication auth) throws IOException, ServletException {
+
+	        // Si la autenticacion fue exitosa, agregamos el token a la respuesta
+	        JwtUtilConfiguration.addAuthentication(res, auth.getName());
 	    }
 
 }

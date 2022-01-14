@@ -85,12 +85,13 @@
 
 
 
-<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 <dependency>
-    <groupId>com.auth0</groupId>
-    <artifactId>java-jwt</artifactId>
-    <version>3.18.2</version>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.9.1</version>
 </dependency>
+
 
 
 <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
