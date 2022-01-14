@@ -12,7 +12,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Spring Tool Suite 4 | 4.9.0  | IDE |
 | Spring Boot |   2.5.4  | Framework |
 | Spring Security | 5.6.1 | Servicios de Seguridad |
-| JSON Web Token | 3.18.2 | Creación de tokens de acceso | 
+| JSON Web Token | 0.9.1 | Creación de tokens de acceso | 
 | Maven |  4.0.0 | Gestor de Proyectos |
 | JPA-Hibernate | 5.4.27 | Framework para el mapeo de objetos y persistenciua en la db |
 | PostMan | 9.4.1 | Test de Apis |
@@ -61,7 +61,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 | Javax Annotation API | 1.3.2 | Api para la lectura de Annotation |
 | javax.xml.bind | 2.3.1 |  Dependencia para convertir Objetos Java en Objetos XML |
 | jackson-databind | 2.12.4 |  Dependencia para convertir Objetos Java en Objetos JSON |
-| JSON Web Token | 3.18.2 | Creación de tokens de acceso | 
+| JSON Web Token | 0.9.1 | Creación de tokens de acceso | 
 
 
 </br>
@@ -77,7 +77,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Repositorio dependencia javax.xml.bind : https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
 * Repositorio dependencia spring-security : https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
-* Repositorio dependencia json web tokens : https://mvnrepository.com/artifact/com.auth0/java-jwt
+* Repositorio dependencia json web tokens : https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt/0.9.1
 
 
 
@@ -150,11 +150,20 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
    - [Paso 15) Creación y Configuración de la Clase de Configuración UsuarioConfiguration](#paso-15-creación-y-configuración-de-la-clase-de-configuracion-usuarioconfiguration)
 
-   - [Paso 16) Creación y Configuración de la Clase de Configuración LoginFilterConfiguration](#paso-16-creación-y-configuración-de-la-clase-de-configuracion-loginfilterconfiguration)
+   - [Paso 16) Creación y Configuración de la Clase de Configuración JwtUtilConfiguration](#paso-16-creación-y-configuración-de-la-clase-de-configuracion-jwtutilconfiguration)
+
+   
+   - [Paso 17) Creación y Configuración de la Clase de Configuración JwtFilterConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-jwtfilterconfiguration)
+
+
+   
+   - [Paso 18) Creación y Configuración de la Clase de Configuración LoginFilterConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-loginfilterconfiguration)
 
 
 
-   - [Paso 18) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-18-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
+
+
+   - [Paso 19) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-18-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
 
 
 
@@ -415,16 +424,18 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 #### 3.7) Dependencia para los tokens de la aplicación y autenticación con JSON .
 
-* Buscamos JWT, versión 3.18.2 (https://mvnrepository.com/artifact/com.auth0/java-jwt/3.18.2)
+* Buscamos JJWT, versión 0.9.1 (https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt/0.9.1)
 * Copias la dependencia desde Maven o desde acá, luego lo incluis en el pom.xml
 
 ```xml
-<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+
+<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 <dependency>
-    <groupId>com.auth0</groupId>
-    <artifactId>java-jwt</artifactId>
-    <version>3.18.2</version>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.9.1</version>
 </dependency>
+
 
 
 ```
@@ -2881,16 +2892,184 @@ public class UsuarioConfiguration {
 ```
 
 
+
+
 </br>
 
 
- ### Paso 16) Creación y Configuración de la Clase de Configuración `LoginFilterConfiguration` 
+ ### Paso 16) Creación y Configuración de la Clase de Configuración `JwtUtilConfiguration` 
+ #### (Esta Clase será la que genere el token del cliente cada vez que se valida el usuario y contraseña. Una vez que el cliente necesite usar la aplicación deberá mandar ese token generado para solicitar dicho recurso )
+
+</br>
+
+#### 16.1) Creación de la Clase de Configuracion `JwtUtilConfiguration` 
+* Creamos la clase dentro del paquete `mypackages.configurations` ya creado previamente para la clase anterior 
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.configurations;
+
+public class JwtUtilConfiguration {
+
+}
+
+
+```
+
+
+</br>
+
+#### 16.2) Configuración de la Clase de Configuracion `JwtUtilConfiguration` 
+* La descripción de cada cosa esta mismo en los comentarios del código..
+* Código Completo..
+```java
+package com.api.productos.mypackages.configurations;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import static java.util.Collections.emptyList;
+
+public class JwtUtilConfiguration {
+	
+	
+	// Método para crear el JWT y enviarlo al cliente en el header de la respuesta
+    static void addAuthentication(HttpServletResponse res, String username) {
+
+        String token = Jwts.builder()
+            .setSubject(username)
+                
+            // Vamos a asignar un tiempo de expiracion de 1 minuto
+            // solo con fines demostrativos en el video que hay al final
+            .setExpiration(new Date(System.currentTimeMillis() + 60000))
+            
+            // Hash con el que firmaremos la clave
+            .signWith(SignatureAlgorithm.HS512, "P@tit0")
+            .compact();
+
+        //agregamos al encabezado el token
+        res.addHeader("Authorization", "Bearer " + token);
+    }
+
+    // Método para validar el token enviado por el cliente
+    static Authentication getAuthentication(HttpServletRequest request) {
+        
+        // Obtenemos el token que viene en el encabezado de la peticion
+        String token = request.getHeader("Authorization");
+        
+        // si hay un token presente, entonces lo validamos
+        if (token != null) {
+            String user = Jwts.parser()
+                    .setSigningKey("P@tit0")
+                    .parseClaimsJws(token.replace("Bearer", "")) //este metodo es el que valida
+                    .getBody()
+                    .getSubject();
+
+            // Recordamos que para las demás peticiones que no sean /login
+            // no requerimos una autenticacion por username/password 
+            // por este motivo podemos devolver un UsernamePasswordAuthenticationToken sin password
+            return user != null ?
+                    new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
+                    null;
+        }
+        return null;
+    }
+
+}
+
+
+```
+ 
+ </br>
+ 
+ 
+ ### Paso 17) Creación y Configuración de la Clase de Configuración `JwtFilterConfiguration` 
+ #### (Esta Clase será la que se encargue de validar el token proporcionado por el cliente, recordar, el cliente proporciona usuario y contraseña y como respuesta se le envia un token con toda la seguridad detrás del mismo, ese token el cliente lo usará cada vez que se quiera conectar a la aplicación, entonces este filtro sirve para validar ese token)
+
+</br>
+
+
+#### 17.1) Creación de la Clase de Configuracion `JwtFilterConfiguration` 
+* Creamos la clase dentro del paquete `mypackages.configurations`.
+* Código Snippet...
+
+```java
+package com.api.productos.mypackages.configurations;
+
+public class JwtFilterConfiguration {
+
+}
+
+
+```
+
+
+</br>
+
+#### 17.2) Configuración de la Clase de Configuracion `JwtFilterConfiguration` 
+* Vamos a implementar el metodo de la clase `GenericFilterBean` llamado `doFilter`.
+* La clase que se hereda es una superclase para cualquier tipo de filtro. La conversión de tipos de parámetros de configuración es automática, y el método setter correspondiente se invoca con el valor convertido. También es posible que las subclases especifiquen las propiedades requeridas. Los parámetros sin que coincidan con el configurador de propiedades de bean simplemente se ignorarán. 
+* El Método `doFilter`  es un metodo filtro de servlet que interceptan dinamicamente solicitudes y respuestas para transformar o utilizar la informacion contenida en las mismas
+* Luego llamaremos al jwtUtil trayendo la autenticacion con el request del cliente, seguidamente se aplica un `SecurityContextHolder`, Esta clase proporciona una serie de métodos estáticos que delegan en una instancia de SecurityContextHolderStrategy. El propósito de la clase es proporcionar una forma conveniente de especificar la estrategia que se debe usar para una JVM determinada. Esta es una configuración de toda la JVM, ya que todo en esta clase es para facilitar el uso en el código de llamada .static
+* Por Último aplicamos el `filterChain` para concluir el proceso de filtrado 
+```java
+
+package com.api.productos.mypackages.configurations;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+
+public class JwtFilterConfiguration extends GenericFilterBean{
+
+	
+	@Override
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
+                         FilterChain filterChain)
+            throws IOException, ServletException {
+
+
+        Authentication authentication = JwtUtilConfiguration.getAuthentication((HttpServletRequest)request);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        filterChain.doFilter(request,response);
+    }
+	
+	
+}
+
+
+```
+
+
+</br>
+
+
+ ### Paso 18) Creación y Configuración de la Clase de Configuración `LoginFilterConfiguration` 
  #### (Esta Clase será la que procese los tokens de solicitud de autenticación creados mediante la implementación de las otras clases)
 
 </br>
 
-#### 16.1) Creación de la Clase de Configuracion `LoginFilterConfiguration` 
-* Creamos la clase dentro del paquete `mypackages.configurations` ya creado previamente para la clase anterior 
+#### 18.1) Creación de la Clase de Configuracion `LoginFilterConfiguration` 
+* Creamos la clase dentro del paquete `mypackages.configurations`.
 * Código Snippet...
 
 ```java
@@ -2906,7 +3085,7 @@ public class LoginFilterConfiguration {
 
 </br>
 
-#### 16.2) Configuración de la Clase de Configuracion `LoginFilterConfiguration` 
+#### 18.2) Configuración de la Clase de Configuracion `LoginFilterConfiguration` 
 * Esta clase heredara las funcionalidades de la clase `AbstractAuthenticationProcessingFilter`,que a su vez esta procesa los tokens de solicitud ed autenticación..
 * Debemos implementar el método de dicha clase, porque el constructor será completamente modificado, en los parametros de el constructor se le pasara la URL desde el Service que crearemos más adelante  `WebSecurity`, el segundo parametro sera de tipo `AuthenticationManager`, que es una interfaz para la autenticación, esta devuelve una instancia con el indicador establecido en true.
 * Dentro del constructor, invocando al padre, creamos una instancia de `AntPathRequestMatcher` pasandole la url, este objeto compara la url con un patron predefinido omitido y coincidira o no con los metodos http.
@@ -2951,6 +3130,21 @@ public class LoginFilterConfiguration {
 	        );
 	}
 ```
+* Por Último crearemos el método que valide todo el proceso de autenticación llamdo `successfulAuthetication` se aplicaran los métodos https, el FilterChain y el Authentication en sus parametros. El método en sí llama a la clase que genera el token `JwtUtilConfiguration` y agrega la autenticacion 
+* Código del método `successfulAuthentication`..
+```java
+@Override
+	    protected void successfulAuthentication(
+	            HttpServletRequest req,
+	            HttpServletResponse res, FilterChain chain,
+	            Authentication auth) throws IOException, ServletException {
+
+	        // Si la autenticacion fue exitosa, agregamos el token a la respuesta
+	        JwtUtilConfiguration.addAuthentication(res, auth.getName());
+	    }
+
+```
+
 * Código Completo de la Clase `LoginFilterConfiguration`
 ```java
 package com.api.productos.mypackages.configurations;
@@ -2959,6 +3153,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -3002,31 +3197,51 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 	                )
 	        );
 	    }
+	  
+	  @Override
+	    protected void successfulAuthentication(
+	            HttpServletRequest req,
+	            HttpServletResponse res, FilterChain chain,
+	            Authentication auth) throws IOException, ServletException {
+
+	        // Si la autenticacion fue exitosa, agregamos el token a la respuesta
+	        JwtUtilConfiguration.addAuthentication(res, auth.getName());
+	    }
 
 }
 
 ```
-* Recomiendo el siguiente link : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt
+* Para Spring Security recomiendo : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt o https://windoctor7.github.io/spring-jwt.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 </br>
 
-
-
-
-</br>
-
- ### Paso 18) Creación y Configuración de la Clase de Configuración `WebSecurity`
+ ### Paso 19) Creación y Configuración de la Clase de Configuración `WebSecurity`
  #### (Esta clase va a proporcionar seguridad basada en la web, como por ejemplo que el usuaio se autentique antes de acceder a cualquier URL dentro de nuestra aplicacion, manejo de roles(permisos de usuarios), autenticacion HTTP, paginas de inicio y cierre de sesion, etc)
 
 </br>
 
-#### 18.1) Creación de la Clase Configuration `WebSecurity`
-* Vamos a crear el paquete que contendra la clase
-* El paquete será `mypackages.configurations` 
-* Creamos la Clase dentro del paquete
+#### 19.1) Creación de la Clase Configuration `WebSecurity`
+* Vamos a crear la clase en el mismo paquetes que todas las clases de configuracion, `mypackages.configurations` 
 * Código Snippet...
 
 ```java
@@ -3044,7 +3259,7 @@ public class WebSecurity {
 </br>
 
 
-#### 18.2) Configuración de la Clase Configuration `WebSecurity`
+#### 19.2) Configuración de la Clase Configuration `WebSecurity`
 * Para una clase de configuration necesitaremos la anotacion `@Configuration` 
 * Para activar la seguridad en la clase empleamos la anotacion `@EnableWebSecurity`
 * Esta clase va a heredar de `WebSecurityConfigurerAdapter`, de esta forma podemos personalizar WebSecurity y HttpSecurity, podemos replicar el comportamiento obteniendo multiples elementos http heredando en los diferentes beans(clases) 
@@ -3074,39 +3289,84 @@ public class WebSecurity {
 
 
 ```
-* La Segunda 
+* El segundo método se deberá pasar en su parametro un elemento de tipo `HttpSecurity`,  este permite configurar la seguridad basada en la web para solicitudes http. La configuracion requerira que cualquier URL que se solicite requiere un Usuario con el rol "ROLE_USER". También se define un esquema de autenticación en memoria con un usuario que tiene un nombre y contraseña. Seguidamente esta funcion permitará el ingreso a cualquier usuario a través de la url `/login`, estas peticiones a traves dee esta peticion pasarán por los filtros desarrollados en cada clase, entonces, cualquier cliente puede ingresar a la url pero no a la aplicacion, si el cliente x ingresa usuario y contraseña adecuado se genera el famoso token que seran las credenciales de ese cliente, caso de que ese cliente x no ingrese el usuario y contraseño correcto no se generará ese token y solamente tendrá acceso al login y no a la aplicacion.
+* Código función..
+```java
+	
 
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeRequests()
+        .antMatchers("/login").permitAll() //permitimos el acceso a /login a cualquiera
+        .anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
+        .and()
+        // Las peticiones /login pasaran previamente por este filtro
+        .addFilterBefore(new LoginFilterConfiguration("/login", authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class)
+            
+        // Las demás peticiones pasarán por este filtro para validar el token
+        .addFilterBefore(new JwtFilterConfiguration(),
+                UsernamePasswordAuthenticationFilter.class);
+	}
+```
+* Código Completo de la clase `WebSecurityConfiguration`..
+```java
+package com.api.productos.mypackages.configurations;
 
-</br>
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
+import com.api.productos.mypackages.service.UsuarioService;
 
+@Configuration
+@EnableWebSecurity
+public class WebSecurity extends WebSecurityConfigurerAdapter {
 
+	
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
+		@Autowired
+		@Qualifier("UsuarioService")
+		private UsuarioService usuarioService;
 
+	
+	
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		
+		auth.userDetailsService(usuarioService);
+	}
 
+	
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeRequests()
+        .antMatchers("/login").permitAll() //permitimos el acceso a /login a cualquiera
+        .anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
+        .and()
+        // Las peticiones /login pasaran previamente por este filtro
+        .addFilterBefore(new LoginFilterConfiguration("/login", authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class)
+            
+        // Las demás peticiones pasarán por este filtro para validar el token
+        .addFilterBefore(new JwtFilterConfiguration(),
+                UsernamePasswordAuthenticationFilter.class);
+	}
 
+	
+	
+	
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
 
 
 
