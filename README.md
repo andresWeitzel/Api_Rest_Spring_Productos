@@ -2586,7 +2586,7 @@ import javax.persistence.Table;
 @Table(name="usuarios")
 public class Usuario implements Serializable{
 	
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name="id" , unique= true)
 	private int id;
@@ -2743,7 +2743,7 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 </br>
 
 
- ### Paso 14) Creación y Configuración del Servicio UsuarioService
+ ### Paso 14) Creación y Configuración del Servicio `UsuarioService`
  #### (Ya sabemos que en el service desarrollamos la lógica de negocio de la aplicación)
 
 </br>
@@ -2772,7 +2772,7 @@ public class UsuarioService {
 * Al igual que el otro service se hará uso de la inyección de dependencias
 * Vamos a implementar la Interfaz `UserDetailsService`, esta se va a encargar que el usuario acceda directamente al contenido de las bases de datos, esta interfaz describe nu objeto que realizaz un acceso a datos con un unico metodo llmado `loadUserByUsername` que devuelve la info de un usuario. Esto lo vamos a hacer con el metodo declarado en la interfaz `findByUsuario`
 * Este metodo nos devuelve un usuario, pero necesitamos los detalles del mismo, por ende vamos a instanciar un objeto de tipo `User`, esta clase del paquete del core de spring tiene   7 argumentos que debemos pasarle,  el usuario, password, la habilitacion, la autorizacion, etc.
-* Además vamos a crear una función llamada `obtenerPermisos` que nos devuelva una Lista de tipo `GrantedAuthority`, que son los permisos para un usuario en concreto, entonces el argumento de la funcion esparara el rol (que permiso tiene el usuario) y nos devolverá los permisos a través de una simple estructura de dato.
+* Además vamos a crear una función llamada `obtenerPermisos` que nos devuelva una Lista de tipo `GrantedAuthority`, que son los permisos para un usuario en concreto, entonces el argumento de la funcion esparara el rol (que permiso tiene el usuario) y nos devolverá los permisos a través de una simple estructura de dato. En este Método trabajamos con un array con permisos de lectura, usuario o admin, creamos un for que referencia a cada uno de ellos, el permiso de lectura corresponde al Cero, el de Usuario al Uno y Administrador al Dos, entonces cuando en el parametro de la funcion se pase alguno de estos correspondientes números se hará referencia a que permiso/rol se tenga
 * Código función..
 ```java
 public List<GrantedAuthority> obtenerPermisos(byte rol){
@@ -2863,6 +2863,8 @@ package com.api.productos.mypackages.configurations;
 public class UsuarioConfiguration {
 	
 	private String usuario;
+	private String contrasenia;
+	
 	
 	public String getUsuario() {
 		return usuario;
@@ -2882,7 +2884,6 @@ public class UsuarioConfiguration {
 		this.contrasenia = contrasenia;
 	}
 
-	private String contrasenia;
 	
 	
 
@@ -3114,8 +3115,7 @@ public class LoginFilterConfiguration {
 	        // obtenemos el body de la peticion que asumimos viene en formato JSON
 	        InputStream body = req.getInputStream();
 
-	        // Asumimos que el body tendrá el siguiente JSON  {"username":"ask", "password":"123"}
-	        // Realizamos un mapeo a nuestra clase UsuarioConfiguration para tener ahi los datos
+	      //Leemos los valores del Json (usuario y contraseña)
 	        UsuarioConfiguration user = new ObjectMapper().readValue(body, UsuarioConfiguration.class);
 
 	        // Finalmente autenticamos
@@ -3182,8 +3182,7 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 	        // obtenemos el body de la peticion que asumimos viene en formato JSON
 	        InputStream body = req.getInputStream();
 
-	        // Asumimos que el body tendrá el siguiente JSON  {"username":"ask", "password":"123"}
-	        // Realizamos un mapeo a nuestra clase UsuarioConfiguration para tener ahi los datos
+	       //Leemos los valores del Json (usuario y contraseña)
 	        UsuarioConfiguration user = new ObjectMapper().readValue(body, UsuarioConfiguration.class);
 
 	        // Finalmente autenticamos
