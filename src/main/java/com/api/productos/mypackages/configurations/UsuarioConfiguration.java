@@ -3,6 +3,8 @@ package com.api.productos.mypackages.configurations;
 public class UsuarioConfiguration {
 	
 	private String usuario;
+	private String contrasenia;
+	
 	
 	public String getUsuario() {
 		return usuario;
@@ -22,8 +24,6 @@ public class UsuarioConfiguration {
 		this.contrasenia = contrasenia;
 	}
 
-	private String contrasenia;
-	
 	
 
 }

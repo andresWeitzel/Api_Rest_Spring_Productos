@@ -33,8 +33,7 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 	        // obtenemos el body de la peticion que asumimos viene en formato JSON
 	        InputStream body = req.getInputStream();
 
-	        // Asumimos que el body tendrá el siguiente JSON  {"username":"ask", "password":"123"}
-	        // Realizamos un mapeo a nuestra clase UsuarioConfiguration para tener ahi los datos
+	        //Leemos los valores del Json (usuario y contraseña)
 	        UsuarioConfiguration user = new ObjectMapper().readValue(body, UsuarioConfiguration.class);
 
 	        // Finalmente autenticamos
