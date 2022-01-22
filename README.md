@@ -3210,7 +3210,7 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 }
 
 ```
-* Para Spring Security recomiendo : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt o https://windoctor7.github.io/spring-jwt.html
+* Para Spring Security recomiendo : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt o https://windoctor7.github.io/spring-jwt.html u otro tutorial https://windoctor7.github.io/spring-jwt.html
 
 
 
