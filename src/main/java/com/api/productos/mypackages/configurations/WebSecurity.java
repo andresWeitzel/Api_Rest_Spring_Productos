@@ -28,7 +28,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
-		auth.userDetailsService(usuarioService);
+		//auth.userDetailsService(usuarioService);
+		
+		// Creamos una cuenta de usuario por default
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password("{noop}admin")
+                .roles("ADMIN");
+		
+		
 	}
 
 	
