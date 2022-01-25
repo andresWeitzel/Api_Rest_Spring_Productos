@@ -140,7 +140,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
-#### Sección 7) Creación y Configuración de SpringSecurity y Json Web Tokens
+#### Sección 7) Creación, Configuración y Prueba de SpringSecurity y Json Web Tokens
+
 
    - [Paso 12) Creación y Configuración de la Clase Usuario](#paso-12-creación-y-configuración-de-la-clase-usuario)
 
@@ -156,15 +157,13 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
    - [Paso 17) Creación y Configuración de la Clase de Configuración JwtFilterConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-jwtfilterconfiguration)
 
 
-   
    - [Paso 18) Creación y Configuración de la Clase de Configuración LoginFilterConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-loginfilterconfiguration)
-
-
-
 
 
    - [Paso 19) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-18-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
 
+ 
+  - [Paso 20) Test de Spring Security y JWT](#paso-20-test-de-spring-security-y-jwt)
 
 
 
@@ -2541,7 +2540,7 @@ public class ProductoService {
 
 
  ### Paso 12)  Creación y Configuración de la Clase `Usuario`
- #### (Esta Clase será la Entidad que JPA-HIBERNATE mapee para crear la tabla en la Base de Datos)
+ #### (Esta Clase será la Entidad que JPA-HIBERNATE mapee para crear la tabla en la Base de Datos.)
 
 </br>
 
@@ -2770,8 +2769,8 @@ public class UsuarioService {
 #### 14.2) Configuración del Servicio `UsuarioService`
 * Vamos a hacer uso de las anotaciones de Spring para que trabaje con jpaRepository,  los pasos y anotaciones son los mismos que el otro service, la funcionalidad es la misma, la unica diferencia es que trabajamos con el repositorio y la entidad del Usuario
 * Al igual que el otro service se hará uso de la inyección de dependencias
-* Vamos a implementar la Interfaz `UserDetailsService`, esta se va a encargar que el usuario acceda directamente al contenido de las bases de datos, esta interfaz describe nu objeto que realizaz un acceso a datos con un unico metodo llmado `loadUserByUsername` que devuelve la info de un usuario. Esto lo vamos a hacer con el metodo declarado en la interfaz `findByUsuario`
-* Este metodo nos devuelve un usuario, pero necesitamos los detalles del mismo, por ende vamos a instanciar un objeto de tipo `User`, esta clase del paquete del core de spring tiene   7 argumentos que debemos pasarle,  el usuario, password, la habilitacion, la autorizacion, etc.
+* Vamos a implementar la Interfaz `UserDetailsService`, esta se va a encargar que el usuario acceda directamente al contenido de las bases de datos, esta interfaz describe nu objeto que realizaz un acceso a datos con un unico metodo llmado `loadUserByUsername` que devuelve la info de un usuario.  Esto lo vamos a hacer con el metodo declarado en la interfaz `findByUsuario`.Previamente Crearemos un objeto encoder para trabajar con las contraseñas cifradas, debemos pasarles este encoder cuando invoquemos al metodo getContrasenia de la Clase Usuario
+* El Método findByUsuario nos devuelve un usuario, pero necesitamos los detalles del mismo, por ende vamos a instanciar un objeto de tipo `User`, esta clase del paquete del core de spring tiene   7 argumentos que debemos pasarle,  el usuario, password, la habilitacion, la autorizacion, etc.
 * Además vamos a crear una función llamada `obtenerPermisos` que nos devuelva una Lista de tipo `GrantedAuthority`, que son los permisos para un usuario en concreto, entonces el argumento de la funcion esparara el rol (que permiso tiene el usuario) y nos devolverá los permisos a través de una simple estructura de dato. En este Método trabajamos con un array con permisos de lectura, usuario o admin, creamos un for que referencia a cada uno de ellos, el permiso de lectura corresponde al Cero, el de Usuario al Uno y Administrador al Dos, entonces cuando en el parametro de la funcion se pase alguno de estos correspondientes números se hará referencia a que permiso/rol se tenga
 * Código función..
 ```java
@@ -2791,39 +2790,65 @@ public List<GrantedAuthority> obtenerPermisos(byte rol){
 * Código Completo...
 
 ```java
-package com.api.productos.mypackages.repositories.interfaces;
+ package com.api.productos.mypackages.service;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import com.api.productos.mypackages.entities.Producto;
 import com.api.productos.mypackages.entities.Usuario;
+import com.api.productos.mypackages.repositories.interfaces.I_UsuarioRepository;
 
-@Repository("I_UsuarioRepository")
-public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable>{
+@Service("UsuarioService")
+public class UsuarioService implements UserDetailsService{
 
-	public abstract Usuario findById(int id);
 
-	public abstract Usuario findByUsuario(String usuario);
+	// ========= INYECCIÓN DE DEPENDENCIAS ==========
+	@Autowired
+	@Qualifier("I_UsuarioRepository")
+	private I_UsuarioRepository iUsuarioRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		 
+		Usuario usuario = iUsuarioRepository.findByUsuario(username);
+		
+		return new User(usuario.getUsuario() , encoder.encode(usuario.getContrasenia()) , usuario.getEstado() 
+				, usuario.getEstado() , usuario.getEstado() , usuario.getEstado() 
+				, obtenerPermisos(usuario.getRol()));
+	}
 	
-	public abstract Usuario findByContrasenia(String contrasenia);
-
-	public abstract Usuario findByRol(byte rol);
+	public List<GrantedAuthority> obtenerPermisos(byte rol){
+		
+		String roles[] = {"LECTURA","USUARIO","ADMINISTRADOR"};
+		
+		List<GrantedAuthority> auths = new ArrayList();
+		
+		for(int i=0 ; i < rol ; i++) {
+			auths.add(new SimpleGrantedAuthority(roles[i]));
+		}
+		
+		
+		
+		return auths;
+	}
 	
-	public abstract Usuario findByEstado(boolean estado);
-
-
-
+	
 	
 }
-
 
 ```
 
@@ -2831,7 +2856,7 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 
 
  ### Paso 15)  Creación y Configuración de la Clase de Configuración `UsuarioConfiguration`
- #### (Esta Clase alojará la configuración del usuario que tenga acceso a la aplicación, utilizaremos Spring Security y Json Web Tokens)
+ #### (Esta Clase será el Modelo de Acceso a la DB para obtener el usuario y contraseña de la db y asi poder validar el login, atenti que la Clase Usuario es para persistir los datos con JPA y la Clase UsuarioConfiguration es para obtener los datos, utilizaremos Spring Security y Json Web Tokens con esta clase)
 
 </br>
 
@@ -2953,11 +2978,11 @@ public class JwtUtilConfiguration {
             .setExpiration(new Date(System.currentTimeMillis() + 60000))
             
             // Hash con el que firmaremos la clave
-            .signWith(SignatureAlgorithm.HS512, "P@tit0")
+            .signWith(SignatureAlgorithm.HS512, "UsuarioValidado")
             .compact();
 
         //agregamos al encabezado el token
-        res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("Authorization", "Token: " + token);
     }
 
     // Método para validar el token enviado por el cliente
@@ -2969,8 +2994,8 @@ public class JwtUtilConfiguration {
         // si hay un token presente, entonces lo validamos
         if (token != null) {
             String user = Jwts.parser()
-                    .setSigningKey("P@tit0")
-                    .parseClaimsJws(token.replace("Bearer", "")) //este metodo es el que valida
+                    .setSigningKey("UsuarioValidado")
+                    .parseClaimsJws(token.replace("Token:", "")) //este metodo es el que valida
                     .getBody()
                     .getSubject();
 
@@ -2983,6 +3008,8 @@ public class JwtUtilConfiguration {
         }
         return null;
     }
+
+}
 
 }
 
@@ -3210,23 +3237,6 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 }
 
 ```
-* Para Spring Security recomiendo : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt o https://windoctor7.github.io/spring-jwt.html u otro tutorial https://windoctor7.github.io/spring-jwt.html
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -3283,7 +3293,16 @@ public class WebSecurity {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
-		auth.userDetailsService(usuarioService);
+//Método para comprobar el user y password en la db		auth.userDetailsService(usuarioService);
+		
+			/*
+		// Podemos Cargar el Usuario y Contraseña en Memoria sin usar la db
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password("admin")
+                .roles("ADMIN");
+		*/
+		
 	}
 
 
@@ -3308,7 +3327,9 @@ public class WebSecurity {
                 UsernamePasswordAuthenticationFilter.class);
 	}
 ```
+
 * Código Completo de la clase `WebSecurityConfiguration`..
+
 ```java
 package com.api.productos.mypackages.configurations;
 
@@ -3340,7 +3361,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
+		//Método para comprobar el user y password en la db
 		auth.userDetailsService(usuarioService);
+		
+		/*
+		// Podemos Cargar el Usuario y Contraseña en Memoria sin usar la db
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password("admin")
+                .roles("ADMIN");
+		*/
+		
 	}
 
 	
@@ -3365,7 +3396,147 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 }
 
+
 ```
+
+* Para Spring Security me guíe por los siguientes tutoriales : https://github.com/windoctor7/codigo-tutoriales-blog/tree/master/spring-auth-jwt o https://windoctor7.github.io/spring-jwt.html u otro tutorial https://windoctor7.github.io/spring-jwt.html
+* Además videotutorial :https://www.youtube.com/watch?v=Gw2d7t1vqLg&list=PLcIHm18h1i4m1xuhwrL-LjVjf5wuYFRCV&index=13
+* Los Nombres y Métodos fueron Modificados a gusto, no está completamente identico
+
+
+
+
+ </br>
+ 
+ 
+ ### Paso 20) Test de `Spring Security` y `JWT`  
+ #### (Llegar hasta este punto no fue fácil, intenté describir lo mejor posible que es lo que hace cada método y funcionalidad implementada, desde ya que de forma superficial por qué no es un tema fácil de digerir, para testear la seguridad vamos a usar nuevamente Postman)
+ 
+ </br>
+ 
+ 
+ #### 20.1) Agregar los Registros de Seguridad para los Usuarios 
+ #### (En esta aplicación tenemos 3 tipos de usuarios según los declarados en UsuarioService, que corresponde al campo rol de la Entidad Usuario, además tenemos el campo estado, que nos permitirá activar o desactivar dichos permisos en la db, vamos a agregar un registro y testear dicha Seguridad)
+ 
+ * Si todo se ha ejecutado correctamente en los pasos anteriores tendríamos la tabla usuarios vacia creada en la db, desde PHPMYADMIN seleccionamos dicha tabla e insertamos desde el editor de linea o pestaña SQL el registro..
+  
+```sql
+use db_api_productos;
+
+insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 , 2 ,'admin');
+
+```
+* El campo estado es de tipo boolean y el campo rol de tipo byte, este validará para 0, 1 o 2 (LECTURA, USUARIO, ADMINISTRADOR)
+
+</br>
+
+ #### 20.2) Verificación de `Tokens` y `Usuarios`
+* Luego en Postman usaremos la ruta `http://localhost:8092/login` de tipo POST con pasandole en el Bodyel usuario y contraseña que tendriamos levantado en la db en formato Json 
+ ```json
+ {
+"usuario":"admin" , "contrasenia":"admin"
+    }
+```
+* Click en Send y Obtenemos un `Status 200 OK`, la petición HTTP fue exitosa, si nos fijamos en la Pestaña de `Headers` veremos una key llamada `Authorization` con el Valor `Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0MzE0ODg1NX0.syW7nAEnKjrWgOU2SWunB4XCyGTWqnHTZoNeZxr3urQ_sjvgRBqBVuFaAUEOs2tNqAoRweoF9dnFL8NhH31Uxw `, este token cambia por cada petición, podemos configurar todo lo que queramos, pero tenemos funcionando SPRING SECURITY Y JWT.
+
+</br>
+
+ #### 20.2) Verificación de `Spring Security`
+ * Veamos si pasando otro usuario y contraseña Spring nos devuelve un token 
+ * Usamos la misma ruta `http://localhost:8092/login` de tipo POST  pasandole un usuario y contraseña incorrecto y no insertado en la db en formato Json 
+ ```json
+ {
+"usuario":"juan" , "contrasenia":"perez"
+    }
+```
+* Obtenemos un `401 Unauthorized`, no tenemos autorización para usar esta aplicación, de la misma forma se puede implementar otro usuario y guardar el estado en 0, false para que si bien este registrado en la base de datos no tenga permisos por equis motivo, esto me parece super interesante, tiene una potencialidad muy grande.
+
+
+</br>
+
+ #### 20.2) Verificación de la `API Productos`
+ * Vimos que podemos o no tener acceso a nuestra Api, teniendo el acceso pertinente vamos a consultar los productos que tenemos en nuestra Base de Datos
+ * Repetimos el Proceso de Obtención de nuestro token para hacer uso de nuestra credencial
+*  Ruta `http://localhost:8092/login` en el Body mandamos un Json..
+ ```json
+ {
+"usuario":"admin" , "contrasenia":"admin"
+    }
+```
+* Obtenemos Nuestro Token `Token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0MzE0OTY4M30.RJ_cWIsyR8sgLKwe7HE80L_P2AyO5GXeldUYJJIEDE2tKT6EVC6-kdBn-DPoSUhHL57XVtcCEnbXXMaUbdGWSQ`
+* Este token (SIN LA PALABRA TOKEN:) lo vamos a pegar en el `VALUE` de la key `Authorization` dentro de la pestaña `Headers`, si no está configurada esta key-value agregar
+* Luego cambiamos la ruta de la petición a `http://localhost:8092/v1/productos`, tipo de Método GET y Click en Send
+* Obtenemos un `Status 200 OK` y dentro de la Pestaña Body del Response obtenemos todos los productos de nuestra API..
+ ```json
+[
+    {
+        "id": 3,
+        "codigo": "JLU-332",
+        "nombre": "Teclado Gamer RGB Ninkiuop",
+        "precio": "6.500"
+    },
+    {
+        "id": 2,
+        "codigo": "ART-990",
+        "nombre": "Monitor 32 pulgadas",
+        "precio": "33.334"
+    },
+    {
+        "id": 4,
+        "codigo": "KTE-111",
+        "nombre": "Mouse Inalambrico",
+        "precio": "3.200"
+    },
+    {
+        "id": 5,
+        "codigo": "KTE-111",
+        "nombre": "Mouse Inalambrico",
+        "precio": "3.200"
+    },
+    {
+        "id": 6,
+        "codigo": "KTE-112",
+        "nombre": "Mouse Inalambrico 4.0",
+        "precio": "3.700"
+    },
+    {
+        "id": 7,
+        "codigo": "KTE-114",
+        "nombre": "Mouse Inalambrico 5.0",
+        "precio": "4.200"
+    }
+]
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
