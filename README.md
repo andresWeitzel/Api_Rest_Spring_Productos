@@ -2,9 +2,15 @@
 
 Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql, JPA-Hibernate y otras Tecnologías.
 
+</br>
 
+### Listado de Productos con uno de los Métodos HTTP y JWT
+
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg)
 
 </br>
+
+
 
 ### Tecnologías Implementadas
 
@@ -96,7 +102,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Select de todos los Productos de la API con el Método GET y el Token
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg" width="400" title="hover text">
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg)
+
 
 </br> 
 
