@@ -88,7 +88,8 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Obtención de Token con JWT
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/obtencionToken.jpg" width="400" title="hover text">
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/obtencionToken.jpg)
 
 </br> 
 
