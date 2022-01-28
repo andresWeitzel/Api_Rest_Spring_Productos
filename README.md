@@ -90,10 +90,11 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
-### Visualización de la Api Rest
+### Visualización de la Api Rest Completa
+
+</br>
 
 ### Obtención de Token con JWT
-
 
 ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/obtencionToken.jpg)
 
@@ -116,7 +117,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
-### Listado de los Productos de la API
+### Listado de los Productos de la API mediante Método HTTP GET
 
 ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
 
@@ -125,21 +126,22 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Listado de los Productos de la API por Paginación (Página 0 obtención 2 Productos)
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_2.jpg" width="400" title="hover text">
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_2.jpg)
+
 
 </br> 
 
 
 ### Listado de los Productos de la API por Paginación (Página 0 obtención 3 Productos)
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_3.jpg" width="400" title="hover text">
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_3.jpg)
 
 </br> 
 
 
 ### Listado de los Productos de la API por Paginación (Página 0 obtención 4 Productos)
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_4.jpg" width="400" title="hover text">
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_4.jpg)
 
 </br> 
 
@@ -147,7 +149,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Listado de los Productos de la API por Paginación (Página 1 obtención 2 Productos)
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_2.jpg" width="400" title="hover text">
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_2.jpg)
 
 </br> 
 
@@ -156,9 +158,90 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Listado de los Productos de la API por Paginación (Página 1 obtención 4 Productos)
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_4.jpg" width="400" title="hover text">
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_4.jpg)
 
 </br> 
+
+
+
+### Inserción de Un Producto mediante Método HTTP POST
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertUnProducto/insertUnProducto.jpg)
+
+</br> 
+
+
+### Log Trabajo Realizado con JPA-HIBERNATE
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertUnProducto/hibernateInsertUnProducto.jpg)
+
+</br> 
+
+
+### Lista de Productos con la Nueva Inserción
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertUnProducto/selectProductoInsertado.jpg)
+
+</br> 
+
+
+### Inserción de Varios Productos
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertVariosProductos/insertVariosProductos.jpg)
+
+</br> 
+
+
+
+### Lista de Productos con las Nuevas Inserciones
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertVariosProductos/selectInsertVariosProductos.jpg)
+
+</br> 
+
+
+
+### Modificación de un Producto mediante Método HTTP PUT
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/update/updateProductos.jpg)
+
+</br> 
+
+
+
+### Visualización de la Lista de Productos con el Producto Modificado
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/update/selectUpdateProductos.jpg)
+
+</br> 
+
+
+
+
+### Eliminación de Un Producto Mediante Método HTTP DELETE
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/delete/deleteProducto.jpg)
+
+</br> 
+
+
+
+### Eliminación de Un Producto Mediante Otro Método HTTP 
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/delete/DeleteProductoConOtroMetodo.jpg)
+
+</br> 
+
+
+
+### Listado de Productos sin el Producto Eliminado
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/delete/selectDeleteProducto.jpg)
+
+</br> 
+
+
+
 
 
 
