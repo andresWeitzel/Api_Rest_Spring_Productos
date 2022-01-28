@@ -6,7 +6,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Listado de Productos con uno de los Métodos HTTP y JWT
 
-  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg)
+ ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
 
 </br>
 
@@ -110,7 +110,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Select de todos los Productos de la API con Método Incorrecto
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductosMetodoHttpIncorrecto.jpg" width="400" title="hover text">
+ ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductosMetodoHttpIncorrecto.jpg)
 
 </br> 
 
@@ -118,7 +118,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Listado de los Productos de la API
 
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg" width="400" title="hover text">
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
 
 </br> 
 
