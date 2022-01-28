@@ -2,74 +2,6 @@
 
 Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql, JPA-Hibernate y otras Tecnologías.
 
-### Obtención de Token con JWT
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/obtencionToken.jpg" width="400" title="hover text">
-
-</br> 
-
-
-### Select de todos los Productos de la API con el Método GET y el Token
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg" width="400" title="hover text">
-
-</br> 
-
-
-### Select de todos los Productos de la API con Método Incorrecto
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductosMetodoHttpIncorrecto.jpg" width="400" title="hover text">
-
-</br> 
-
-
-
-### Listado de los Productos de la API
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg" width="400" title="hover text">
-
-</br> 
-
-
-### Listado de los Productos de la API por Paginación (Página 0 obtención 2 Productos)
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_2.jpg" width="400" title="hover text">
-
-</br> 
-
-
-### Listado de los Productos de la API por Paginación (Página 0 obtención 3 Productos)
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_3.jpg" width="400" title="hover text">
-
-</br> 
-
-
-### Listado de los Productos de la API por Paginación (Página 0 obtención 4 Productos)
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_4.jpg" width="400" title="hover text">
-
-</br> 
-
-
-
-### Listado de los Productos de la API por Paginación (Página 1 obtención 2 Productos)
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_2.jpg" width="400" title="hover text">
-
-</br> 
-
-
-
-
-### Listado de los Productos de la API por Paginación (Página 1 obtención 4 Productos)
-
-  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_4.jpg" width="400" title="hover text">
-
-</br> 
-
-
-
 
 
 </br>
@@ -148,6 +80,78 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Repositorio dependencia jackson-databind :  https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind 
 * Repositorio dependencia spring-security : https://mvnrepository.com/artifact/org.springframework.security/spring-security-core
 * Repositorio dependencia json web tokens : https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt/0.9.1
+
+
+</br>
+
+### Visualización de la Api Rest
+
+### Obtención de Token con JWT
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/obtencionToken.jpg" width="400" title="hover text">
+
+</br> 
+
+
+### Select de todos los Productos de la API con el Método GET y el Token
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg" width="400" title="hover text">
+
+</br> 
+
+
+### Select de todos los Productos de la API con Método Incorrecto
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductosMetodoHttpIncorrecto.jpg" width="400" title="hover text">
+
+</br> 
+
+
+
+### Listado de los Productos de la API
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg" width="400" title="hover text">
+
+</br> 
+
+
+### Listado de los Productos de la API por Paginación (Página 0 obtención 2 Productos)
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_2.jpg" width="400" title="hover text">
+
+</br> 
+
+
+### Listado de los Productos de la API por Paginación (Página 0 obtención 3 Productos)
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_3.jpg" width="400" title="hover text">
+
+</br> 
+
+
+### Listado de los Productos de la API por Paginación (Página 0 obtención 4 Productos)
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_4.jpg" width="400" title="hover text">
+
+</br> 
+
+
+
+### Listado de los Productos de la API por Paginación (Página 1 obtención 2 Productos)
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_2.jpg" width="400" title="hover text">
+
+</br> 
+
+
+
+
+### Listado de los Productos de la API por Paginación (Página 1 obtención 4 Productos)
+
+  <img src="https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_4.jpg" width="400" title="hover text">
+
+</br> 
+
 
 
 
