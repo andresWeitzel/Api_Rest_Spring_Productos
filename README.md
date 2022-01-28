@@ -2069,7 +2069,7 @@ public class ProductoController {
 #### 11.4.1) Creación del Método `agregarProducto` mediante  `POST`
 * Este Método va a persistir un Producto en la db a través del Service Creado.
 * El Método va a tener la anotación `@PostMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
-* La Petición POST coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, POST reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, POST crea uno. A difeerncia del Método PUT, los datos no se muestran en el caché ni tampoco en el historial de navegación.
+* La Petición POST coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, POST reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, POST crea uno. A diferencia del Método PUT, los datos no se muestran en el caché ni tampoco en el historial de navegación.
 * Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
 * El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
 * Vamos a usar el Service inyectado en este Controller.
@@ -2973,9 +2973,9 @@ public class JwtUtilConfiguration {
         String token = Jwts.builder()
             .setSubject(username)
                 
-            // Vamos a asignar un tiempo de expiracion de 1 minuto
+            // Vamos a asignar un tiempo de expiracion de 10 minuto
             // solo con fines demostrativos en el video que hay al final
-            .setExpiration(new Date(System.currentTimeMillis() + 60000))
+            .setExpiration(new Date(System.currentTimeMillis() + 600000))
             
             // Hash con el que firmaremos la clave
             .signWith(SignatureAlgorithm.HS512, "UsuarioValidado")
@@ -3015,6 +3015,7 @@ public class JwtUtilConfiguration {
 
 
 ```
+* Hay Muchas cosas que podriamos hablar hacerca de JWT, pero en este caso la mayor relevancia para las pruebas con Postman es el tiempo de expiración de los Tokens, por defecto en la documentación viene configurado a 1 minuto, acá se modifica a 10 para no tener que estar agregando los nuevos en cada peticion, también se podría quitar el mismo pero por temas de seguridad se deja.
  
  </br>
  
@@ -3414,8 +3415,88 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
  
  </br>
  
+ #### 20.1) Modificación de los usos de los Métodos HTTP en el `ProductoController`
+ #### (Para trabajar con los métodos http tenemos que tener primerasmente los roles y usuarios levantados en la db, este paso lo haremos luego)
  
- #### 20.1) Agregar los Registros de Seguridad para los Usuarios 
+ * Nos dirijimos hacia el ProductoController y vamos a agregar la Anotattion `@PreAuthorize("hasRole('ADMINISTRADOR')")` para los métodos PostMapping, PutMapping y DeleteMapping, el GetMapping no es relevante para los demás usuarios.
+ * Código Final de la Clase `ProductoController`..
+ ```java
+ package com.api.productos.mypackages.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.service.ProductoService;
+
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+	//==========INYECCION DEL SERVICE==========
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+
+	
+	
+	//==========MÉTODOS HTTP====================
+	
+	//METODO POST
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PostMapping("/producto")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+	
+	//MÉTODO PUT
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PutMapping("/producto")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+		
+	}
+	
+	//MÉTODO DELETE
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@DeleteMapping("/producto/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+			
+		}
+	
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public List<ProductoModel> listadoProductos(Pageable pageable){
+		return productoService.listadoProductos(pageable);
+	}
+	
+
+	
+
+}
+ 
+ ```
+ 
+  </br>
+ 
+ 
+ #### 20.2) Agregar los Registros de Seguridad para los Usuarios 
  #### (En esta aplicación tenemos 3 tipos de usuarios según los declarados en UsuarioService, que corresponde al campo rol de la Entidad Usuario, además tenemos el campo estado, que nos permitirá activar o desactivar dichos permisos en la db, vamos a agregar un registro y testear dicha Seguridad)
  
  * Si todo se ha ejecutado correctamente en los pasos anteriores tendríamos la tabla usuarios vacia creada en la db, desde PHPMYADMIN seleccionamos dicha tabla e insertamos desde el editor de linea o pestaña SQL el registro..
@@ -3430,7 +3511,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
- #### 20.2) Verificación de `Tokens` y `Usuarios`
+ #### 20.3) Verificación de `Tokens` y `Usuarios`
 * Luego en Postman usaremos la ruta `http://localhost:8092/login` de tipo POST con pasandole en el Bodyel usuario y contraseña que tendriamos levantado en la db en formato Json 
  ```json
  {
@@ -3441,7 +3522,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
- #### 20.2) Verificación de `Spring Security`
+ #### 20.4) Verificación de `Spring Security`
  * Veamos si pasando otro usuario y contraseña Spring nos devuelve un token 
  * Usamos la misma ruta `http://localhost:8092/login` de tipo POST  pasandole un usuario y contraseña incorrecto y no insertado en la db en formato Json 
  ```json
@@ -3454,7 +3535,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
- #### 20.2) Verificación de la `API Productos`
+ #### 20.5) Verificación de la `API Productos`
  * Vimos que podemos o no tener acceso a nuestra Api, teniendo el acceso pertinente vamos a consultar los productos que tenemos en nuestra Base de Datos
  * Repetimos el Proceso de Obtención de nuestro token para hacer uso de nuestra credencial
 *  Ruta `http://localhost:8092/login` en el Body mandamos un Json..
