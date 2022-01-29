@@ -3796,7 +3796,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 
 
-## Sección 8) Apéndice
+## Sección 8) Anotaciones
 
 
 </br>
@@ -3852,34 +3852,27 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
-</br>
 
 </br>
 
-## Uso de Cygwin.
-#### (Esta es una magnífica herramienta para trabajar con git a nivel consola desde algún IDE. Desde mi punto de vista simplifica muchísimo
-la integración del Proyecto con Git).
+## Sección 9) Uso y Manejo de Git.
 
-#### 1)Descargar la herramienta en https://cygwin.com/install.html dependiendo la arquitectura que se tenga (32-64 bits)
-* --> Como toda aplicacion siguiente.... siguiente....
-* --> (IMPORTANTE:NO TENER ABIERTO EL IDE DURANTE LA INSTALACION, SINO NO RECONOCE EL PATH)
+</br>
 
-#### 2) Seleccionar el proyecto en Eclipse Ide para implementar git.
+### Descarga de Git
+* Nos dirigimos a https://git-scm.com/downloads y descargamos el versionador
+* Como toda aplicacion siguiente.... siguiente....
+* IMPORTANTE:NO TENER ABIERTO EL IDE DURANTE LA INSTALACION, SINO NO RECONOCE EL PATH
+
+### Abrir una Consola de Git desde el IDE
+* --> Seleccionamos el Proyecto
 * --> Click Der 
 * --> Show in Local Terminal
-* --> Seleccionas Git Console o Terminal
-* --> Si seleccionaste git console, te debería aparecer algo parecido a esto(Ruta Absoluta de tu proyecto)...
-* --> andre@DESKTOP-7BN69K1 MINGW64 /c/Users/andre/OneDrive/Escritorio/LenguajesProgramacion/JAVA_AplicacionesWeb/Formu
-larioMavenJSP/FormularioMaven (master)
+* --> Seleccionas Git Console 
 
-#### 4)Creación de un Nuevo Repositorio git o usar el ya creado
-* --> Debajo de esta sección, explico como usar git de forma detallada.
 
-#### 5) Más Información https://ourcodeworld.com/articles/read/680/how-to-configure-an-integrated-terminal-command-prompt-in-netbeans-for-windows
+### Subir el proyecto al repositorio desde la consola de git dentro del IDE
 
-</br>
-
-## Subir el proyecto al repositorio con la terminal a traves de Cygwin en Eclipse
 #### 1)Creamos un nuevo repositorio en GitHub.
 
 #### 2)Inicializamos nuestro repositorio local .git desde la terminal.
@@ -3901,7 +3894,7 @@ larioMavenJSP/FormularioMaven (master)
 </br>
 
 
-## Actualización de el proyecto al repositorio con la terminal a traves de Cygwin en Netbeans
+### Actualización del proyecto al repositorio desde la consola de GIT en el IDE
 
 #### 1)Visualizamos las modificaciones realizadas en local
 * git status
