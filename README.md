@@ -332,13 +332,18 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 
 
-
-
-#### Sección 8) Apéndice
+#### Sección 8) Anotaciones
 
 - [ Anotaciones Usadas para JPA](#anotaciones-usadas-para-jpa)
  
 - [ Anotaciones Usadas para Spring](#anotaciones-usadas-para-spring)
+
+
+
+#### Sección 9) Uso y Manejo de GIT
+
+- [ Uso y Manejo de Git.](#uso-y-manejo-de-git)
+ 
 
 
 
