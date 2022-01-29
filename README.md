@@ -3864,6 +3864,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
+### Uso y Manejo de Git
 ### Descarga de Git
 * Nos dirigimos a https://git-scm.com/downloads y descargamos el versionador
 * Como toda aplicacion siguiente.... siguiente....
