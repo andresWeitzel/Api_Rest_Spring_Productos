@@ -131,7 +131,7 @@ public class ProductoService {
 	
 	
 	
-	//================ METODOS DE USO =============================
+	//================ METODOS DE BUSQUEDA =============================
 	
 	
 	//PRODUCTO POR ID | VALOR UNICO

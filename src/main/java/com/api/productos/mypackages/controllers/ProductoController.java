@@ -20,51 +20,75 @@ import com.api.productos.mypackages.entities.Producto;
 import com.api.productos.mypackages.models.ProductoModel;
 import com.api.productos.mypackages.service.ProductoService;
 
-
 @RestController
 @RequestMapping("/v1")
 public class ProductoController {
-	
-	//==========INYECCION DEL SERVICE==========
+
+	// ==========INYECCION DEL SERVICE==========
 	@Autowired
 	@Qualifier("ProductoService")
 	ProductoService productoService;
 
-	
-	
-	//==========MÉTODOS HTTP====================
-	
-	//METODO POST
+	// ==========MÉTODOS HTTP====================
+
+	// METODO POST
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PostMapping("/producto")
 	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.agregarProducto(producto);
 	}
-	
-	//MÉTODO PUT
+
+	// MÉTODO PUT
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PutMapping("/producto")
 	public boolean editarProducto(@RequestBody @Validated Producto producto) {
 		return productoService.editarProducto(producto);
-		
+
 	}
-	
-	//MÉTODO DELETE
+
+	// MÉTODO DELETE
 	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@DeleteMapping("/producto/{id}")
 	public boolean eliminarProducto(@PathVariable("id") int id) {
 		return productoService.eliminarProducto(id);
-			
-		}
-	
-	//MÉTODO GET
+
+	}
+
+	// MÉTODO GET
 	@GetMapping("/productos")
-	public List<ProductoModel> listadoProductos(Pageable pageable){
+	public List<ProductoModel> listadoProductos(Pageable pageable) {
 		return productoService.listadoProductos(pageable);
 	}
-	
+
+	// ==============MÉTODOS HTTP DE BÚSQUEDA =============
+
+	// ---GET---
+	@GetMapping("/productos/id/{id}")
+	public ProductoModel getById(@PathVariable("id") int id) {
+
+		return productoService.findById(id);
+	}
+
+	// ---GET---
+	@GetMapping("/productos/codigo/{codigo}")
+	public ProductoModel getByCodigo(@PathVariable("codigo") String codigo) {
+
+		return productoService.findByCodigo(codigo);
+	}
+
+	// ---GET---
+	@GetMapping("/productos/nombre/{nombre}")
+	public List<ProductoModel> getByNombre(@PathVariable("nombre") String nombre) {
+
+		return productoService.findByNombre(nombre);
+	}
+
+	// ---GET---
+	@GetMapping("/productos/precio/{precio}")
+	public List<ProductoModel> getByPrecio(@PathVariable("precio") double precio) {
+
+		return productoService.findByPrecio(precio);
+	}
 
 	
-
 }
- 
