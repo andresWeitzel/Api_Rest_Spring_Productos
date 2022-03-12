@@ -1,8 +1,16 @@
-# API REST con Spring Boot, Spring Security, Mysql , Maven , etc.
+# API REST con Spring Boot, Spring Security, Mysql , Hibernate , Maven , etc.
 
 Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql, JPA-Hibernate y otras Tecnologías.
 
 </br>
+
+### Listado de Productos con uno de los Métodos HTTP y JWT
+
+ ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
+
+</br>
+
+
 
 ### Tecnologías Implementadas
 
@@ -80,6 +88,164 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 * Repositorio dependencia json web tokens : https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt/0.9.1
 
 
+</br>
+
+### Visualización de la Api Rest Completa
+
+</br>
+
+### Obtención de Token con JWT
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/obtencionToken.jpg)
+
+</br> 
+
+
+### Select de todos los Productos de la API con el Método GET y el Token
+
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductos.jpg)
+
+
+</br> 
+
+
+### Select de todos los Productos de la API con Método Incorrecto
+
+ ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/selectProductosMetodoHttpIncorrecto.jpg)
+
+</br> 
+
+
+
+### Listado de los Productos de la API mediante Método HTTP GET
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
+* Los Métodos GET de Búsqueda según campos (getBy..) no se anexan para simplificar documentación gráfica, los mismos fueron testeados, probados y se detallan en su sección correspondiente
+
+</br> 
+
+
+### Listado de los Productos de la API por Paginación (Página 0 obtención 2 Productos)
+
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_2.jpg)
+
+
+</br> 
+
+
+### Listado de los Productos de la API por Paginación (Página 0 obtención 3 Productos)
+
+  ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_3.jpg)
+
+</br> 
+
+
+### Listado de los Productos de la API por Paginación (Página 0 obtención 4 Productos)
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_0_4.jpg)
+
+</br> 
+
+
+
+### Listado de los Productos de la API por Paginación (Página 1 obtención 2 Productos)
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_2.jpg)
+
+</br> 
+
+
+
+
+### Listado de los Productos de la API por Paginación (Página 1 obtención 4 Productos)
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/selectPagination/page_1_4.jpg)
+
+</br> 
+
+
+
+### Inserción de Un Producto mediante Método HTTP POST
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertUnProducto/insertUnProducto.jpg)
+
+</br> 
+
+
+### Log Trabajo Realizado con JPA-HIBERNATE
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertUnProducto/hibernateInsertUnProducto.jpg)
+
+</br> 
+
+
+### Lista de Productos con la Nueva Inserción
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertUnProducto/selectProductoInsertado.jpg)
+
+</br> 
+
+
+### Inserción de Varios Productos
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertVariosProductos/insertVariosProductos.jpg)
+
+</br> 
+
+
+
+### Lista de Productos con las Nuevas Inserciones
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/insert/insertVariosProductos/selectInsertVariosProductos.jpg)
+
+</br> 
+
+
+
+### Modificación de un Producto mediante Método HTTP PUT
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/update/updateProductos.jpg)
+
+</br> 
+
+
+
+### Visualización de la Lista de Productos con el Producto Modificado
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/update/selectUpdateProductos.jpg)
+
+</br> 
+
+
+
+
+### Eliminación de Un Producto Mediante Método HTTP DELETE
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/delete/deleteProducto.jpg)
+
+</br> 
+
+
+
+### Eliminación de Un Producto Mediante Otro Método HTTP 
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/delete/DeleteProductoConOtroMetodo.jpg)
+
+</br> 
+
+
+
+### Listado de Productos sin el Producto Eliminado
+
+![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/delete/selectDeleteProducto.jpg)
+
+</br> 
+
+
+
+
+
+
 
 <hr>
 
@@ -121,59 +287,63 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
   
   
   
-#### Sección 5) Creación y Configuración de las Interfaces repositories y Convertidores de Clases  
+#### Sección 5) Creación y Configuración de las Interfaces Repositories y Convertidores de Clases  
 
    - [Paso 8) Creación y Configuración de la Interfaz-Repository Producto](#paso-8-creación-y-configuración-de-la-interfaz-repository-producto)
-
 
    - [Paso 9) Creación y Configuración de la Clase Converter](#paso-9-creación-y-configuración-de-la-clase-converter)
 
 
 
 
-#### Sección 6) Creación y Configuración de los Services y Controladores
+#### Sección 6) Creación y Configuración de los Services y Controllers
 
    - [Paso 10) Creación y Configuración de la Clase Service](#paso-10-creación-y-configuración-de-la-clase-service)
    
-   - [Paso 11) Creación y Configuración de la Clase Controler](#paso-11-creación-y-configuración-de-la-clase-controler) 
+   - [Paso 11) Creación y Configuración de la Clase Controller](#paso-11-creación-y-configuración-de-la-clase-controller) 
+
+   - [Paso 12) Test de los Métodos CRUD de la API sin JWT](#paso-12-test-de-los-metodos-crud-de-la-clase-productocontroller) 
 
 
 
+#### Sección 7) Creación, Configuración y Prueba de SpringSecurity, Json Web Tokens y la API de Productos
 
-#### Sección 7) Creación, Configuración y Prueba de SpringSecurity y Json Web Tokens
+   - [Paso 13) Creación y Configuración de la Clase Usuario](#paso-13-creación-y-configuración-de-la-clase-usuario)
 
+   - [Paso 14) Creación y Configuración de la Interfaz I_UsuarioRepository](#paso-14-creación-y-configuración-de-la-interfaz-i_usuarioRepository)
 
-   - [Paso 12) Creación y Configuración de la Clase Usuario](#paso-12-creación-y-configuración-de-la-clase-usuario)
+   - [Paso 15) Creación y Configuración del Servicio UsuarioService](#paso-15-creación-y-configuración-del-servicio-usuarioservice)
 
-   - [Paso 13) Creación y Configuración de la Interfaz I_UsuarioRepository](#paso-13-creación-y-configuración-de-la-interfaz-i_usuarioRepository)
+   - [Paso 16) Creación y Configuración de la Clase de Configuración UsuarioConfiguration](#paso-16-creación-y-configuración-de-la-clase-de-configuracion-usuarioconfiguration)
 
-   - [Paso 14) Creación y Configuración del Servicio UsuarioService](#paso-14-creación-y-configuración-del-servicio-usuarioservice)
+   - [Paso 17) Creación y Configuración de la Clase de Configuración JwtUtilConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-jwtutilconfiguration)
 
-   - [Paso 15) Creación y Configuración de la Clase de Configuración UsuarioConfiguration](#paso-15-creación-y-configuración-de-la-clase-de-configuracion-usuarioconfiguration)
+   - [Paso 18) Creación y Configuración de la Clase de Configuración JwtFilterConfiguration](#paso-18-creación-y-configuración-de-la-clase-de-configuracion-jwtfilterconfiguration)
 
-   - [Paso 16) Creación y Configuración de la Clase de Configuración JwtUtilConfiguration](#paso-16-creación-y-configuración-de-la-clase-de-configuracion-jwtutilconfiguration)
+   - [Paso 19) Creación y Configuración de la Clase de Configuración LoginFilterConfiguration](#paso-19-creación-y-configuración-de-la-clase-de-configuracion-loginfilterconfiguration)
 
-   
-   - [Paso 17) Creación y Configuración de la Clase de Configuración JwtFilterConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-jwtfilterconfiguration)
+   - [Paso 20) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-20-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
 
-
-   - [Paso 18) Creación y Configuración de la Clase de Configuración LoginFilterConfiguration](#paso-17-creación-y-configuración-de-la-clase-de-configuracion-loginfilterconfiguration)
-
-
-   - [Paso 19) Creación y Configuración de la Clase de Configuración WebSecurity](#paso-18-creación-y-configuración-de-la-clase-de-configuracion-websecurity)
-
- 
-  - [Paso 20) Test de Spring Security y JWT](#paso-20-test-de-spring-security-y-jwt)
+   - [Paso 21) Test de Spring Security y JWT](#paso-21-test-de-spring-security-y-jwt)
+	
+   - [Paso 22) Verificación de la API Productos con JWT](#paso-22-verificacion-de-la-api-productos-con-jwt)
 
 
 
 
 
-#### Sección 8) Apéndice
+#### Sección 8) Anotaciones
 
 - [ Anotaciones Usadas para JPA](#anotaciones-usadas-para-jpa)
  
 - [ Anotaciones Usadas para Spring](#anotaciones-usadas-para-spring)
+
+
+
+#### Sección 9) Uso y Manejo de GIT
+
+- [ Uso y Manejo de Git.](#uso-y-manejo-de-git)
+ 
 
 
 
@@ -1020,7 +1190,7 @@ public class ProductoModel {
 
 </br>
 
-## Sección 5) Creación y Configuración de las Interfaces repositories y Controladores  
+## Sección 5)  Creación y Configuración de las Interfaces Repositories y Convertidores de Clases  
 
 
 </br>
@@ -1727,7 +1897,7 @@ public class ProductoService {
 ```java
 
 
-	//================ METODOS DE USO =============================
+	//================ METODOS DE BUSQUEDA =============================
 	
 	
 	//PRODUCTO POR ID | VALOR UNICO
@@ -1763,569 +1933,8 @@ public class ProductoService {
 
 </br>
 
-* Código Completo Clase ProductoService..
 
-```java
-package com.api.productos.mypackages.service;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import com.api.productos.mypackages.converters.ProductoConverter;
-import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ProductoModel;
-import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
-
-
-@Service("ProductoService")
-public class ProductoService {
-	
-	// ========= INYECCIÓN DE DEPENDENCIAS ==========
-	@Autowired
-	@Qualifier("I_ProductoRepository")
-	private I_ProductoRepository iProductoRepository;
-
-	
-	@Autowired
-	@Qualifier("ProductoConverter")
-	private ProductoConverter productoConvertidor;
-	
-	
-	
-	//==================== LOGS ============================
-	
-	//LOGS DE ERROR
-	private static final Logger logger = org.apache.logging.log4j.LogManager.getLogger(ProductoService.class);
-	
-	
-	
-	
-	//===================== MÉTODOS CRUD ===========================
-	
-	//INSERT
-	public boolean agregarProducto(Producto producto) {
-		
-		try {
-			if (producto == null) {
-				logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO ES NULO!");
-				return false;				
-			}
-			
-			else {
-				iProductoRepository.save(producto);
-				return true;
-				
-			}
-		
-			
-		}catch(Exception e) {
-			logger.error("ERROR AGREGAR_PRODUCTO: EL PRODUCTO NO SE HA GUARDADO!");
-			return false;
-			
-			
-		}
-	}
-	
-	
-	
-	//UPDATE
-	public boolean editarProducto(Producto producto) {
-			
-			try {
-				
-				if ((producto == null) || (producto.getId() == 0)) {
-					logger.error("ERROR EDITAR_PRODUCTO:  EL PRODUCTO ES NULO O EL ID ES 0!");		
-					return false;
-					
-				}
-				
-				else {	
-					iProductoRepository.save(producto);
-					return true;
-					
-				}
-			
-				
-			}catch(Exception e) {
-				logger.error("ERROR EDITAR_PRODUCTO: EL PRODUCTO NO SE HA EDITADO!");		
-				return false;
-				
-			}
-		}
-	
-	//DELETE
-	public boolean eliminarProducto(int id) {
-					
-			try {
-						
-				if ((id == 0)) {
-					logger.error("ERROR ELIMINAR_PRODUCTO: EL ID DEL PRODUCTO ES 0!");
-					return false;
-				}
-				
-				else {
-							
-					Producto idProducto = iProductoRepository.findById(id);
-							
-					iProductoRepository.delete(idProducto);
-
-					return true;
-					}
-					
-						
-				}catch(Exception e) {
-					logger.error("ERROR ELIMINAR_PRODUCTO: EL PRODUCTO NO SE HA ELIMINADO!");
-					return false;
-					
-				} 
-	}
-	
-	
-	//LISTA DE PRODUCTOS
-	public List<ProductoModel> listadoProductos(Pageable pageable){
-		
-		return  productoConvertidor.convertirListaProducto( iProductoRepository.findAll(pageable).getContent()); 
-		
-	}
-	
-
-	
-	
-	
-	
-	//================ METODOS DE USO =============================
-	
-	
-	//PRODUCTO POR ID | VALOR UNICO
-	public ProductoModel findById(int id) {
-		
-		return new ProductoModel(iProductoRepository.findById(id));
-		
-	}
-	
-	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ProductoModel findByCodigo(String codigo) {
-		
-		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
-	}
-		
-	
-	//LISTA DE PRODUCTOS POR NOMBRE
-	public List<ProductoModel> findByNombre(String nombre){
-		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findByNombre(nombre)); 
-		
-	}
-	
-	//LISTA DE PRODUCTOS POR PRECIO
-	public List<ProductoModel> findByPrecio(double precio){
-		
-		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
-		
-	}
-	
-
-	
-	
-
-	
-
-}
-
-
-
-```
-
-
-
-
-</br>
-
- ### Paso 11) Creación y Configuración de la Clase Controller
- #### (La Clase Controller es la que se encarga de preparar el Modelo(el Modelo son los datos manejados por la aplicación) y seleccionar el nombre de la vista que será utilizada para mostrar el modelo al cliente. Esta Clase ejecuta la lógica de negocio, obtiene los resultados y los devuelve al servlet, encapsulado en un objeto de tipo Model)
-
-</br>
-
-#### Paso 11.1) Creación de la Clase `ProductoController`
-* Primeramente vamos a crear el paquete que alojará el Controller.
-* Creamos un paquete llamado mypackages.controller dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
-	* --> Click Der sobre la ruta mencionada  
-	* --> New --> Package
-	* --> En Name seguido de com.api.productos colocamos mypackages.controllers
-	* --> Finish
-
-* Creamos la Clase Controller
- 	* --> Click Der sobre el paquete creado
- 	* --> New --> Clase
- 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
- 	* --> En Name colocamos ProductoController
- 	* --> Finish
-* Código Snippet..
-
-
-
-```java
-package com.api.productos.mypackages.controllers;
-
-public class ProductoController {
-	
-	public static void main(String[] args) {
-		
-	}
-}
-
-```
-
-</br>
-
-</br>
-
-#### Paso 11.2) Configuración de la Clase `ProductoController`
-* Al igual que la Clase Service, en esta Clase Controller  se implementará Inyección de Dependencias, esta nos permite relacionar objetos. Todas las dependencias se encuentran en un contenedor Spring, que será el responsable de inyectarlas y crear los beans (Clases de tipo objetos) necesarios.
-* Para la Clase ProductoController vamos a Implementar la anotation `@RestController`. Con esta anotación le indicamos a Spring que esta clase será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST.  
-* También Implementamos la anotación `@RequestMapping("rutaVersionadoApi")` que se va a encargar de relacionar un método con una petición http.
-* Código Snippet..
-
-
-
-```java
-package com.api.productos.mypackages.controllers;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/v1")
-public class ProductoController {
-	
-
-
-}
- 
-
-```
-
-</br>
-
-#### Paso 11.3) Inyección de Dependendencias de la Clase `ProductoController`
-
-* Vamos a definir las inyecciones de Dependencia de la clase que al fin y al cabo será el Servicio creado.
-* Dentro de la Clase vamos a usar la anotación `@Autowired` para la relación de los Beans e Interfaces.
-* Seguidamente vamos a hacer uso de la notación `@Qualifier("NombreBean")` para nombrar y relacionar el Bean que vamos a definir dentro del controller
-* Código Snippet..
-```java
-
-	//INYECCION DEL SERVICE
-	@Autowired
-	@Qualifier("ProductoService")
-	ProductoService productoService;
-	
-	
-
-
-```
-* Código Snippet..
-```java
-package com.api.productos.mypackages.controllers;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.api.productos.mypackages.service.ProductoService;
-
-@RestController
-@RequestMapping("/v1")
-public class ProductoController {
-	
-	//INYECCION DEL SERVICE
-	@Autowired
-	@Qualifier("ProductoService")
-	ProductoService productoService;
-	
-	
-
-
-}
- 
-
-```
-
-</br>
-
-#### Paso 11.4) Métodos CRUD de la Clase `ProductoController`
-#### (Acá vamos a definir los métodos CRUD del Controller como lo son listar, agregar, editar y eliminar algún producto. Los Métodos CRUD del controller llevarán la anotación de Métodos de Petición(GET, HEAD, POST, PUT, ETC). Estos métodos nos permitarán trabajar con el Servicio RESTful )
-
-
-</br>
-
-#### 11.4.1) Creación del Método `agregarProducto` mediante  `POST`
-* Este Método va a persistir un Producto en la db a través del Service Creado.
-* El Método va a tener la anotación `@PostMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
-* La Petición POST coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, POST reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, POST crea uno. A difeerncia del Método PUT, los datos no se muestran en el caché ni tampoco en el historial de navegación.
-* Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
-* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
-* Vamos a usar el Service inyectado en este Controller.
-* Dentro del Método, utilizando el Service creado vamos a invocar al método `agregarProducto()` creado en el mismo Service, junto con la lógica de persistencia para persistir el producto en la db.
-* Códido Snippet..
-
-```java
-	//METODO POST
-	@PostMapping("/producto")
-	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
-		return productoService.agregarProducto(producto);
-	}
-
-```
-
-
-
-</br>
-
-#### 11.4.2) Creación del Método `editarProducto` mediante  `PUT`
-* Este Método va a editar y luego persistir un Producto en la db a través del Service Creado.
-* El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
-
-* Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
-* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
-* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
-* Vamos a usar el Service inyectado en este Controller.
-* Dentro del Método, utilizando el Service creado vamos a invocar al método `editarProducto()` creado en el mismo Service, junto con la lógica de persistencia para luego de editar persistir el producto en la db.
-* `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar a la hora de testear este método hay que incluir el id de ese producto. 
-* Códido Snippet..
-
-```java
-	
-	//MÉTODO PUT
-	@PutMapping("/producto")
-	public boolean editarProducto(@RequestBody @Validated Producto producto) {
-		return productoService.editarProducto(producto);
-		
-	}
-
-```
-
-
-
-</br>
-
-#### 11.4.3) Creación del Método `eliminarProducto` mediante  `DELETE`
-* Este Método va a eliminar un Producto en la db a través del Service Creado.
-* El Método va a tener la anotación `@DeleteMapping("ruta")`, este tipo de anotación será una propiedad de petición http delete.
-* Vamos a incluir el id del producto dentro de la ruta que se le pase a la anotación, de esta forma podemos eliminar el producto por el id que le pasemos dentro de la URI completa
-* Dentro del argumento del método agregaremos las anotaciones `@PathVariable("parametroDelMappping")` . Esta Anotación nos permite manejar las variables declaradas dentro del mapping para la asignación de la URI de la solicitud HTTP y establecerlas como parametros de metodo. 
-* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
-* Vamos a usar el Service inyectado en este Controller.
-* Dentro del Método, utilizando el Service creado vamos a invocar al método `eliminarProducto()` creado en el mismo Service, junto con la lógica de persistencia para luego de editar persistir el producto en la db. 
-* Códido Snippet..
-
-```java
-	
-//MÉTODO DELETE
-	@DeleteMapping("/producto/{id}")
-	public boolean eliminarProducto(@PathVariable("id") int id) {
-		return productoService.eliminarProducto(id);
-			
-		}
-```
-
-
-
-</br>
-
-#### 11.4.3) Creación del Método `listadoProductos` mediante  `GET`
-* Este Método va a devolvernos una lista del ProductoModel con uno o más Productos a través del Service Creado.
-* El Método va a tener la anotación `@GetMapping("ruta")`, este tipo de anotación será una propiedad de petición http get. Es importante aclarar que la ruta será `/productos`
-* El Método devuelve una lista de tipo List y no ArrayList por el tema de paginación ya aclarado, esta lista es de tipo ProductoModel a través del método `listadoProductos` del Service creado y es de tipo pageable, osea nos va a paginar los productos para no devolvernos todos
-* Código Snippet..
-
-```java
-
-	//MÉTODO GET
-	@GetMapping("/productos")
-	public List<ProductoModel> listadoProductos(Pageable pageable){
-		return productoService.listadoProductos(pageable);
-	}
-	
-	
-
-
-```
-
-
-
-</br>
-
-* Código Completo..
-```java
-package com.api.productos.mypackages.controllers;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Pageable;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.api.productos.mypackages.entities.Producto;
-import com.api.productos.mypackages.models.ProductoModel;
-import com.api.productos.mypackages.service.ProductoService;
-
-
-@RestController
-@RequestMapping("/v1")
-public class ProductoController {
-	
-	//==========INYECCION DEL SERVICE==========
-	@Autowired
-	@Qualifier("ProductoService")
-	ProductoService productoService;
-
-	
-	
-	//==========MÉTODOS HTTP====================
-	
-	//METODO POST
-	@PostMapping("/producto")
-	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
-		return productoService.agregarProducto(producto);
-	}
-	
-	//MÉTODO PUT
-	@PutMapping("/producto")
-	public boolean editarProducto(@RequestBody @Validated Producto producto) {
-		return productoService.editarProducto(producto);
-		
-	}
-	
-	//MÉTODO DELETE
-	@DeleteMapping("/producto/{id}")
-	public boolean eliminarProducto(@PathVariable("id") int id) {
-		return productoService.eliminarProducto(id);
-			
-		}
-	
-	//MÉTODO GET
-	@GetMapping("/productos")
-	public List<ProductoModel> listadoProductos(Pageable pageable){
-		return productoService.listadoProductos(pageable);
-	}
-	
-
-	
-
-}
- 
-```
-
-
-</br>
-
-#### Paso 11.5) Test de los Métodos CRUD de la Clase `ProductoController`
-#### (Vamos a realizar las pruebas de cada uno de los métodos desarrollados hasta el momento
-de nuestra API)
-
-</br>
-
-#### 11.5.1) Prueba de Funcionalidad con `Postman`
-* Levantar el Servicio de Mysql.
-	* --> Abrir  xampp y click en Mysql
-* Ejecutar el Proyecto Spring 
-* Visualizar en la salida de consola cuál es el Puerto en el cúal está corriendo el Servidor de Spring Tomcat. (En mi caso es el 8092, el puerto es configurable)
-* Descargar la herramienta Postman. (Fijarse los links de descarga en el apartado de Tecnologías Empleadas.) 
-* Una vez descargada crear un usuario y ejecutar la aplicación.
-* Una vez que todos los pasos anteriores se están ejecutando sin problemas, vamos a tener que pasarle lo que es la url a Postman y probar cada método.
-
-</br>
-
-
-#### 11.5.2) Test Método  `agregarProducto` mediante  `POST`
-* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método POST y colocamos la URL `http://localhost:8092/v1/producto`
-* Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
-* Escribimos el Registro que vamos a agregar a la db en formato Json
-* Código Snippet..
-
-```json
-{
-    "codigo":"ART-990",
-    "nombre":"Monitor 32 pulgadas",
-    "precio":33.334
-
-}
-```
-* Recordar que el id es auto incremental y dinamico
-* Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
-* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
-
-
-</br>
-
-#### 11.5.3) Test Método  `editarProducto` mediante  `PUT`
-* El Segundo Método será el de `editarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/producto`
-* Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
-* Escribimos el Registro que vamos a agregar a la db en formato Json
-* `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar en postman deberá incluir el id de ese producto.
-* Vamos a cambiar todos los campos menos el id
-* Código Snippet..
-
-```json
-{
-    "id": 1,
-    "codigo":"ART-991",
-    "nombre":"Monitor 16 pulgadas",
-    "precio": 26.000
-
-}
-```
-
-
-* Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
-* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
-
-
-
-</br>
-
-#### 11.5.4) Test Método  `eliminarProducto` mediante  `DELETE`
-* El Tercer Método será el de `eliminarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método DELETE y colocamos la URL `http://localhost:8092/v1/producto/idDelProductoAeliminar`. Si queremos eliminar el producto con el id 1 la URI completa sería `http://localhost:8092/v1/producto/1`
-* La Eliminación del Producto no posee cuerpo Json.
-* Click en Send y verificamos la respuesta(true si se agrego el registro, false no se agrego)
-* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool.
-
-
-
-</br>
-
-#### 11.5.5) Test Método  `listadoProductos` mediante  `GET`
-* El Cuarto Método será el de `listadoProductos`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método GET y colocamos la URL `http://localhost:8092/v1/productos`.
-* Click en Send y verificamos la respuesta(deberíamos tener la lista de Productos dentro del body en la respuesta de postman).
-
-* Para obtener la primera página de productos con 2 registros, vamos a incluir en la URI, luego de productos signo de interrogación seguidamente el número de paginación con page y el tamaño de esa paginación,l osea el número de registros. (?page=0&size=2)
-* URI completa `http://localhost:8092/v1/productos?page=0&size=2`.
-* Tendriamos 2 productos de la Primera paginación, podemos pedir que se traiga más productos o cambiar mismo de paginación, a elección de uno.
-
-
-
-
-</br>
-
-#### Paso 11.6) Creación de Logs de Error
+#### 10.4.5) Creación de Logs de Error
 #### (Es una buena práctica utilizar logs. Los Logs son Registros(archivos de historial) que nos ayudan a la hora de identificar un posible error, advertencias, actividades realizadas,etc. Nos es recomendable utilizar varios métodos logs, ya que el espacio del servidor podría colapsar. El Método más utilizado es el de error. )
 
 </br>
@@ -2482,7 +2091,7 @@ public class ProductoService {
 	
 	
 	
-	//================ METODOS DE USO =============================
+	//================ METODOS DE BUSQUEDA =============================
 	
 	
 	//PRODUCTO POR ID | VALOR UNICO
@@ -2521,6 +2130,7 @@ public class ProductoService {
 
 }
 
+
 ```
 * Para el testeo de los logs, usar postman y pasarle un id 0 al método put de edición de productos o enviar un objeto vacío. Se deberían mostrar los respectivos mensajes en la consola de spring.
 
@@ -2529,9 +2139,470 @@ public class ProductoService {
 
 </br>
 
+ ### Paso 11) Creación y Configuración de la Clase Controller
+ #### (La Clase Controller es la que se encarga de preparar el Modelo(el Modelo son los datos manejados por la aplicación) y seleccionar el nombre de la vista que será utilizada para mostrar el modelo al cliente. Esta Clase ejecuta la lógica de negocio, obtiene los resultados y los devuelve al servlet, encapsulado en un objeto de tipo Model)
+
+</br>
+
+#### Paso 11.1) Creación de la Clase `ProductoController`
+* Primeramente vamos a crear el paquete que alojará el Controller.
+* Creamos un paquete llamado mypackages.controller dentro de com.api.productos (src/main/java/com.api.productos). Es importante que este dentro del mismo ya que sino Spring no desplegará la app de forma correcta.
+	* --> Click Der sobre la ruta mencionada  
+	* --> New --> Package
+	* --> En Name seguido de com.api.productos colocamos mypackages.controllers
+	* --> Finish
+
+* Creamos la Clase Controller
+ 	* --> Click Der sobre el paquete creado
+ 	* --> New --> Clase
+ 	* --> Siempre asegurarse la ruta de creación a través del Source Folder y Package
+ 	* --> En Name colocamos ProductoController
+ 	* --> Finish
+* Código Snippet..
 
 
-## 7) Creación y Configuración de SpringSecurity y Json Web Tokens
+
+```java
+package com.api.productos.mypackages.controllers;
+
+public class ProductoController {
+	
+	public static void main(String[] args) {
+		
+	}
+}
+
+```
+
+</br>
+
+</br>
+
+#### Paso 11.2) Configuración de la Clase `ProductoController`
+* Al igual que la Clase Service, en esta Clase Controller  se implementará Inyección de Dependencias, esta nos permite relacionar objetos. Todas las dependencias se encuentran en un contenedor Spring, que será el responsable de inyectarlas y crear los beans (Clases de tipo objetos) necesarios.
+* Para la Clase ProductoController vamos a Implementar la anotation `@RestController`. Con esta anotación le indicamos a Spring que esta clase será un componente de tipo controlador, además permitimos el manejo de solicitudes HTTP usando la API REST.  
+* También Implementamos la anotación `@RequestMapping("rutaVersionadoApi")` que se va a encargar de relacionar un método con una petición http.
+* Código Snippet..
+
+
+
+```java
+package com.api.productos.mypackages.controllers;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+
+
+}
+ 
+
+```
+
+</br>
+
+#### Paso 11.3) Inyección de Dependendencias de la Clase `ProductoController`
+
+* Vamos a definir las inyecciones de Dependencia de la clase que al fin y al cabo será el Servicio creado.
+* Dentro de la Clase vamos a usar la anotación `@Autowired` para la relación de los Beans e Interfaces.
+* Seguidamente vamos a hacer uso de la notación `@Qualifier("NombreBean")` para nombrar y relacionar el Bean que vamos a definir dentro del controller
+* Código Snippet..
+```java
+
+	//INYECCION DEL SERVICE
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+	
+	
+
+
+```
+* Código Snippet..
+```java
+package com.api.productos.mypackages.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.service.ProductoService;
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+	//INYECCION DEL SERVICE
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+	
+	
+
+
+}
+ 
+
+```
+
+</br>
+
+#### Paso 11.4) Métodos CRUD de la Clase `ProductoController`
+#### (Acá vamos a definir los métodos CRUD del Controller como lo son listar, agregar, editar y eliminar algún producto. Los Métodos CRUD del controller llevarán la anotación de Métodos de Petición(GET, HEAD, POST, PUT, ETC). Estos métodos nos permitarán trabajar con el Servicio RESTful )
+
+
+</br>
+
+#### 11.4.1) Creación del Método `agregarProducto` mediante  `POST`
+* Este Método va a persistir un Producto en la db a través del Service Creado.
+* El Método va a tener la anotación `@PostMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
+* La Petición POST coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, POST reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, POST crea uno. A diferencia del Método PUT, los datos no se muestran en el caché ni tampoco en el historial de navegación.
+* Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
+* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
+* Vamos a usar el Service inyectado en este Controller.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `agregarProducto()` creado en el mismo Service, junto con la lógica de persistencia para persistir el producto en la db.
+* Códido Snippet..
+
+```java
+	//METODO POST
+	@PostMapping("/producto")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+
+```
+
+
+
+</br>
+
+#### 11.4.2) Creación del Método `editarProducto` mediante  `PUT`
+* Este Método va a editar y luego persistir un Producto en la db a través del Service Creado.
+* El Método va a tener la anotación `@PutMapping("ruta")`, este tipo de anotación será una propiedad de petición http.
+
+* Dentro del argumento del método agregaremos las anotaciones `@RequestBody` y `@Validated`. La Primera nos permite recuperar el cuerpo de la solicitud y la segunda ejecuta validaciones para los métodos de una clase. 
+* La Petición PUT coloca un archivo en un URI(dirección completa) especifico. Si hay un archivo o recurso en ese URI, PUT reempleaza ese archivo o recurso. Si no hay ningún archivo o recurso, PUT crea uno.
+* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
+* Vamos a usar el Service inyectado en este Controller.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `editarProducto()` creado en el mismo Service, junto con la lógica de persistencia para luego de editar persistir el producto en la db.
+* `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar a la hora de testear este método hay que incluir el id de ese producto. 
+* Códido Snippet..
+
+```java
+	
+	//MÉTODO PUT
+	@PutMapping("/producto")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+		
+	}
+
+```
+
+
+
+</br>
+
+#### 11.4.3) Creación del Método `eliminarProducto` mediante  `DELETE`
+* Este Método va a eliminar un Producto en la db a través del Service Creado.
+* El Método va a tener la anotación `@DeleteMapping("ruta")`, este tipo de anotación será una propiedad de petición http delete.
+* Vamos a incluir el id del producto dentro de la ruta que se le pase a la anotación, de esta forma podemos eliminar el producto por el id que le pasemos dentro de la URI completa
+* Dentro del argumento del método agregaremos las anotaciones `@PathVariable("parametroDelMappping")` . Esta Anotación nos permite manejar las variables declaradas dentro del mapping para la asignación de la URI de la solicitud HTTP y establecerlas como parametros de metodo. 
+* El Método devuelve un booleano, si hace lo requerido devuelve true, sino false.
+* Vamos a usar el Service inyectado en este Controller.
+* Dentro del Método, utilizando el Service creado vamos a invocar al método `eliminarProducto()` creado en el mismo Service, junto con la lógica de persistencia para luego de editar persistir el producto en la db. 
+* Códido Snippet..
+
+```java
+	
+//MÉTODO DELETE
+	@DeleteMapping("/producto/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+			
+		}
+```
+
+
+
+</br>
+
+#### 11.4.3) Creación del Método `listadoProductos` mediante  `GET`
+* Este Método va a devolvernos una lista del ProductoModel con uno o más Productos a través del Service Creado.
+* El Método va a tener la anotación `@GetMapping("ruta")`, este tipo de anotación será una propiedad de petición http get. Es importante aclarar que la ruta será `/productos`
+* El Método devuelve una lista de tipo List y no ArrayList por el tema de paginación ya aclarado, esta lista es de tipo ProductoModel a través del método `listadoProductos` del Service creado y es de tipo pageable, osea nos va a paginar los productos para no devolvernos todos
+* Código Snippet..
+
+```java
+
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public List<ProductoModel> listadoProductos(Pageable pageable){
+		return productoService.listadoProductos(pageable);
+	}
+	
+	
+
+
+```
+
+
+</br>
+
+#### 11.4.3) Creación de los Métodos de Búsqueda por campos mediante  `GET`
+* Los Métodos de Búsqueda por campo serán aquellos que nos devuelvan un objeto o una lista de objetos según el campo de interés, como por ejemplo podemos buscar aquellos productos que tengan cierto nombre o cierto código, o mismo a través de su id. Todos los métodos de búsqueda comenzarán con las siglas `getBy....`
+* Código Snippet..
+
+```java
+	// ---GET---
+	@GetMapping("/id/{id}")
+	public ProductoModel getById(@PathVariable("id") int id) {
+
+		return productoService.findById(id);
+	}
+
+	// ---GET---
+	@GetMapping("/codigo/{codigo}")
+	public ProductoModel getByCodigo(@PathVariable("codigo") String codigo) {
+
+		return productoService.findByCodigo(codigo);
+	}
+
+	// ---GET---
+	@GetMapping("/nombre/{nombre}")
+	public List<ProductoModel> getByNombre(@PathVariable("nombre") String nombre) {
+
+		return productoService.findByNombre(nombre);
+	}
+
+	// ---GET---
+	@GetMapping("/precio/{precio}")
+	public List<ProductoModel> getByPrecio(@PathVariable("precio") double precio) {
+
+		return productoService.findByPrecio(precio);
+	}
+
+
+
+```
+
+
+
+</br>
+
+* Código Completo..
+```java
+package com.api.productos.mypackages.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.service.ProductoService;
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+
+	// ==========INYECCION DEL SERVICE==========
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+
+	// ==========MÉTODOS HTTP====================
+
+	// METODO POST
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PostMapping("/producto")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+
+	// MÉTODO PUT
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PutMapping("/producto")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+
+	}
+
+	// MÉTODO DELETE
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@DeleteMapping("/producto/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+
+	}
+
+	// MÉTODO GET
+	@GetMapping("/productos")
+	public List<ProductoModel> listadoProductos(Pageable pageable) {
+		return productoService.listadoProductos(pageable);
+	}
+
+	// ==============MÉTODOS HTTP DE BÚSQUEDA =============
+
+	// ---GET---
+	@GetMapping("/id/{id}")
+	public ProductoModel getById(@PathVariable("id") int id) {
+
+		return productoService.findById(id);
+	}
+
+	// ---GET---
+	@GetMapping("/codigo/{codigo}")
+	public ProductoModel getByCodigo(@PathVariable("codigo") String codigo) {
+
+		return productoService.findByCodigo(codigo);
+	}
+
+	// ---GET---
+	@GetMapping("/nombre/{nombre}")
+	public List<ProductoModel> getByNombre(@PathVariable("nombre") String nombre) {
+
+		return productoService.findByNombre(nombre);
+	}
+
+	// ---GET---
+	@GetMapping("/precio/{precio}")
+	public List<ProductoModel> getByPrecio(@PathVariable("precio") double precio) {
+
+		return productoService.findByPrecio(precio);
+	}
+
+	
+}
+
+ 
+```
+
+
+
+
+</br>
+
+ ### Paso 12) Test de los Métodos CRUD de la Clase `ProductoController`
+ #### (Vamos a realizar el testeo de cada uno de los métodos del controller de nuestra API para comprobar las funcionalidades de los mismos)
+
+
+</br>
+
+#### 12.1) Prueba de Funcionalidad con `Postman`
+* Levantar el Servicio de Mysql.
+	* --> Abrir  xampp y click en Mysql
+* Ejecutar el Proyecto Spring 
+* Visualizar en la salida de consola cuál es el Puerto en el cúal está corriendo el Servidor de Spring Tomcat. (En mi caso es el 8092, el puerto es configurable)
+* Descargar la herramienta Postman. (Fijarse los links de descarga en el apartado de Tecnologías Empleadas.) 
+* Una vez descargada crear un usuario y ejecutar la aplicación.
+* Una vez que todos los pasos anteriores se están ejecutando sin problemas, vamos a tener que pasarle lo que es la url a Postman y probar cada método.
+
+</br>
+
+
+#### 12.2) Test Método  `agregarProducto` mediante  `POST`
+* El Primer Método será el de `agregarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método POST y colocamos la URL `http://localhost:8092/v1/producto`
+* Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
+* Escribimos el Registro que vamos a agregar a la db en formato Json
+* Código Snippet..
+
+```json
+{
+    "codigo":"ART-990",
+    "nombre":"Monitor 32 pulgadas",
+    "precio":33.334
+
+}
+```
+* Recordar que el id es auto incremental y dinamico
+* Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
+* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
+
+
+</br>
+
+#### 12.3) Test Método  `editarProducto` mediante  `PUT`
+* El Segundo Método será el de `editarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método PUT y colocamos la URL `http://localhost:8092/v1/producto`
+* Vamos a trabajar con Json. Seleccionamos el recuadro de Body, y en el último item buscamos Json
+* Escribimos el Registro que vamos a agregar a la db en formato Json
+* `ATENTI`, este método es para editar un producto, por lo que el cuerpo de solicitud que se deba pasar en postman deberá incluir el id de ese producto.
+* Vamos a cambiar todos los campos menos el id
+* Código Snippet..
+
+```json
+{
+    "id": 1,
+    "codigo":"ART-991",
+    "nombre":"Monitor 16 pulgadas",
+    "precio": 26.000
+
+}
+```
+
+
+* Click en Send y verificamos la respuesta(true se agrego el registro, false no se agrego)
+* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool
+
+
+
+</br>
+
+#### 12.4) Test Método  `eliminarProducto` mediante  `DELETE`
+* El Tercer Método será el de `eliminarProducto`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método DELETE y colocamos la URL `http://localhost:8092/v1/producto/idDelProductoAeliminar`. Si queremos eliminar el producto con el id 1 la URI completa sería `http://localhost:8092/v1/producto/1`
+* La Eliminación del Producto no posee cuerpo Json.
+* Click en Send y verificamos la respuesta(true si se agrego el registro, false no se agrego)
+* Comprobar la tabla producto de la db a través de phpMyAdmin y verificar el proceso a través de la terminal de Spring Tool.
+
+
+
+</br>
+
+#### 12.5) Test Método  `listadoProductos` mediante  `GET`
+* El Cuarto Método será el de `listadoProductos`, dentro de Postman en el recuadro de la aplicación seleccionamos el Método GET y colocamos la URL `http://localhost:8092/v1/productos`.
+* Click en Send y verificamos la respuesta(deberíamos tener la lista de Productos dentro del body en la respuesta de postman).
+
+* Para obtener la primera página de productos con 2 registros, vamos a incluir en la URI, luego de productos signo de interrogación seguidamente el número de paginación con page y el tamaño de esa paginación,l osea el número de registros. (?page=0&size=2)
+* URI completa `http://localhost:8092/v1/productos?page=0&size=2`.
+* Tendriamos 2 productos de la Primera paginación, podemos pedir que se traiga más productos o cambiar mismo de paginación, a elección de uno.
+
+</br>
+
+#### 12.6) Test Método  `getById` mediante  `GET`
+* Este Método nos traerá el Producto según su ID de origen
+* URI completa `http://localhost:8092/v1/productos/id/1`
+* Click en send y la api nos regresa el producto correspondiente
+
+
+
+</br>
+ 
+ * El Resto de los Métodos de Búsqueda funcionan de la misma forma
+
+
+
+</br>
+
+
+
+## Sección 7) Creación y Configuración de SpringSecurity y Json Web Tokens
 
 
 </br>
@@ -2539,12 +2610,12 @@ public class ProductoService {
 
 
 
- ### Paso 12)  Creación y Configuración de la Clase `Usuario`
+ ### Paso 13)  Creación y Configuración de la Clase `Usuario`
  #### (Esta Clase será la Entidad que JPA-HIBERNATE mapee para crear la tabla en la Base de Datos.)
 
 </br>
 
-#### 12.1) Creación de la Clase `Usuario`
+#### 13.1) Creación de la Clase `Usuario`
 * Esta clase se alojará dentro de `mypackages.entities`
 * Creamos la Clase en ese paquete, los pasos para la creación de la misma ya son conocidos.
 * Código Snippet...
@@ -2563,7 +2634,7 @@ public class Usuario {
 
 </br>
 
-#### 12.2) Configuración de la Clase `Usuario`
+#### 13.2) Configuración de la Clase `Usuario`
 * Vamos a hacer uso de las anotaciones JPA para persistir y crear los campos en la db, hay que tener en consideración, que como bien se explico en las primeras sesiones, JPA persisti y reemplaza los valores en la db, osea que si no se creo las tablas nombradas en estas entidades hibernate las crea en la db, por ende hay que tener mayor enfasis en el nombramiento de atributos y clases en las entidades, para esta ocasión no vamos a crear la tabala en la base de datos, sino que directamente vamos a trabajar desde la clase en Java, nuevamente aclaro, ojo con los nombres y convenciones entre Java y SQL.
 * Además dicha clase va a emplementar un Serializable, para convertir los Beans en flujos de Bytes.
 * Los últimos 2 atributos de la clase hacen referencia a la sesión del usuario, si es admin, usuario convencional o lo que fuese, y si el estado de tipo booelan para los demás atributos que tenga dicho usuario, si posee activo o no los atributos que vayamos a comparar.
@@ -2670,14 +2741,14 @@ public class Usuario implements Serializable{
 </br>
 
 
- ### Paso 13) Creación y Configuración de la Interfaz `I_UsuarioRepository`
+ ### Paso 14) Creación y Configuración de la Interfaz `I_UsuarioRepository`
  #### (Esta Interfaz tendrá el mismo objetivo que la ya definida, siguiendo el patrón de diseño DAO, sin definir el cuerpo de las funciones ya que trabajaremos con la API de JpaRepository)
 
 </br>
 
 
 
-#### 13.1) Creación de la Interfaz `I_UsuarioRepository`
+#### 14.1) Creación de la Interfaz `I_UsuarioRepository`
 * Esta interfaz se alojará dentro de `mypackages.repositories.interfaces`
 * Creamos la Interfaz en ese paquete, los pasos para la creación de la misma ya son conocidos.
 * Código Snippet...
@@ -2696,7 +2767,7 @@ public interface I_UsuarioRepository {
 
 </br>
 
-#### 13.2) Configuración de la Interfaz `I_UsuarioRepository`
+#### 14.2) Configuración de la Interfaz `I_UsuarioRepository`
 * Vamos a hacer uso de las anotaciones de Spring para que trabaje con jpaRepository
 * Al igual que la otra interfaz, esta contendrá los métodos de JPA
 * Código Completo...
@@ -2742,12 +2813,12 @@ public interface I_UsuarioRepository extends JpaRepository<Usuario, Serializable
 </br>
 
 
- ### Paso 14) Creación y Configuración del Servicio `UsuarioService`
+ ### Paso 15) Creación y Configuración del Servicio `UsuarioService`
  #### (Ya sabemos que en el service desarrollamos la lógica de negocio de la aplicación)
 
 </br>
 
-#### 14.1) Creación del Servicio `UsuarioService`
+#### 15.1) Creación del Servicio `UsuarioService`
 * Este servicio se alojará dentro de `mypackages.services`
 * Creamos la Clase Service en ese paquete, los pasos para la creación de la misma ya son conocidos.
 * Código Snippet...
@@ -2766,7 +2837,7 @@ public class UsuarioService {
 
 </br>
 
-#### 14.2) Configuración del Servicio `UsuarioService`
+#### 15.2) Configuración del Servicio `UsuarioService`
 * Vamos a hacer uso de las anotaciones de Spring para que trabaje con jpaRepository,  los pasos y anotaciones son los mismos que el otro service, la funcionalidad es la misma, la unica diferencia es que trabajamos con el repositorio y la entidad del Usuario
 * Al igual que el otro service se hará uso de la inyección de dependencias
 * Vamos a implementar la Interfaz `UserDetailsService`, esta se va a encargar que el usuario acceda directamente al contenido de las bases de datos, esta interfaz describe nu objeto que realizaz un acceso a datos con un unico metodo llmado `loadUserByUsername` que devuelve la info de un usuario.  Esto lo vamos a hacer con el metodo declarado en la interfaz `findByUsuario`.Previamente Crearemos un objeto encoder para trabajar con las contraseñas cifradas, debemos pasarles este encoder cuando invoquemos al metodo getContrasenia de la Clase Usuario
@@ -2855,12 +2926,12 @@ public class UsuarioService implements UserDetailsService{
 </br>
 
 
- ### Paso 15)  Creación y Configuración de la Clase de Configuración `UsuarioConfiguration`
+ ### Paso 16)  Creación y Configuración de la Clase de Configuración `UsuarioConfiguration`
  #### (Esta Clase será el Modelo de Acceso a la DB para obtener el usuario y contraseña de la db y asi poder validar el login, atenti que la Clase Usuario es para persistir los datos con JPA y la Clase UsuarioConfiguration es para obtener los datos, utilizaremos Spring Security y Json Web Tokens con esta clase)
 
 </br>
 
-#### 15.1) Creación de la Clase de Configuracion `UsuarioConfiguration`
+#### 16.1) Creación de la Clase de Configuracion `UsuarioConfiguration`
 * Creamos la clase dentro del paquete `mypackages.configurations` ya creado previamente para la clase anterior 
 * Código Snippet...
 
@@ -2877,7 +2948,7 @@ public class UsuarioConfiguration {
 
 </br>
 
-#### 15.2) Configuración de la Clase de Configuracion `UsuarioConfiguration`
+#### 16.2) Configuración de la Clase de Configuracion `UsuarioConfiguration`
 * Esta clase debe de enviar un token hacia la clase WebConfiguration, el token lo deberá generar otra clase llamada `JwtUtil`, pasará por un filtro a través de la clase aún no creada `JwFilter` entre otras cosas.
 * Creamos atributos getters y setters..
 * Código Snippet...
@@ -2923,12 +2994,12 @@ public class UsuarioConfiguration {
 </br>
 
 
- ### Paso 16) Creación y Configuración de la Clase de Configuración `JwtUtilConfiguration` 
+ ### Paso 17) Creación y Configuración de la Clase de Configuración `JwtUtilConfiguration` 
  #### (Esta Clase será la que genere el token del cliente cada vez que se valida el usuario y contraseña. Una vez que el cliente necesite usar la aplicación deberá mandar ese token generado para solicitar dicho recurso )
 
 </br>
 
-#### 16.1) Creación de la Clase de Configuracion `JwtUtilConfiguration` 
+#### 17.1) Creación de la Clase de Configuracion `JwtUtilConfiguration` 
 * Creamos la clase dentro del paquete `mypackages.configurations` ya creado previamente para la clase anterior 
 * Código Snippet...
 
@@ -2945,7 +3016,7 @@ public class JwtUtilConfiguration {
 
 </br>
 
-#### 16.2) Configuración de la Clase de Configuracion `JwtUtilConfiguration` 
+#### 17.2) Configuración de la Clase de Configuracion `JwtUtilConfiguration` 
 * La descripción de cada cosa esta mismo en los comentarios del código..
 * Código Completo..
 ```java
@@ -2973,9 +3044,9 @@ public class JwtUtilConfiguration {
         String token = Jwts.builder()
             .setSubject(username)
                 
-            // Vamos a asignar un tiempo de expiracion de 1 minuto
+            // Vamos a asignar un tiempo de expiracion de 10 minuto
             // solo con fines demostrativos en el video que hay al final
-            .setExpiration(new Date(System.currentTimeMillis() + 60000))
+            .setExpiration(new Date(System.currentTimeMillis() + 600000))
             
             // Hash con el que firmaremos la clave
             .signWith(SignatureAlgorithm.HS512, "UsuarioValidado")
@@ -3015,17 +3086,18 @@ public class JwtUtilConfiguration {
 
 
 ```
+* Hay Muchas cosas que podriamos hablar hacerca de JWT, pero en este caso la mayor relevancia para las pruebas con Postman es el tiempo de expiración de los Tokens, por defecto en la documentación viene configurado a 1 minuto, acá se modifica a 10 para no tener que estar agregando los nuevos en cada peticion, también se podría quitar el mismo pero por temas de seguridad se deja.
  
  </br>
  
  
- ### Paso 17) Creación y Configuración de la Clase de Configuración `JwtFilterConfiguration` 
+ ### Paso 18) Creación y Configuración de la Clase de Configuración `JwtFilterConfiguration` 
  #### (Esta Clase será la que se encargue de validar el token proporcionado por el cliente, recordar, el cliente proporciona usuario y contraseña y como respuesta se le envia un token con toda la seguridad detrás del mismo, ese token el cliente lo usará cada vez que se quiera conectar a la aplicación, entonces este filtro sirve para validar ese token)
 
 </br>
 
 
-#### 17.1) Creación de la Clase de Configuracion `JwtFilterConfiguration` 
+#### 18.1) Creación de la Clase de Configuracion `JwtFilterConfiguration` 
 * Creamos la clase dentro del paquete `mypackages.configurations`.
 * Código Snippet...
 
@@ -3042,7 +3114,7 @@ public class JwtFilterConfiguration {
 
 </br>
 
-#### 17.2) Configuración de la Clase de Configuracion `JwtFilterConfiguration` 
+#### 18.2) Configuración de la Clase de Configuracion `JwtFilterConfiguration` 
 * Vamos a implementar el metodo de la clase `GenericFilterBean` llamado `doFilter`.
 * La clase que se hereda es una superclase para cualquier tipo de filtro. La conversión de tipos de parámetros de configuración es automática, y el método setter correspondiente se invoca con el valor convertido. También es posible que las subclases especifiquen las propiedades requeridas. Los parámetros sin que coincidan con el configurador de propiedades de bean simplemente se ignorarán. 
 * El Método `doFilter`  es un metodo filtro de servlet que interceptan dinamicamente solicitudes y respuestas para transformar o utilizar la informacion contenida en las mismas
@@ -3091,12 +3163,12 @@ public class JwtFilterConfiguration extends GenericFilterBean{
 </br>
 
 
- ### Paso 18) Creación y Configuración de la Clase de Configuración `LoginFilterConfiguration` 
+ ### Paso 19) Creación y Configuración de la Clase de Configuración `LoginFilterConfiguration` 
  #### (Esta Clase será la que procese los tokens de solicitud de autenticación creados mediante la implementación de las otras clases)
 
 </br>
 
-#### 18.1) Creación de la Clase de Configuracion `LoginFilterConfiguration` 
+#### 19.1) Creación de la Clase de Configuracion `LoginFilterConfiguration` 
 * Creamos la clase dentro del paquete `mypackages.configurations`.
 * Código Snippet...
 
@@ -3113,7 +3185,7 @@ public class LoginFilterConfiguration {
 
 </br>
 
-#### 18.2) Configuración de la Clase de Configuracion `LoginFilterConfiguration` 
+#### 19.2) Configuración de la Clase de Configuracion `LoginFilterConfiguration` 
 * Esta clase heredara las funcionalidades de la clase `AbstractAuthenticationProcessingFilter`,que a su vez esta procesa los tokens de solicitud ed autenticación..
 * Debemos implementar el método de dicha clase, porque el constructor será completamente modificado, en los parametros de el constructor se le pasara la URL desde el Service que crearemos más adelante  `WebSecurity`, el segundo parametro sera de tipo `AuthenticationManager`, que es una interfaz para la autenticación, esta devuelve una instancia con el indicador establecido en true.
 * Dentro del constructor, invocando al padre, creamos una instancia de `AntPathRequestMatcher` pasandole la url, este objeto compara la url con un patron predefinido omitido y coincidira o no con los metodos http.
@@ -3244,12 +3316,12 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 
 </br>
 
- ### Paso 19) Creación y Configuración de la Clase de Configuración `WebSecurity`
+ ### Paso 20) Creación y Configuración de la Clase de Configuración `WebSecurity`
  #### (Esta clase va a proporcionar seguridad basada en la web, como por ejemplo que el usuaio se autentique antes de acceder a cualquier URL dentro de nuestra aplicacion, manejo de roles(permisos de usuarios), autenticacion HTTP, paginas de inicio y cierre de sesion, etc)
 
 </br>
 
-#### 19.1) Creación de la Clase Configuration `WebSecurity`
+#### 20.1) Creación de la Clase Configuration `WebSecurity`
 * Vamos a crear la clase en el mismo paquetes que todas las clases de configuracion, `mypackages.configurations` 
 * Código Snippet...
 
@@ -3268,7 +3340,7 @@ public class WebSecurity {
 </br>
 
 
-#### 19.2) Configuración de la Clase Configuration `WebSecurity`
+#### 20.2) Configuración de la Clase Configuration `WebSecurity`
 * Para una clase de configuration necesitaremos la anotacion `@Configuration` 
 * Para activar la seguridad en la clase empleamos la anotacion `@EnableWebSecurity`
 * Esta clase va a heredar de `WebSecurityConfigurerAdapter`, de esta forma podemos personalizar WebSecurity y HttpSecurity, podemos replicar el comportamiento obteniendo multiples elementos http heredando en los diferentes beans(clases) 
@@ -3409,13 +3481,93 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
  </br>
  
  
- ### Paso 20) Test de `Spring Security` y `JWT`  
+ ### Paso 21) Test de `Spring Security` y `JWT`  
  #### (Llegar hasta este punto no fue fácil, intenté describir lo mejor posible que es lo que hace cada método y funcionalidad implementada, desde ya que de forma superficial por qué no es un tema fácil de digerir, para testear la seguridad vamos a usar nuevamente Postman)
  
  </br>
  
+ #### 21.1) Modificación de los usos de los Métodos HTTP en el `ProductoController`
+ #### (Para trabajar con los métodos http tenemos que tener primerasmente los roles y usuarios levantados en la db, este paso lo haremos luego)
  
- #### 20.1) Agregar los Registros de Seguridad para los Usuarios 
+ * Nos dirijimos hacia el ProductoController y vamos a agregar la Anotattion `@PreAuthorize("hasRole('ADMINISTRADOR')")` para los métodos PostMapping, PutMapping y DeleteMapping, el GetMapping no es relevante para los demás usuarios.
+ * Código Final de la Clase `ProductoController`..
+ ```java
+ package com.api.productos.mypackages.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.api.productos.mypackages.entities.Producto;
+import com.api.productos.mypackages.models.ProductoModel;
+import com.api.productos.mypackages.service.ProductoService;
+
+
+@RestController
+@RequestMapping("/v1")
+public class ProductoController {
+	
+	//==========INYECCION DEL SERVICE==========
+	@Autowired
+	@Qualifier("ProductoService")
+	ProductoService productoService;
+
+	
+	
+	//==========MÉTODOS HTTP====================
+	
+	//METODO POST
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PostMapping("/producto")
+	public boolean agregarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.agregarProducto(producto);
+	}
+	
+	//MÉTODO PUT
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PutMapping("/producto")
+	public boolean editarProducto(@RequestBody @Validated Producto producto) {
+		return productoService.editarProducto(producto);
+		
+	}
+	
+	//MÉTODO DELETE
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@DeleteMapping("/producto/{id}")
+	public boolean eliminarProducto(@PathVariable("id") int id) {
+		return productoService.eliminarProducto(id);
+			
+		}
+	
+	//MÉTODO GET
+	@GetMapping("/productos")
+	public List<ProductoModel> listadoProductos(Pageable pageable){
+		return productoService.listadoProductos(pageable);
+	}
+	
+
+	
+
+}
+ 
+ ```
+ 
+  </br>
+ 
+ 
+ #### 21.2) Agregar los Registros de Seguridad para los Usuarios 
  #### (En esta aplicación tenemos 3 tipos de usuarios según los declarados en UsuarioService, que corresponde al campo rol de la Entidad Usuario, además tenemos el campo estado, que nos permitirá activar o desactivar dichos permisos en la db, vamos a agregar un registro y testear dicha Seguridad)
  
  * Si todo se ha ejecutado correctamente en los pasos anteriores tendríamos la tabla usuarios vacia creada en la db, desde PHPMYADMIN seleccionamos dicha tabla e insertamos desde el editor de linea o pestaña SQL el registro..
@@ -3430,7 +3582,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
- #### 20.2) Verificación de `Tokens` y `Usuarios`
+ #### 21.3) Verificación de `Tokens` y `Usuarios`
 * Luego en Postman usaremos la ruta `http://localhost:8092/login` de tipo POST con pasandole en el Bodyel usuario y contraseña que tendriamos levantado en la db en formato Json 
  ```json
  {
@@ -3441,7 +3593,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
- #### 20.2) Verificación de `Spring Security`
+ #### 21.4) Verificación de `Spring Security`
  * Veamos si pasando otro usuario y contraseña Spring nos devuelve un token 
  * Usamos la misma ruta `http://localhost:8092/login` de tipo POST  pasandole un usuario y contraseña incorrecto y no insertado en la db en formato Json 
  ```json
@@ -3452,9 +3604,11 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 * Obtenemos un `401 Unauthorized`, no tenemos autorización para usar esta aplicación, de la misma forma se puede implementar otro usuario y guardar el estado en 0, false para que si bien este registrado en la base de datos no tenga permisos por equis motivo, esto me parece super interesante, tiene una potencialidad muy grande.
 
 
-</br>
-
- #### 20.2) Verificación de la `API Productos`
+ </br>
+ 
+ 
+ ### Paso 22) Verificación de la `API Productos` con JWT 
+ #### (Vamos a testear nuevamente los métodos de la api con JWT)
  * Vimos que podemos o no tener acceso a nuestra Api, teniendo el acceso pertinente vamos a consultar los productos que tenemos en nuestra Base de Datos
  * Repetimos el Proceso de Obtención de nuestro token para hacer uso de nuestra credencial
 *  Ruta `http://localhost:8092/login` en el Body mandamos un Json..
@@ -3507,6 +3661,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
     }
 ]
 ```
+* Podemos pedir el producto con el ID 1, URI : (`http://localhost:8092/v1/productos/id/1`)
 
 
 
@@ -3550,7 +3705,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 
 
-## Sección 8) Apéndice
+## Sección 8) Anotaciones
 
 
 </br>
@@ -3606,34 +3761,28 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 </br>
 
-</br>
 
 </br>
 
-## Uso de Cygwin.
-#### (Esta es una magnífica herramienta para trabajar con git a nivel consola desde algún IDE. Desde mi punto de vista simplifica muchísimo
-la integración del Proyecto con Git).
+## Sección 9) Uso y Manejo de Git.
 
-#### 1)Descargar la herramienta en https://cygwin.com/install.html dependiendo la arquitectura que se tenga (32-64 bits)
-* --> Como toda aplicacion siguiente.... siguiente....
-* --> (IMPORTANTE:NO TENER ABIERTO EL IDE DURANTE LA INSTALACION, SINO NO RECONOCE EL PATH)
+</br>
 
-#### 2) Seleccionar el proyecto en Eclipse Ide para implementar git.
+### Uso y Manejo de Git
+### Descarga de Git
+* Nos dirigimos a https://git-scm.com/downloads y descargamos el versionador
+* Como toda aplicacion siguiente.... siguiente....
+* IMPORTANTE:NO TENER ABIERTO EL IDE DURANTE LA INSTALACION, SINO NO RECONOCE EL PATH
+
+### Abrir una Consola de Git desde el IDE
+* --> Seleccionamos el Proyecto
 * --> Click Der 
 * --> Show in Local Terminal
-* --> Seleccionas Git Console o Terminal
-* --> Si seleccionaste git console, te debería aparecer algo parecido a esto(Ruta Absoluta de tu proyecto)...
-* --> andre@DESKTOP-7BN69K1 MINGW64 /c/Users/andre/OneDrive/Escritorio/LenguajesProgramacion/JAVA_AplicacionesWeb/Formu
-larioMavenJSP/FormularioMaven (master)
+* --> Seleccionas Git Console 
 
-#### 4)Creación de un Nuevo Repositorio git o usar el ya creado
-* --> Debajo de esta sección, explico como usar git de forma detallada.
 
-#### 5) Más Información https://ourcodeworld.com/articles/read/680/how-to-configure-an-integrated-terminal-command-prompt-in-netbeans-for-windows
+### Subir el proyecto al repositorio desde la consola de git dentro del IDE
 
-</br>
-
-## Subir el proyecto al repositorio con la terminal a traves de Cygwin en Eclipse
 #### 1)Creamos un nuevo repositorio en GitHub.
 
 #### 2)Inicializamos nuestro repositorio local .git desde la terminal.
@@ -3655,7 +3804,7 @@ larioMavenJSP/FormularioMaven (master)
 </br>
 
 
-## Actualización de el proyecto al repositorio con la terminal a traves de Cygwin en Netbeans
+### Actualización del proyecto al repositorio desde la consola de GIT en el IDE
 
 #### 1)Visualizamos las modificaciones realizadas en local
 * git status
