@@ -1,6 +1,6 @@
 package com.api.productos.mypackages.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.logging.log4j.Logger;
@@ -141,10 +141,10 @@ public class ProductoService {
 		
 	}
 	
-	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ProductoModel findByCodigo(String codigo) {
+	//PRODUCTO POR CODIGO
+	public List<ProductoModel> findByCodigo(String codigo) {
 		
-		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByCodigo(codigo));
 	}
 		
 	
@@ -156,7 +156,7 @@ public class ProductoService {
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public List<ProductoModel> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(float precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		

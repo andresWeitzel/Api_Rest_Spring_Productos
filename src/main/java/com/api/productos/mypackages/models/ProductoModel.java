@@ -11,14 +11,14 @@ public class ProductoModel {
 		
 		private String nombre;
 		
-		private String precio;
+		private float precio;
 		
 		
 		public ProductoModel() {
 		}
 		
 
-		public ProductoModel(String codigo, String nombre, String precio) {
+		public ProductoModel(String codigo, String nombre, float precio) {
 			super();
 			this.codigo = codigo;
 			this.nombre = nombre;
@@ -26,7 +26,7 @@ public class ProductoModel {
 		} 
 		
 
-		public ProductoModel(int id, String codigo, String nombre, String precio) {
+		public ProductoModel(int id, String codigo, String nombre, float precio) {
 			super();
 			this.id = id;
 			this.codigo = codigo;
@@ -76,11 +76,11 @@ public class ProductoModel {
 			this.nombre = nombre;
 		}
 
-		public String getPrecio() {
+		public float getPrecio() {
 			return precio;
 		}
 
-		public void setPrecio(String precio) {
+		public void setPrecio(float precio) {
 			this.precio = precio;
 		}
 		

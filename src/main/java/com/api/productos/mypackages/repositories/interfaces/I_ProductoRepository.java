@@ -20,11 +20,11 @@ public interface I_ProductoRepository extends JpaRepository<Producto, Serializab
 
 public abstract Producto findById(int id);
 
-public abstract Producto findByCodigo(String codigo);
+public abstract List<Producto> findByCodigo(String codigo);
 
 public abstract List<Producto> findByNombre(String nombre);
 
-public abstract List<Producto> findByPrecio(double precio);
+public abstract List<Producto> findByPrecio(float precio);
 
 public abstract Page<Producto> findAll(Pageable pageable);
 	

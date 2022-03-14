@@ -25,7 +25,7 @@ public class Producto implements Serializable{
 	private String nombre;
 	
 	@Column(name="precio")
-	private String precio;
+	private float precio;
 	
 	
 	
@@ -35,7 +35,7 @@ public class Producto implements Serializable{
 	}
 	
 
-	public Producto(String codigo, String nombre, String precio) {
+	public Producto(String codigo, String nombre, float precio) {
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -43,7 +43,7 @@ public class Producto implements Serializable{
 	} 
 	
 
-	public Producto(int id, String codigo, String nombre, String precio) {
+	public Producto(int id, String codigo, String nombre, float precio) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -80,11 +80,11 @@ public class Producto implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public String getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(String precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 	

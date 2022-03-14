@@ -71,7 +71,7 @@ public class ProductoController {
 
 	// ---GET---
 	@GetMapping("/productos/codigo/{codigo}")
-	public ProductoModel getByCodigo(@PathVariable("codigo") String codigo) {
+	public List<ProductoModel> getByCodigo(@PathVariable("codigo") String codigo) {
 
 		return productoService.findByCodigo(codigo);
 	}
@@ -85,7 +85,7 @@ public class ProductoController {
 
 	// ---GET---
 	@GetMapping("/productos/precio/{precio}")
-	public List<ProductoModel> getByPrecio(@PathVariable("precio") double precio) {
+	public List<ProductoModel> getByPrecio(@PathVariable("precio") float precio) {
 
 		return productoService.findByPrecio(precio);
 	}
