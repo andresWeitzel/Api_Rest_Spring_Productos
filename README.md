@@ -446,6 +446,7 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 ### Paso 3) Dependencias del Proyecto
 #### (Las siguientes dependencias del Proyecto se deberán agregar al pom.xml para el correcto funcionamiento del Proyecto).
+#### (EN LOS SIGUIENTES PASOS SE AGREGAN LAS DEPENDENCIAS DE FORMA MANUAL, ES IMPORTANTE SABER QUE LA OTRA FORMA DE INCLUIR LAS MISMAS ES A TRAVÉS DE SPRING AL MOMENTO DE CREAR EL PROYECTO, EN MI CASO OPTÉ POR ESTA)
 
 #### 3.1) Dependencia para el conector de Mysql.
 * Buscamos la dependencia Mysql Connector (https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.21)
@@ -791,7 +792,7 @@ public class Producto implments Serializable{
 ```
 
 
-* Creamos los atributos o campos de la Clase que a su vez serán los campos de la db 
+* Creamos los atributos o campos de la Clase que a su vez serán los campos de la db, es importante destacar que se deberán mantener la compatibilidad de tipos de datos entre java y mysql haciendo referencia a los tipos según cada lenguaje
 
 ```java
 
@@ -799,7 +800,7 @@ package com.api.productos.mypackages.entities;
 
 import java.io.Serializable;
 
-public class Producto implments Serializable{
+public class Producto implements Serializable{
 
 	
 	private int id;
@@ -808,7 +809,7 @@ public class Producto implments Serializable{
 	
 	private String nombre;
 	
-	private String precio;
+	private float precio;
 	
 }
 
@@ -824,7 +825,7 @@ package com.api.productos.mypackages.entities;
 
 import java.io.Serializable;
 
-public class Producto implments Serializable{
+public class Producto implements Serializable{
 	
 
 	private int id;
@@ -833,7 +834,7 @@ public class Producto implments Serializable{
 	
 	private String nombre;
 	
-	private String precio;
+	private float precio;
 	
 	
 	public Producto() {
@@ -885,11 +886,11 @@ public class Producto implments Serializable{
 		this.nombre = nombre;
 	}
 
-	public String getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(String precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 	
@@ -943,7 +944,7 @@ public class Producto implements Serializable{
 	private String nombre;
 	
 	@Column(name="precio")
-	private String precio;
+	private float precio;
 	
 	
 	
@@ -953,7 +954,7 @@ public class Producto implements Serializable{
 	}
 	
 
-	public Producto(String codigo, String nombre, String precio) {
+	public Producto(String codigo, String nombre, float precio) {
 		super();
 		this.codigo = codigo;
 		this.nombre = nombre;
@@ -961,7 +962,7 @@ public class Producto implements Serializable{
 	} 
 	
 
-	public Producto(int id, String codigo, String nombre, String precio) {
+	public Producto(int id, String codigo, String nombre, float precio) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -998,11 +999,11 @@ public class Producto implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public String getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(String precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 	
@@ -1016,8 +1017,6 @@ public class Producto implements Serializable{
 	
 
 }
-
-
 
 ```
 
@@ -1098,14 +1097,14 @@ public class ProductoModel {
 		
 		private String nombre;
 		
-		private String precio;
+		private float precio;
 		
 		
 		public ProductoModel() {
 		}
 		
 
-		public ProductoModel(String codigo, String nombre, String precio) {
+		public ProductoModel(String codigo, String nombre, float precio) {
 			super();
 			this.codigo = codigo;
 			this.nombre = nombre;
@@ -1113,7 +1112,7 @@ public class ProductoModel {
 		} 
 		
 
-		public ProductoModel(int id, String codigo, String nombre, String precio) {
+		public ProductoModel(int id, String codigo, String nombre, float precio) {
 			super();
 			this.id = id;
 			this.codigo = codigo;
@@ -1163,11 +1162,11 @@ public class ProductoModel {
 			this.nombre = nombre;
 		}
 
-		public String getPrecio() {
+		public float getPrecio() {
 			return precio;
 		}
 
-		public void setPrecio(String precio) {
+		public void setPrecio(float precio) {
 			this.precio = precio;
 		}
 		
@@ -1268,14 +1267,10 @@ public interface I_ProductoRepository extends JpaRepository<Producto, Serializab
 public abstract Producto findById(int id);
 
 ```
-* El Segundo método será para traer el producto requerido a través del código pasado.
+* El segundo, tercer y cuarto  método serán listas, ya que los nombres y precios pueden ser repetidos 
 ```java
 
-public abstract Producto findByCodigo(String codigo);
-
-```
-* El tercer, cuarto  método serán listas, ya que los nombres y precios pueden ser repetidos 
-```java
+public abstract List<Producto> findByCodigo(String codigo);
 
 public abstract List<Producto> findByNombre(String nombre);
 
@@ -1332,11 +1327,11 @@ public interface I_ProductoRepository extends JpaRepository<Producto, Serializab
 
 public abstract Producto findById(int id);
 
-public abstract Producto findByCodigo(String codigo);
+public abstract List<Producto> findByCodigo(String codigo);
 
 public abstract List<Producto> findByNombre(String nombre);
 
-public abstract List<Producto> findByPrecio(double precio);
+public abstract List<Producto> findByPrecio(float precio);
 
 public abstract Page<Producto> findAll(Pageable pageable);
 	
@@ -1799,7 +1794,7 @@ public class ProductoService {
 
 </br>
 
-#### Paso 10.4) Otros Métodos de Uso de la Clase `ProductoService`
+#### Paso 10.4) Métodos de Búsqueda de la Clase `ProductoService`
 #### (Acá vamos a definir los métodos que se encarguen de traer los objetos de la db pero según los campos que le pasemos como argumento de la funcion creada. Vamos a utilizar los mismos nombres que los metodos creados en la Interfaz)
 
 
@@ -1828,19 +1823,20 @@ public class ProductoService {
 </br>
 
 #### 10.4.2) Creación del Método `findByCodigo`
-* Este Método nos va a traer el Producto con el codigo pedido. 
+* Este Método nos va a traer el Producto, o los productos con el codigo pedido.
+* Se podría cuestionar si el código es unico, pero en este caso se lo trabaja como lista  
 * Es importante aclarar que el método es de tipo Modelo y no Entidad
 * Para poder realizar esto llamamos al método creado `findByCodigo` a traves de la interfaz
-* El Método nos va a crear y devolver un Producto con el  id pasado. 
+* El Método nos va a crear y devolver uno o varios Producto/s con el codigo pasado. 
 * ATENTI a esto, la lista devuelta por el método sera del Modelo y No de la Entidad
 
 				
 ```java
 
 	//PRODUCTO POR CODIGO
-	public ModeloProducto findByCodigo(String codigo) {
+	public List<ProductoModel> findByCodigo(String codigo) {
 		
-		return new ModeloProducto(iProductoRepository.findByCodigo(codigo));
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByCodigo(codigo));
 	}
 		
 				
@@ -1885,11 +1881,12 @@ public class ProductoService {
 ```java
 
 	//LISTA DE PRODUCTOS POR PRECIO
-	public List<ProductoModel> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(float precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
 	}
+	
 				
 ```
 * Código Completo Métodos de Uso..
@@ -1897,6 +1894,9 @@ public class ProductoService {
 ```java
 
 
+	
+	
+	
 	//================ METODOS DE BUSQUEDA =============================
 	
 	
@@ -1907,10 +1907,10 @@ public class ProductoService {
 		
 	}
 	
-	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ProductoModel findByCodigo(String codigo) {
+	//PRODUCTO POR CODIGO
+	public List<ProductoModel> findByCodigo(String codigo) {
 		
-		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByCodigo(codigo));
 	}
 		
 	
@@ -1922,11 +1922,18 @@ public class ProductoService {
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public List<ProductoModel> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(float precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
 	}
+	
+
+	
+	
+
+	
+
 	
 	
 ```
@@ -2091,6 +2098,8 @@ public class ProductoService {
 	
 	
 	
+	
+	
 	//================ METODOS DE BUSQUEDA =============================
 	
 	
@@ -2101,10 +2110,10 @@ public class ProductoService {
 		
 	}
 	
-	//PRODUCTO POR CODIGO | VALOR UNICO
-	public ProductoModel findByCodigo(String codigo) {
+	//PRODUCTO POR CODIGO
+	public List<ProductoModel> findByCodigo(String codigo) {
 		
-		return new ProductoModel(iProductoRepository.findByCodigo(codigo));
+		return productoConvertidor.convertirListaProducto(iProductoRepository.findByCodigo(codigo));
 	}
 		
 	
@@ -2116,15 +2125,13 @@ public class ProductoService {
 	}
 	
 	//LISTA DE PRODUCTOS POR PRECIO
-	public List<ProductoModel> findByPrecio(double precio){
+	public List<ProductoModel> findByPrecio(float precio){
 		
 		return productoConvertidor.convertirListaProducto(iProductoRepository.findByPrecio(precio)); 
 		
 	}
 	
 
-	
-	
 
 	
 
@@ -2359,34 +2366,35 @@ public class ProductoController {
 * Código Snippet..
 
 ```java
+	// ==============MÉTODOS HTTP DE BÚSQUEDA =============
+
 	// ---GET---
-	@GetMapping("/id/{id}")
+	@GetMapping("/productos/id/{id}")
 	public ProductoModel getById(@PathVariable("id") int id) {
 
 		return productoService.findById(id);
 	}
 
 	// ---GET---
-	@GetMapping("/codigo/{codigo}")
-	public ProductoModel getByCodigo(@PathVariable("codigo") String codigo) {
+	@GetMapping("/productos/codigo/{codigo}")
+	public List<ProductoModel> getByCodigo(@PathVariable("codigo") String codigo) {
 
 		return productoService.findByCodigo(codigo);
 	}
 
 	// ---GET---
-	@GetMapping("/nombre/{nombre}")
+	@GetMapping("/productos/nombre/{nombre}")
 	public List<ProductoModel> getByNombre(@PathVariable("nombre") String nombre) {
 
 		return productoService.findByNombre(nombre);
 	}
 
 	// ---GET---
-	@GetMapping("/precio/{precio}")
-	public List<ProductoModel> getByPrecio(@PathVariable("precio") double precio) {
+	@GetMapping("/productos/precio/{precio}")
+	public List<ProductoModel> getByPrecio(@PathVariable("precio") float precio) {
 
 		return productoService.findByPrecio(precio);
 	}
-
 
 
 ```
@@ -2462,29 +2470,29 @@ public class ProductoController {
 	// ==============MÉTODOS HTTP DE BÚSQUEDA =============
 
 	// ---GET---
-	@GetMapping("/id/{id}")
+	@GetMapping("/productos/id/{id}")
 	public ProductoModel getById(@PathVariable("id") int id) {
 
 		return productoService.findById(id);
 	}
 
 	// ---GET---
-	@GetMapping("/codigo/{codigo}")
-	public ProductoModel getByCodigo(@PathVariable("codigo") String codigo) {
+	@GetMapping("/productos/codigo/{codigo}")
+	public List<ProductoModel> getByCodigo(@PathVariable("codigo") String codigo) {
 
 		return productoService.findByCodigo(codigo);
 	}
 
 	// ---GET---
-	@GetMapping("/nombre/{nombre}")
+	@GetMapping("/productos/nombre/{nombre}")
 	public List<ProductoModel> getByNombre(@PathVariable("nombre") String nombre) {
 
 		return productoService.findByNombre(nombre);
 	}
 
 	// ---GET---
-	@GetMapping("/precio/{precio}")
-	public List<ProductoModel> getByPrecio(@PathVariable("precio") double precio) {
+	@GetMapping("/productos/precio/{precio}")
+	public List<ProductoModel> getByPrecio(@PathVariable("precio") float precio) {
 
 		return productoService.findByPrecio(precio);
 	}
@@ -2590,6 +2598,13 @@ public class ProductoController {
 * URI completa `http://localhost:8092/v1/productos/id/1`
 * Click en send y la api nos regresa el producto correspondiente
 
+
+</br>
+
+#### 12.7) Test Método  `getByNombre` mediante  `GET`
+* Este Método nos traerá el/los Producto/s según su nombre
+* URI completa `http://localhost:8092/v1/productos/nombre/Teclado Gamer RGB Ninkiuop`
+* Click en send y la api nos regresa el producto correspondiente
 
 
 </br>
@@ -3661,42 +3676,65 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
     }
 ]
 ```
-* Podemos pedir el producto con el ID 1, URI : (`http://localhost:8092/v1/productos/id/1`)
+
+</br>
+
+* Podemos pedir el producto con el ID 3, URI : (`http://localhost:8092/v1/productos/id/3`)
+* Obtenemos...
+```json
+{
+    "id": 3,
+    "codigo": "JLU-332",
+    "nombre": "Teclado Gamer RGB Ninkiuop",
+    "precio": "6.500"
+}
+
+```
+</br>
+
+* Podemos pedir el producto, o los productos segun su código, URI : (`http://localhost:8092/v1/productos/codigo/KKLU-847`)
+* Obtenemos...
+```json
+[
+    {
+        "id": 8,
+        "codigo": "KKLU-847",
+        "nombre": "Parlante Blueetoth 4.0",
+        "precio": 4.5
+    },
+    {
+        "id": 9,
+        "codigo": "KKLU-847",
+        "nombre": "Parlante Blueetoth 4.0 IMPORTADO DE BRASIL",
+        "precio": 4.5
+    }
+]
+
+```
+
+</br>
 
 
+* Traemos el Producto o un Listado según su Nombre , URI : (`http://localhost:8092/v1/productos/nombre/Mouse Inalambrico`)
+* Obtenemos...
+```json
+[
+    {
+        "id": 4,
+        "codigo": "KTE-111",
+        "nombre": "Mouse Inalambrico",
+        "precio": "3.200"
+    },
+    {
+        "id": 5,
+        "codigo": "KTE-111",
+        "nombre": "Mouse Inalambrico",
+        "precio": "3.200"
+    }
+]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
+* LA API ES COMPLETAMENTE FUNCIONAL
 
 
 
@@ -3795,7 +3833,7 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 * git commit -m "agrega un comentario entre comillas"
 
 #### 5)Le indicamos a git donde se va a almacenar nuestro proyecto(fijate en tu repositorio de github cual es el enlace de tu proyecto(esta en code)).
-* git remote add origin https://github.com/andresWeitzel/CRUD_JSF_JPA_HIBERNATE_MAVEN_MYSQL
+* git remote add origin https://github.com/andresWeitzel/Api_Rest_Spring_Productos
 
 #### 6)Subimos nuestro proyecto.
 * git push -u origin master
@@ -3817,10 +3855,10 @@ insert into usuarios(id, contrasenia, estado, rol, usuario) values(1,'admin', 1 
 
 #### 4)Sincronizamos y traemos todos los cambios del repositorio remoto a la rama en la que estemos trabajando actualmente.
 ##### (SOLO SI SE REALIZARON CAMBIOS DESDE OTRA LADO, ej: en github u/o/y un equipo de trabajo)
-* git pull https://github.com/andresWeitzel/CRUD_JSF_JPA_HIBERNATE_MAVEN_MYSQL
+* git pullhttps://github.com/andresWeitzel/Api_Rest_Spring_Productos
 
 #### 5)Enviamos todos los cambios locales al repo en github
-* git push https://github.com/andresWeitzel/CRUD_JSF_JPA_HIBERNATE_MAVEN_MYSQL
+* git push https://github.com/andresWeitzel/Api_Rest_Spring_Productos
 
 #### 6) En casos extremos pisamos todo el repositorio
 * git push -f --set-upstream origin master
