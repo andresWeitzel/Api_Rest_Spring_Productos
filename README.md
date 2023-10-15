@@ -2,6 +2,8 @@
 
 Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql, JPA-Hibernate y otras Tecnologías.
 
+* [Playlist Prueba de Funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurCf-3L-d9kDVD-VhpkgxxuC)
+
 </br>
 
 ### Listado de Productos con uno de los Métodos HTTP y JWT
