@@ -1,0 +1,603 @@
+{
+	"info": {
+		"_postman_id": "api-productos-spring-boot",
+		"name": "API REST Spring Productos",
+		"description": "Colección completa para la API REST de Productos con Spring Boot, JWT y MySQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "api-productos"
+	},
+	"item": [
+		{
+			"name": "🔐 Autenticación",
+			"item": [
+				{
+					"name": "Login - Obtener Token JWT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario\": \"{{admin_user}}\",\n    \"contrasenia\": \"{{admin_password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Autenticación para obtener token JWT. Usa las credenciales del usuario administrador."
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Auto-guardar token JWT",
+									"if (pm.response.code === 200) {",
+									"    var token = pm.response.headers.get(\"Authorization\");",
+									"    if (token) {",
+									"        pm.environment.set(\"jwt_token\", token.replace(\"Token: \", \"\"));",
+									"        console.log(\"Token guardado: \" + pm.environment.get(\"jwt_token\"));",
+									"    }",
+									"}",
+									"",
+									"// Validaciones",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has Authorization header\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Authorization\")).to.not.be.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			],
+			"description": "Endpoints relacionados con la autenticación y autorización"
+		},
+		{
+			"name": "🧪 Testing",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/test/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"health"
+							]
+						},
+						"description": "Verificar que la API esté funcionando correctamente"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Response contains expected message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"API is running\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Database Test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/test/db",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"db"
+							]
+						},
+						"description": "Verificar conexión a la base de datos"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains database test message\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Database connection\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			],
+			"description": "Endpoints de prueba para verificar el funcionamiento de la API"
+		},
+		{
+			"name": "📦 Productos - CRUD",
+			"item": [
+				{
+					"name": "Listar Productos (Paginado)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/productos?page=0&size=10&sort=id,asc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"productos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Número de página (base 0)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Tamaño de la página"
+								},
+								{
+									"key": "sort",
+									"value": "id,asc",
+									"description": "Ordenamiento (campo,dirección)"
+								}
+							]
+						},
+						"description": "Obtener lista paginada de productos. Requiere autenticación."
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is JSON array\", function () {",
+									"    pm.response.to.be.json;",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener Producto por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/productos/id/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"productos",
+								"id",
+								"1"
+							]
+						},
+						"description": "Obtener un producto específico por su ID"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Product has required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('codigo');",
+									"    pm.expect(jsonData).to.have.property('nombre');",
+									"    pm.expect(jsonData).to.have.property('precio');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Buscar Productos por Código",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/productos/codigo/PROD001",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"productos",
+								"codigo",
+								"PROD001"
+							]
+						},
+						"description": "Buscar productos por código específico"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is JSON array\", function () {",
+									"    pm.response.to.be.json;",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Buscar Productos por Nombre",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/productos/nombre/Laptop",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"productos",
+								"nombre",
+								"Laptop"
+							]
+						},
+						"description": "Buscar productos por nombre (búsqueda parcial)"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is JSON array\", function () {",
+									"    pm.response.to.be.json;",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Buscar Productos por Precio",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/productos/precio/899.99",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"productos",
+								"precio",
+								"899.99"
+							]
+						},
+						"description": "Buscar productos por precio exacto"
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is JSON array\", function () {",
+									"    pm.response.to.be.json;",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			],
+			"description": "Operaciones de lectura (GET) para productos"
+		},
+		{
+			"name": "📝 Productos - Administración",
+			"item": [
+				{
+					"name": "Crear Nuevo Producto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"PROD006\",\n    \"nombre\": \"Nuevo Producto\",\n    \"precio\": 149.99\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/producto",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"producto"
+							]
+						},
+						"description": "Crear un nuevo producto. Requiere rol ADMINISTRADOR."
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is boolean true\", function () {",
+									"    pm.expect(pm.response.json()).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Actualizar Producto",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"codigo\": \"PROD001\",\n    \"nombre\": \"Laptop HP Pavilion Actualizada\",\n    \"precio\": 999.99\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/producto",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"producto"
+							]
+						},
+						"description": "Actualizar un producto existente. Requiere rol ADMINISTRADOR."
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is boolean true\", function () {",
+									"    pm.expect(pm.response.json()).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Eliminar Producto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token: {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/{{api_version}}/producto/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"producto",
+								"1"
+							]
+						},
+						"description": "Eliminar un producto por ID. Requiere rol ADMINISTRADOR."
+					},
+					"response": [],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is boolean true\", function () {",
+									"    pm.expect(pm.response.json()).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				}
+			],
+			"description": "Operaciones de escritura (POST, PUT, DELETE) para productos. Requieren rol ADMINISTRADOR."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script que se ejecuta antes de cada request",
+					"console.log('Ejecutando request: ' + pm.request.name);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script que se ejecuta después de cada request",
+					"pm.test('Status code is 200', function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test('Response time is less than 2000ms', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8092",
+			"type": "string",
+			"description": "URL base de la API"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "Token JWT obtenido del login"
+		},
+		{
+			"key": "admin_user",
+			"value": "admin",
+			"type": "string",
+			"description": "Usuario administrador"
+		},
+		{
+			"key": "admin_password",
+			"value": "password",
+			"type": "string",
+			"description": "Contraseña del administrador"
+		},
+		{
+			"key": "api_version",
+			"value": "v1",
+			"type": "string",
+			"description": "Versión de la API"
+		}
+	]
+} 

@@ -2,11 +2,14 @@ package com.api.productos.mypackages.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.api.productos.mypackages.repositories.interfaces.I_ProductoRepository;
@@ -16,20 +19,24 @@ import com.api.productos.mypackages.service.UsuarioService;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-	
 	// ========= INYECCIÓN DE DEPENDENCIAS ==========
-		@Autowired
-		@Qualifier("UsuarioService")
-		private UsuarioService usuarioService;
+	@Autowired
+	@Qualifier("UsuarioService")
+	private UsuarioService usuarioService;
 
-	
-	
-	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		// Para desarrollo: NoOpPasswordEncoder (no codifica contraseñas)
+		// En producción: usar BCryptPasswordEncoder
+		return NoOpPasswordEncoder.getInstance();
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
-		//Método para comprobar el user y password en la db
-		auth.userDetailsService(usuarioService);
+		// Método para comprobar el user y password en la db
+		auth.userDetailsService(usuarioService)
+			.passwordEncoder(passwordEncoder());
 		
 		/*
 		// Podemos Cargar el Usuario y Contraseña en Memoria sin usar la db
@@ -41,12 +48,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		
 	}
 
-	
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-        .antMatchers("/login").permitAll() //permitimos el acceso a /login a cualquiera
+        .antMatchers("/login", "/test/**").permitAll() //permitimos el acceso a /login y /test a cualquiera
         .anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
         .and()
         // Las peticiones /login pasaran previamente por este filtro
@@ -57,8 +62,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .addFilterBefore(new JwtFilterConfiguration(),
                 UsernamePasswordAuthenticationFilter.class);
 	}
-
-	
-	
-	
 }
