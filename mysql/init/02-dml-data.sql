@@ -6,7 +6,7 @@
 USE db_api_productos;
 
 INSERT INTO usuarios (usuario, contrasenia, rol, estado) VALUES
-('admin', '$2a$12$EGKzUPWUeJpc2CyicZo/heK630sRFMFX.UC1XQe3xQBlAwcDjIffC', 3, true)
+('admin', '$2a$12$EGKzUPWUeJpc2CyicZo/heK630sRFMFX.UC1XQe3xQBlAwcDjIffC', 3, true) -- "admin" - "Admin2024!
 ON DUPLICATE KEY UPDATE usuario = usuario;
 
 INSERT INTO productos (codigo, nombre, precio) VALUES
