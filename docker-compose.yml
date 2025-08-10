@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: api_productos_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_api_productos
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: api_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - api_productos_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  api_productos_network:
+    driver: bridge 

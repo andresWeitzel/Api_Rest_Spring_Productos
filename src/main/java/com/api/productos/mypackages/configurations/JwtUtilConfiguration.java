@@ -16,8 +16,8 @@ import static java.util.Collections.emptyList;
 public class JwtUtilConfiguration {
 	
 	
-	// Método para crear el JWT y enviarlo al cliente en el header de la respuesta
-    static void addAuthentication(HttpServletResponse res, String username) {
+	// Método para crear el JWT y devolverlo como string
+    static String generateToken(String username) {
 
         String token = Jwts.builder()
             .setSubject(username)
@@ -30,6 +30,12 @@ public class JwtUtilConfiguration {
             .signWith(SignatureAlgorithm.HS512, "UsuarioValidado")
             .compact();
 
+        return token;
+    }
+
+    // Método para crear el JWT y enviarlo al cliente en el header de la respuesta (mantener compatibilidad)
+    static void addAuthentication(HttpServletResponse res, String username) {
+        String token = generateToken(username);
         //agregamos al encabezado el token
         res.addHeader("Authorization", "Token: " + token);
     }
