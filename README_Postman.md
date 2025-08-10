@@ -30,11 +30,24 @@ Content-Type: application/json
 
 {
     "usuario": "admin",
-    "contrasenia": "password"
+    "contrasenia": "Admin2024!"
 }
 ```
 
-### 2. ✅ Token Automático
+**Respuesta esperada:**
+- Status: 200 OK
+- Body: `{}` (vacío, esto es normal)
+- **Header:** `Authorization: Token: [JWT_TOKEN]`
+
+**⚠️ IMPORTANTE:** El token JWT se devuelve en el **header de respuesta**, no en el body.
+
+### 2. Usar el Token
+**Para todas las peticiones posteriores, agregar el header:**
+```
+Authorization: Token: [JWT_TOKEN_OBTENIDO_DEL_LOGIN]
+```
+
+### 3. ✅ Token Automático
 El token JWT se extrae y guarda automáticamente en la colección unificada.
 
 ## 📋 Endpoints Disponibles
@@ -72,9 +85,13 @@ Content-Type: application/json
 
 {
     "usuario": "admin",
-    "contrasenia": "password"
+    "contrasenia": "Admin2024!"
 }
 ```
+
+**Respuesta:**
+- Status: 200 OK
+- Header: `Authorization: Token: eyJhbGciOiJIUzUxMiJ9...`
 
 ### 3. Listar Productos
 ```bash

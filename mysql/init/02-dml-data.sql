@@ -6,20 +6,7 @@
 USE db_api_productos;
 
 INSERT INTO usuarios (usuario, contrasenia, rol, estado) VALUES
-('admin', 'Admin2024!', 3, true),
-('supervisor', 'Super2024!', 3, true),
-('manager', 'Manager24!', 3, true),
-('usuario1', 'User1Pass!', 2, true),
-('usuario2', 'User2Pass!', 2, true),
-('usuario3', 'User3Pass!', 2, true),
-('vendedor1', 'Vende2024!', 2, true),
-('vendedor2', 'Vende2025!', 2, true),
-('lector1', 'Lector2024!', 1, true),
-('lector2', 'Lector2025!', 1, true),
-('invitado', 'Invit2024!', 1, true),
-('consultor', 'Consul2024!', 1, true),
-('analista', 'Anali2024!', 1, true),
-('usuario_inactivo', 'Inact2024!', 1, false)
+('admin', '$2a$12$EGKzUPWUeJpc2CyicZo/heK630sRFMFX.UC1XQe3xQBlAwcDjIffC', 3, true)
 ON DUPLICATE KEY UPDATE usuario = usuario;
 
 INSERT INTO productos (codigo, nombre, precio) VALUES

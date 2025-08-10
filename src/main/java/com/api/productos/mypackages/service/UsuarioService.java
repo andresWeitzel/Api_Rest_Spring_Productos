@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.productos.mypackages.entities.Usuario;
@@ -24,14 +25,27 @@ public class UsuarioService implements UserDetailsService{
 	@Autowired
 	@Qualifier("I_UsuarioRepository")
 	private I_UsuarioRepository iUsuarioRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
+		System.out.println("Intentando cargar usuario: " + username);
+		
 		Usuario usuario = iUsuarioRepository.findByUsuario(username);
 		
-		// Para desarrollo: usar contraseñas en texto plano
-		// En producción: usar PasswordEncoder
+		if (usuario == null) {
+			System.out.println("Usuario no encontrado: " + username);
+			throw new UsernameNotFoundException("Usuario no encontrado: " + username);
+		}
+		
+		System.out.println("Usuario encontrado: " + usuario.getUsuario() + ", Estado: " + usuario.getEstado());
+		System.out.println("Contraseña en BD: " + usuario.getContrasenia());
+		System.out.println("Rol: " + usuario.getRol());
+		
+		// Usar PasswordEncoder para validar contraseñas codificadas
 		return new User(usuario.getUsuario(), usuario.getContrasenia(), usuario.getEstado() 
 				, usuario.getEstado(), usuario.getEstado(), usuario.getEstado() 
 				, obtenerPermisos(usuario.getRol()));
@@ -50,6 +64,10 @@ public class UsuarioService implements UserDetailsService{
 		return auths;
 	}
 	
+	// Método para obtener usuario por username
+	public Usuario getUsuarioByUsername(String username) {
+		return iUsuarioRepository.findByUsuario(username);
+	}
 	
 	
 }

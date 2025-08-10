@@ -92,6 +92,81 @@ Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring 
 
 </br>
 
+### 📚 Documentación Adicional
+
+| **Documento** | **Descripción** | **Enlace** |               
+| ------------- | ------------- | ------------- |
+| README-Docker.md | Guía de Docker y contenedores | [Ver Documento](README-Docker.md) |
+| README_Postman.md | Colección de Postman y endpoints | [Ver Documento](README_Postman.md) |
+| README_PASSWORDS.md | **🔐 Contraseñas y Generación de Hashes BCrypt** | [Ver Documento](mysql/init/README_PASSWORDS.md) |
+
+**💡 Recomendación:** Para generar hashes BCrypt seguros, consulta [README_PASSWORDS.md](mysql/init/README_PASSWORDS.md) que incluye enlaces a generadores online.
+
+### 🔧 Solución de Problemas Comunes
+
+#### **Problema: "Bad credentials" después de actualizar hashes BCrypt**
+Si después de actualizar los hashes BCrypt en el archivo SQL sigues recibiendo "Bad credentials", es probable que la base de datos no se haya actualizado correctamente.
+
+**Solución:**
+```bash
+# Forzar recreación completa de la base de datos
+docker-compose down -v
+docker-compose up -d
+```
+
+**Explicación:** Docker mantiene los datos en volúmenes persistentes. El comando `down -v` elimina estos volúmenes, forzando la recreación completa de la base de datos con los nuevos datos del archivo SQL.
+
+#### **Problema: Aplicación no inicia (puerto 8092)**
+La aplicación está configurada para correr en el puerto **8092**, no en 8080.
+
+**Verificar:**
+```bash
+# Verificar si la aplicación está corriendo
+netstat -an | findstr :8092
+
+# Verificar procesos Java
+tasklist | findstr java
+```
+
+#### **Comandos Maven en Windows:**
+```bash
+# Usar mvnw.cmd en lugar de mvnw
+.\mvnw.cmd spring-boot:run
+
+# O compilar primero
+.\mvnw.cmd clean compile
+.\mvnw.cmd spring-boot:run
+```
+
+#### **Problema: Token JWT no aparece en el body de la respuesta**
+**Síntomas:**
+- Login exitoso (200 OK) pero body vacío `{}`
+- No se ve el token en la respuesta
+
+**Explicación:**
+El token JWT se devuelve en el **header de respuesta** `Authorization: Token: [JWT]`, no en el body.
+
+**Solución:**
+```bash
+# El token está en el header, no en el body
+# Buscar en: Authorization: Token: eyJhbGciOiJIUzUxMiJ9...
+```
+
+**Ejemplo de uso:**
+```bash
+# 1. Login
+POST http://localhost:8092/login
+Content-Type: application/json
+Body: {"usuario": "admin", "contrasenia": "Admin2024!"}
+
+# 2. Usar token en siguientes peticiones
+GET http://localhost:8092/v1/productos
+Authorization: Token: [JWT_TOKEN_DEL_HEADER]
+```
+
+
+</br>
+
 ### Visualización de la Api Rest Completa
 
 </br>

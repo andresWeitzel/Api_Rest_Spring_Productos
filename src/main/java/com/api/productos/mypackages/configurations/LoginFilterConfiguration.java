@@ -18,12 +18,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.api.productos.mypackages.service.UsuarioService;
+import com.api.productos.mypackages.entities.Usuario;
 
 public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFilter{
+
+	private UsuarioService usuarioService;
 
 	  public LoginFilterConfiguration(String url, AuthenticationManager authManager) {
 	        super(new AntPathRequestMatcher(url));
 	        setAuthenticationManager(authManager);
+	    }
+	    
+	    public void setUsuarioService(UsuarioService usuarioService) {
+	        this.usuarioService = usuarioService;
 	    }
 
 	  @Override
@@ -55,8 +63,57 @@ public class LoginFilterConfiguration extends AbstractAuthenticationProcessingFi
 	            HttpServletResponse res, FilterChain chain,
 	            Authentication auth) throws IOException, ServletException {
 
-	        // Si la autenticacion fue exitosa, agregamos el token a la respuesta
-	        JwtUtilConfiguration.addAuthentication(res, auth.getName());
+	        // Si la autenticacion fue exitosa, generamos el token
+	        String token = JwtUtilConfiguration.generateToken(auth.getName());
+	        
+	        // Obtenemos información del usuario desde la base de datos
+	        String username = auth.getName();
+	        int rol = 3; // Por defecto
+	        long expiresIn = 600000; // 10 minutos en milisegundos
+	        
+	        // Intentamos obtener el rol real del usuario desde la BD
+	        try {
+	            if (usuarioService != null) {
+	                Usuario usuario = usuarioService.getUsuarioByUsername(username);
+	                if (usuario != null) {
+	                    rol = usuario.getRol();
+	                }
+	            }
+	        } catch (Exception e) {
+	            // Si hay error, mantenemos el rol por defecto
+	            System.out.println("Error obteniendo rol del usuario: " + e.getMessage());
+	        }
+	        
+	        // Creamos la respuesta con el token en el body
+	        LoginResponse loginResponse = new LoginResponse(
+	            true, 
+	            token, 
+	            username, 
+	            rol, 
+	            expiresIn, 
+	            "Login exitoso"
+	        );
+	        
+	        // Configuramos la respuesta
+	        res.setStatus(HttpServletResponse.SC_OK);
+	        res.setContentType("application/json");
+	        res.setCharacterEncoding("UTF-8");
+	        
+	        // Convertimos la respuesta a JSON y la escribimos en el body
+	        ObjectMapper mapper = new ObjectMapper();
+	        String jsonResponse = mapper.writeValueAsString(loginResponse);
+	        res.getWriter().write(jsonResponse);
+	    }
+
+	  @Override
+	    protected void unsuccessfulAuthentication(
+	            HttpServletRequest req,
+	            HttpServletResponse res,
+	            AuthenticationException failed) throws IOException, ServletException {
+
+	        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	        res.setContentType("application/json");
+	        res.getWriter().write("{\"error\": \"Authentication failed\", \"message\": \"" + failed.getMessage() + "\"}");
 	    }
 
 }
