@@ -1,14 +1,20 @@
-# API REST con Spring Boot, Spring Security, Mysql , Hibernate , Maven , etc.
+ ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
+
+   <div align="right">
+    <img width="28" height="30" src="src/main/resources/static/icons/backend/java/png/java.png" />
+    <img width="22" height="24" src="src/main/resources/static/icons/devops/png/maven.png" />
+    <img width="26" height="26" src="src/main/resources/static/icons/devops/png/git.png" />
+    <img width="27" height="27" src="src/main/resources/static/icons/devops/png/postman.png" />
+    <img width="25" height="25" src="src/main/resources/static/icons/backend/java/png/spring-boot.png" /> 
+    <img width="25" height="25" src="src/main/resources/static/icons/backend/java/png/spring-security.png" /> 
+    <img width="25" height="25" src="src/main/resources/static/icons/database/png/mysql.png" />  
+  </div>  
+
+# Api Rest about Generic Electronic Products
 
 Creación de una API REST utilizando el Framework Spring Boot con el IDE Spring Tool Suite 4 junto con Maven, Mysql, JPA-Hibernate y otras Tecnologías.
 
 * [Playlist Prueba de Funcionalidad](https://www.youtube.com/playlist?list=PLCl11UFjHurCf-3L-d9kDVD-VhpkgxxuC)
-
-</br>
-
-### Listado de Productos con uno de los Métodos HTTP y JWT
-
- ![Index app](https://github.com/andresWeitzel/Graphics/blob/master/Proyectos/ApiRestProductosSpringBoot/CRUD/select/listadoProductos.jpg)
 
 </br>
 
